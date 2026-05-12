@@ -37,18 +37,34 @@ export function InvestmentPackages() {
                 borderColor: pkg.highlight ? "success.main" : undefined,
                 borderWidth: pkg.highlight ? 2 : 1,
                 position: "relative",
+                // MUI Card defaults to `overflow: hidden` which clips any
+                // child positioned outside the card bounds — including the
+                // "Most Popular" badge that floats above the top edge.
+                overflow: "visible",
+                // Lift the highlighted card slightly so the floating badge
+                // reads as a deliberate ribbon rather than a stray pill.
+                ...(pkg.highlight && {
+                  boxShadow: "0 20px 50px -24px rgba(107,63,27,0.35)",
+                }),
               }}
             >
               {pkg.highlight ? (
                 <Chip
                   label="Most Popular"
-                  color="success"
-                  size="small"
+                  color="secondary"
+                  size="medium"
                   sx={{
                     position: "absolute",
-                    top: -12,
+                    top: -16,
                     right: 24,
                     fontWeight: 700,
+                    fontSize: "0.78rem",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    px: 0.5,
+                    height: 32,
+                    boxShadow: "0 8px 20px -6px rgba(212,165,116,0.55)",
+                    zIndex: 2,
                   }}
                 />
               ) : null}
