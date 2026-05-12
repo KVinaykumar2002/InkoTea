@@ -28,9 +28,12 @@ export function MenuHero() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${HERO_IMG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          // Tea-brown gradient as a fallback layer beneath the remote image —
+          // if Unsplash fails the hero still reads as a deliberate brand panel.
+          bgcolor: "#3F4A1C",
+          backgroundImage: `url(${HERO_IMG}), linear-gradient(135deg, #5C6B2C 0%, #3F4A1C 100%)`,
+          backgroundSize: "cover, cover",
+          backgroundPosition: "center, center",
           opacity: 0.28,
           zIndex: 0,
         }}

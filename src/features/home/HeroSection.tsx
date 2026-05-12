@@ -33,9 +33,12 @@ export function HeroSection() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${HERO_IMG})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          // Brand-tea-brown is painted underneath the remote image so the
+          // hero never appears empty if the Unsplash image fails to load.
+          bgcolor: "#2A1A0F",
+          backgroundImage: `url(${HERO_IMG}), linear-gradient(135deg, #4A2B12 0%, #2A1A0F 100%)`,
+          backgroundSize: "cover, cover",
+          backgroundPosition: "center, center",
           filter: "brightness(0.55) saturate(1.1)",
           zIndex: 0,
         }}

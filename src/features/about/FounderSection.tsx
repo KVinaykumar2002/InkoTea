@@ -49,6 +49,7 @@ export function FounderSection() {
               src={FOUNDER_IMG}
               alt={BRAND.founder.name}
               variant="rounded"
+              imgProps={{ loading: "lazy" }}
               sx={{
                 position: "relative",
                 width: "100%",
@@ -56,8 +57,23 @@ export function FounderSection() {
                 borderRadius: 4,
                 zIndex: 1,
                 boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
+                bgcolor: "primary.main",
+                color: "primary.contrastText",
+                fontFamily: '"Playfair Display", serif',
+                fontSize: { xs: "5rem", md: "6.5rem" },
+                fontWeight: 700,
               }}
-            />
+            >
+              {/* MUI Avatar renders these children only when the image
+                  source fails to load, so the founder's initials become
+                  the on-brand fallback. */}
+              {BRAND.founder.name
+                .split(" ")
+                .map((n) => n[0])
+                .filter(Boolean)
+                .slice(0, 2)
+                .join("")}
+            </Avatar>
           </Box>
         </ScrollReveal>
 

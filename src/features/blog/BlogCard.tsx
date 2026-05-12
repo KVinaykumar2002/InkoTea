@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import Box from "@mui/material/Box";
+import { SafeImage } from "@/components/common/SafeImage";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -61,7 +61,7 @@ export function BlogCard({ post, variant = "default" }: Props) {
             bgcolor: "background.default",
           }}
         >
-          <Image
+          <SafeImage
             src={post.cover}
             alt={post.title}
             fill

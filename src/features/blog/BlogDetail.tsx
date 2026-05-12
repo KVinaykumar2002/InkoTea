@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import { SafeImage } from "@/components/common/SafeImage";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -118,7 +118,7 @@ export function BlogDetail({ post }: Props) {
             boxShadow: "0 18px 50px -20px rgba(0,0,0,0.18)",
           }}
         >
-          <Image
+          <SafeImage
             src={post.cover}
             alt={post.title}
             fill

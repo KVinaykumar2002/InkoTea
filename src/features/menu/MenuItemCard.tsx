@@ -1,8 +1,8 @@
 "use client";
 
 import { memo } from "react";
-import Image from "next/image";
 import Box from "@mui/material/Box";
+import { SafeImage } from "@/components/common/SafeImage";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -36,7 +36,7 @@ export const MenuItemCard = memo(function MenuItemCard({ item }: Props) {
           bgcolor: "background.default",
         }}
       >
-        <Image
+        <SafeImage
           src={item.image}
           alt={item.name}
           fill

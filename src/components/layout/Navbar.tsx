@@ -234,12 +234,13 @@ export function Navbar() {
                 component={Link}
                 href="/franchise"
                 variant="contained"
-                color="primary"
+                color="secondary"
                 size="medium"
                 sx={{
                   whiteSpace: "nowrap",
                   flexShrink: 0,
                   display: { md: "none", lg: "inline-flex" },
+                  fontWeight: 700,
                 }}
               >
                 Apply for Franchise
@@ -368,8 +369,10 @@ export function Navbar() {
             href="/franchise"
             onClick={() => setDrawerOpen(false)}
             variant="contained"
+            color="secondary"
             fullWidth
             size="large"
+            sx={{ fontWeight: 700 }}
           >
             Apply for Franchise
           </Button>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Box from "@mui/material/Box";
+import { SafeImage } from "@/components/common/SafeImage";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -109,7 +109,7 @@ export function OutletsExplorer() {
                   bgcolor: "background.default",
                 }}
               >
-                <Image
+                <SafeImage
                   src={outlet.image}
                   alt={outlet.name}
                   fill
