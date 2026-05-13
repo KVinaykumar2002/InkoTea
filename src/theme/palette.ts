@@ -29,7 +29,10 @@ export const lightPalette: PaletteOptions = {
     main: brandColors.oliveGreen,
     dark: brandColors.oliveGreenDark,
     light: brandColors.oliveGreenLight,
-    contrastText: brandColors.cream,
+    // Pure white reads sharper than the warm `cream` on the deep olive
+    // surfaces used by contained primary buttons, primary panels (hero
+    // sections), founder avatar, etc. Cream looked muted in light theme.
+    contrastText: "#FFFFFF",
   },
   secondary: {
     main: brandColors.amberGold,
@@ -41,7 +44,9 @@ export const lightPalette: PaletteOptions = {
     main: brandColors.teaBrown,
     dark: brandColors.teaBrownDark,
     light: brandColors.teaBrownLight,
-    contrastText: brandColors.cream,
+    // Same reasoning as primary — white on the deep tea-brown surface
+    // (`success.main`) is clearly more legible than cream.
+    contrastText: "#FFFFFF",
   },
   background: {
     default: brandColors.cream,

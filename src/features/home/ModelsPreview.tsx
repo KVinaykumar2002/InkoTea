@@ -155,7 +155,16 @@ export function ModelsPreview() {
                       variant="contained"
                       color={model.accentColor}
                       endIcon={<ArrowForwardIcon />}
-                      sx={{ alignSelf: "flex-start", mt: 1 }}
+                      sx={{
+                        alignSelf: "flex-start",
+                        mt: 1,
+                        // Force pure white over the deep olive / tea-brown
+                        // backgrounds so the CTA reads sharply in light theme
+                        // (the palette's `cream` contrastText looked muted).
+                        color: "#fff",
+                        fontWeight: 700,
+                        "&:hover": { color: "#fff" },
+                      }}
                     >
                       Explore {model.name}
                     </Button>

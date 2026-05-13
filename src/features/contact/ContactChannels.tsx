@@ -125,6 +125,17 @@ export function ContactChannels() {
               endIcon={<ArrowForwardIcon />}
               sx={{
                 alignSelf: "flex-start",
+                fontWeight: 700,
+                // Contained variant lives on the light Investor card with
+                // an olive primary fill — force white text so the CTA
+                // pops sharply instead of reading as muted cream.
+                ...(c.bg === "background.paper" && {
+                  color: "#fff",
+                  "&:hover": { color: "#fff" },
+                }),
+                // Outlined variants live on the dark franchise/whatsapp
+                // panels; keep them inheriting the cream surface color
+                // and lighten the border for legibility.
                 ...(c.bg !== "background.paper" && {
                   borderColor: "rgba(255,255,255,0.5)",
                   color: "inherit",
