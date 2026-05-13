@@ -126,26 +126,33 @@ export function ModelsPreview() {
 
                     <Stack spacing={1.25}>
                       {model.highlights.slice(0, 4).map((h) => (
-                        <Stack
+                        <Typography
                           key={h}
-                          direction="row"
-                          spacing={1.5}
-                          alignItems="flex-start"
-                        >
-                          <Box
-                            sx={{
+                          variant="body2"
+                          color="text.primary"
+                          sx={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: 1.5,
+                            // Custom dot bullet rendered as a ::before
+                            // pseudo-element so it inherits body2's line
+                            // metrics. `1lh` then resolves to body2's line
+                            // height (responsive-safe) and the calc keeps
+                            // the 6px dot centered on the first line —
+                            // even when the text wraps to multiple lines.
+                            "&::before": {
+                              content: '""',
+                              flexShrink: 0,
                               width: 6,
                               height: 6,
                               borderRadius: "50%",
                               bgcolor: accentBg,
-                              mt: "10px",
-                              flexShrink: 0,
-                            }}
-                          />
-                          <Typography variant="body2" color="text.primary">
-                            {h}
-                          </Typography>
-                        </Stack>
+                              mt: "calc((1lh - 6px) / 2)",
+                            },
+                          }}
+                        >
+                          {h}
+                        </Typography>
                       ))}
                     </Stack>
 
