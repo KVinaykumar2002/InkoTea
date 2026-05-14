@@ -6,20 +6,47 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
+import { BRAND_IMAGES } from "@/lib/brandImages";
+
+const HERO_IMG = BRAND_IMAGES.cafeOutdoorSeating;
 
 export function OutletsHero() {
   return (
     <Box
       component="section"
       sx={{
-        bgcolor: "background.paper",
-        pt: { xs: 12, md: 18 },
-        pb: { xs: 8, md: 10 },
+        position: "relative",
+        bgcolor: "primary.dark",
+        color: "primary.contrastText",
+        pt: { xs: 14, md: 20 },
+        pb: { xs: 10, md: 14 },
         mt: { xs: -8, md: -10 },
-        borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${HERO_IMG})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.4,
+          zIndex: 0,
+        }}
+      />
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(26,18,11,0.55) 0%, rgba(26,18,11,0.85) 100%)",
+          zIndex: 1,
+        }}
+      />
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Stack
           spacing={3}
           maxWidth={760}
@@ -30,31 +57,40 @@ export function OutletsHero() {
         >
           <Chip
             label="Our Outlets"
-            color="primary"
             sx={{
               alignSelf: "flex-start",
-              fontWeight: 700,
+              bgcolor: "rgba(212,165,116,0.18)",
+              color: "secondary.light",
+              border: "1px solid rgba(212,165,116,0.4)",
+              fontWeight: 600,
               letterSpacing: "0.12em",
               fontSize: "0.7rem",
               textTransform: "uppercase",
             }}
           />
-          <Typography variant="h1">
+          <Typography variant="h1" sx={{ color: "inherit" }}>
             40+ outlets and counting.
             <Box
               component="span"
               sx={{
                 display: "block",
-                color: "primary.main",
+                color: "secondary.light",
                 fontStyle: "italic",
               }}
             >
               Find the one nearest you.
             </Box>
           </Typography>
-          <Typography variant="h5" color="text.secondary" sx={{ fontWeight: 400, lineHeight: 1.55 }}>
-            From Hyderabad's IT corridors to Vizag's beach road — INKOTEA is
-            growing across Telangana and Andhra Pradesh.
+          <Typography
+            variant="h5"
+            sx={{
+              color: "rgba(255,255,255,0.88)",
+              fontWeight: 400,
+              lineHeight: 1.55,
+            }}
+          >
+            From Hyderabad&rsquo;s IT corridors to Vizag&rsquo;s beach road —
+            INKOTEA is growing across Telangana and Andhra Pradesh.
           </Typography>
         </Stack>
       </Container>

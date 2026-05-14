@@ -1,145 +1,206 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import { motion, useReducedMotion } from "framer-motion";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { JOURNEY_MILESTONES } from "@/data/competitors";
+import { JOURNEY_META } from "./journeyMeta";
+import { JourneyGlyph } from "./JourneyGlyph";
+import { JourneyMilestone } from "./JourneyMilestone";
 
+/**
+ * Journey Timeline — "The Pour Line".
+ *
+ * Visual story:
+ *   - A vertical amber-to-tea-brown gradient spine **draws itself** as the
+ *     section scrolls into view (Framer Motion `pathLength`), like chai
+ *     being poured from a kettle down through the years.
+ *   - Each milestone lives at a pivot point on the spine, marked by a
+ *     custom **chai-stage SVG glyph** (single glass → tray → dual format
+ *     → state-shape with pins → city skyline). The glyph progression
+ *     literally illustrates "from a single kiosk to a multi-city brand".
+ *   - Milestone cards alternate left/right on desktop and stack on the
+ *     right of the spine on mobile. Each card carries a circular
+ *     "tea-ring stamp" with the year and a small cumulative-outlet pill.
+ *
+ * Accessibility:
+ *   - All decorative SVGs are `aria-hidden`. Information is conveyed in
+ *     the heading hierarchy + text of each milestone card.
+ *   - `prefers-reduced-motion`: spine renders fully drawn, glyph + card
+ *     entry animations are skipped.
+ */
 export function JourneyTimeline() {
+  const reduced = useReducedMotion();
+
   return (
     <Section bgcolor="background.default">
       <SectionHeading
         eyebrow="Our Journey"
         title="From a single kiosk to a multi-city retail brand"
       />
-      <Box sx={{ position: "relative", maxWidth: 920, mx: "auto" }}>
-        <Box
-          aria-hidden
-          sx={{
-            position: "absolute",
-            left: { xs: 18, md: "50%" },
-            top: 0,
-            bottom: 0,
-            width: 2,
-            bgcolor: "secondary.light",
-            opacity: 0.55,
-            transform: { md: "translateX(-1px)" },
-          }}
-        />
 
-        {JOURNEY_MILESTONES.map((m, idx) => {
-          const isLeft = idx % 2 === 0;
-          return (
-            <ScrollReveal key={m.year} delay={idx * 0.1}>
+      <Box
+        sx={{
+          position: "relative",
+          maxWidth: 1040,
+          mx: "auto",
+          // Padding-top so the first glyph isn't flush against the heading.
+          pt: { xs: 2, md: 3 },
+        }}
+      >
+        <PourSpine reduced={Boolean(reduced)} />
+
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          {JOURNEY_MILESTONES.map((milestone, idx) => {
+            const isLeft = idx % 2 === 0;
+            const meta = JOURNEY_META[milestone.year];
+            return (
               <Box
+                key={milestone.year}
                 sx={{
-                  position: "relative",
                   display: "grid",
-                  gridTemplateColumns: { xs: "44px 1fr", md: "1fr 60px 1fr" },
-                  alignItems: "flex-start",
-                  mb: 5,
+                  gridTemplateColumns: {
+                    xs: "80px 1fr",
+                    md: "1fr 100px 1fr",
+                  },
+                  alignItems: "center",
+                  // Generous vertical breathing-room so the glyphs sit clear
+                  // of each other and the spine reads as a real pour.
+                  mb: { xs: 6, md: 9 },
+                  "&:last-of-type": { mb: 0 },
                 }}
               >
-                {/* Mobile + desktop center dot column */}
+                {/* Glyph stamp — centred on the spine */}
                 <Box
                   sx={{
                     gridColumn: { xs: 1, md: 2 },
                     display: "flex",
                     justifyContent: "center",
-                    pt: 1.5,
+                    alignSelf: "center",
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: 18,
-                      height: 18,
-                      borderRadius: "50%",
-                      bgcolor: "primary.main",
-                      border: (t) => `4px solid ${t.palette.background.default}`,
-                      boxShadow: "0 0 0 2px rgba(92,58,33,0.28)",
-                    }}
+                  <JourneyGlyph
+                    kind={meta?.glyph ?? "single"}
+                    size={88}
                   />
                 </Box>
 
-                {/* Desktop left card */}
+                {/* Desktop: left-side card (visible on even indices) */}
                 <Box
                   sx={{
-                    display: { xs: "none", md: "block" },
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "flex-end",
                     gridColumn: 1,
                     pr: 4,
-                    textAlign: "right",
                     visibility: isLeft ? "visible" : "hidden",
                   }}
                 >
-                  <MilestoneCard m={m} align="right" />
+                  <Box sx={{ maxWidth: 440, width: "100%" }}>
+                    <JourneyMilestone {...milestone} align="right" />
+                  </Box>
                 </Box>
 
-                {/* Desktop right card */}
+                {/* Desktop: right-side card (visible on odd indices) */}
                 <Box
                   sx={{
-                    display: { xs: "none", md: "block" },
+                    display: { xs: "none", md: "flex" },
+                    justifyContent: "flex-start",
                     gridColumn: 3,
                     pl: 4,
                     visibility: isLeft ? "hidden" : "visible",
                   }}
                 >
-                  <MilestoneCard m={m} align="left" />
+                  <Box sx={{ maxWidth: 440, width: "100%" }}>
+                    <JourneyMilestone {...milestone} align="left" />
+                  </Box>
                 </Box>
 
-                {/* Mobile card */}
+                {/* Mobile: single right-of-spine card */}
                 <Box
                   sx={{
                     gridColumn: 2,
                     display: { xs: "block", md: "none" },
-                    pl: 2,
+                    pl: 1,
                   }}
                 >
-                  <MilestoneCard m={m} align="left" />
+                  <JourneyMilestone {...milestone} align="left" />
                 </Box>
               </Box>
-            </ScrollReveal>
-          );
-        })}
+            );
+          })}
+        </Box>
       </Box>
     </Section>
   );
 }
 
-function MilestoneCard({
-  m,
-  align,
-}: {
-  m: { year: string; title: string; text: string };
-  align: "left" | "right";
-}) {
+/**
+ * Vertical SVG spine that draws itself on first scroll-into-view.
+ *
+ * Built as a single straight `<path>` with a `pathLength` animation so the
+ * stroke fills top-to-bottom — the "pour" feel. The stroke uses an
+ * amber → tea-brown gradient so the line warms as it descends. Subtle
+ * outer glow gives the line presence without dominating.
+ */
+function PourSpine({ reduced }: { reduced: boolean }) {
   return (
-    <Stack
-      spacing={1}
+    <Box
+      aria-hidden
       sx={{
-        p: 3,
-        borderRadius: 3,
-        bgcolor: "background.paper",
-        border: (t) => `1px solid ${t.palette.divider}`,
-        textAlign: align,
+        position: "absolute",
+        left: { xs: 39, md: "50%" },
+        top: 0,
+        bottom: 0,
+        width: 8,
+        transform: { md: "translateX(-4px)" },
+        pointerEvents: "none",
+        zIndex: 0,
       }}
     >
-      <Typography
-        variant="overline"
-        sx={{
-          color: "secondary.dark",
-          fontWeight: 700,
-          letterSpacing: "0.2em",
-        }}
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 8 100"
+        preserveAspectRatio="none"
+        style={{ display: "block", overflow: "visible" }}
       >
-        {m.year}
-      </Typography>
-      <Typography variant="h5">{m.title}</Typography>
-      <Typography variant="body2" color="text.secondary">
-        {m.text}
-      </Typography>
-    </Stack>
+        <defs>
+          <linearGradient id="journey-pour-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(212,165,116,0)" />
+            <stop offset="8%" stopColor="rgba(212,165,116,0.9)" />
+            <stop offset="92%" stopColor="rgba(120,75,40,0.85)" />
+            <stop offset="100%" stopColor="rgba(120,75,40,0)" />
+          </linearGradient>
+        </defs>
+        {/* Faint backing rail so the spine is still discoverable when the
+            animated line hasn't drawn yet. */}
+        <line
+          x1={4}
+          y1={0}
+          x2={4}
+          y2={100}
+          stroke="rgba(160,107,67,0.16)"
+          strokeWidth={1.2}
+        />
+        <motion.line
+          x1={4}
+          y1={0}
+          x2={4}
+          y2={100}
+          stroke="url(#journey-pour-gradient)"
+          strokeWidth={3}
+          strokeLinecap="round"
+          initial={reduced ? false : { pathLength: 0 }}
+          whileInView={reduced ? undefined : { pathLength: 1 }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            filter:
+              "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
+          }}
+        />
+      </svg>
+    </Box>
   );
 }

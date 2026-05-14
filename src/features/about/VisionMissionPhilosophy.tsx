@@ -12,22 +12,22 @@ import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 const PILLARS = [
   {
-    icon: VisibilityIcon,
-    label: "Vision",
-    title: "India's most accessible beverage brand",
-    text: "To build a nationally recognized retail brand rooted in chai culture and designed for modern consumer lifestyles.",
-  },
-  {
     icon: RocketLaunchIcon,
     label: "Mission",
-    title: "Standardize, enable, build",
-    text: "Standardize chai retail. Enable micro-entrepreneurs. Build community-driven café spaces.",
+    title: "Build India's most scalable premium mini social café network",
+    text: "Standardize chai retail and enable micro-entrepreneurs across India through compact, brand-driven outlets at every footfall.",
+  },
+  {
+    icon: VisibilityIcon,
+    label: "Vision",
+    title: "Modern social café spaces — across cities and towns",
+    text: "To create community-driven café spaces across India through tea, conversations and community — combining traditional Indian beverage culture with a contemporary café experience.",
   },
   {
     icon: FavoriteIcon,
     label: "Philosophy",
     title: '"The Feeling of One More"',
-    text: "Not just taste — it's the habit, the emotion, and the connection that makes one cup turn into the next.",
+    text: "Not just taste — it's the habit, the emotion and the connection that makes one cup turn into the next.",
   },
 ];
 

@@ -11,8 +11,12 @@ import { Section } from "@/components/common/Section";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { BRAND } from "@/lib/brand";
 
-const FOUNDER_IMG =
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80";
+// We don't yet have an official portrait of the founder in the brand kit.
+// Leaving `FOUNDER_IMG` as `undefined` makes MUI's `Avatar` skip the image
+// path entirely and render the on-brand initials fallback (`SP`) immediately,
+// which avoids any flash-of-broken-image. Drop a real photo into
+// `/public/brand/founder.jpeg` and replace this with that path when ready.
+const FOUNDER_IMG: string | undefined = undefined;
 
 export function FounderSection() {
   return (

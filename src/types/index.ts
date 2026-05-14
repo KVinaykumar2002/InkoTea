@@ -13,10 +13,38 @@ export interface FranchiseModel {
   format: string;
   roiSpeed: string;
   target: string;
+  /** Daily gross-sales range pulled from the brand brochures. */
+  dailySales?: string;
+  /** Monthly revenue range (Café format only — per Social Café brochure). */
+  monthlyRevenue?: string;
+  /** Monthly profit range (illustrative, location-dependent). */
+  monthlyProfit?: string;
   highlights: string[];
   idealLocations: string[];
   whoFor: string[];
   accentColor: "primary" | "success";
+}
+
+/**
+ * 3-bucket investment breakdown used by the Kiosk model in the brochure
+ * (Equipment / Raw Materials / Branding). Kept generic so it can be reused
+ * for any future format that needs a similar bucketed view.
+ */
+export interface InvestmentBucket {
+  key: string;
+  label: string;
+  detail: string;
+  icon: string;
+}
+
+/**
+ * Two-column "INKOTEA provides vs You provide" table from both brochures.
+ * Used on the franchise page to set partner expectations up front.
+ */
+export interface ResponsibilitySplit {
+  modelKey: FranchiseModelKey | "all";
+  inkoteaProvides: string[];
+  youProvide: string[];
 }
 
 export interface Outlet {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BRAND } from "./brand";
+import { BRAND_IMAGES } from "./brandImages";
 
 interface PageSeoInput {
   title: string;
@@ -24,8 +25,7 @@ export const buildPageMetadata = ({
   const desc = description ?? BRAND.shortDescription;
   const url = `${BRAND.siteUrl}${path}`;
   const ogImage =
-    image ??
-    "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1600&q=70";
+    image ?? `${BRAND.siteUrl}${BRAND_IMAGES.cafeHeroSitSipSmile}`;
 
   return {
     title: fullTitle,

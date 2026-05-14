@@ -8,7 +8,8 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { ContactChannels } from "@/features/contact/ContactChannels";
 import { ContactFormBlock } from "@/features/contact/ContactFormBlock";
 import { OfficeMap } from "@/features/contact/OfficeMap";
-import { BRAND } from "@/lib/brand";
+import { OfficeAddressCard } from "@/features/contact/OfficeAddressCard";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
 export const metadata = buildPageMetadata({
   title: "Contact INKOTEA",
@@ -23,14 +24,60 @@ export default function ContactPage() {
       <Box
         component="section"
         sx={{
-          bgcolor: "primary.main",
-          color: "primary.contrastText",
+          position: "relative",
+          bgcolor: "#1A0E08",
+          // Backdrop is the dark kiosk photo in both themes, so pin the
+          // foreground text to a fixed light color. Using
+          // `primary.contrastText` here was inheriting the charcoal value
+          // from the dark palette and making the h1 invisible.
+          color: "#fff",
           pt: { xs: 12, md: 18 },
           pb: { xs: 8, md: 12 },
           mt: { xs: -8, md: -10 },
+          overflow: "hidden",
         }}
       >
-        <Container maxWidth="lg">
+        {/* Full-bleed kiosk scene — same shot used in the footer for a
+            cohesive open/close to the page. Sits behind a left-darkening
+            gradient so the heading stays legible while the menu board and
+            crowd glow through on the right. */}
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${BRAND_IMAGES.footerKioskScene})`,
+            backgroundSize: "cover",
+            // Mobile crops narrow; nudge right so the lit "InkoTea" menu
+            // board stays in frame next to the heading on small screens.
+            backgroundPosition: { xs: "65% center", md: "center" },
+            backgroundRepeat: "no-repeat",
+            zIndex: 0,
+          }}
+        />
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(90deg, rgba(15,10,6,0.92) 0%, rgba(15,10,6,0.72) 40%, rgba(15,10,6,0.35) 70%, rgba(15,10,6,0.1) 100%)",
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        />
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(15,10,6,0.25) 0%, rgba(15,10,6,0) 35%, rgba(15,10,6,0) 70%, rgba(15,10,6,0.6) 100%)",
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        />
+        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
           <Stack spacing={3} maxWidth={760}>
             <Typography
               variant="overline"
@@ -44,7 +91,7 @@ export default function ContactPage() {
             <Typography
               variant="h5"
               sx={{
-                color: "rgba(255,255,255,0.85)",
+                color: "rgba(255,255,255,0.88)",
                 fontWeight: 400,
                 lineHeight: 1.55,
               }}
@@ -75,43 +122,7 @@ export default function ContactPage() {
           <ContactFormBlock />
           <Stack spacing={3}>
             <OfficeMap />
-            <Box
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                bgcolor: "background.default",
-                border: 1,
-                borderColor: "divider",
-              }}
-            >
-              <Typography variant="overline" color="text.secondary">
-                Headquarters
-              </Typography>
-              <Typography variant="h6" sx={{ mt: 0.5 }}>
-                {BRAND.name} HQ
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                {BRAND.hq}
-              </Typography>
-              <Typography variant="body2" sx={{ mt: 1.5, fontWeight: 600 }}>
-                <Box component="a" href={`tel:${BRAND.phoneDigits}`} sx={{
-                  color: "primary.main",
-                  textDecoration: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}>
-                  {BRAND.phone}
-                </Box>
-              </Typography>
-              <Typography variant="body2">
-                <Box component="a" href={`mailto:${BRAND.emails.hello}`} sx={{
-                  color: "primary.main",
-                  textDecoration: "none",
-                  "&:hover": { textDecoration: "underline" },
-                }}>
-                  {BRAND.emails.hello}
-                </Box>
-              </Typography>
-            </Box>
+            <OfficeAddressCard />
           </Stack>
         </Box>
       </Section>

@@ -1,7 +1,5 @@
 import type { BlogPost } from "@/types";
-
-const cover = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1600&q=70`;
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
 export const BLOG_CATEGORIES = [
   { key: "all", label: "All Posts" },
@@ -22,7 +20,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: "INKOTEA Editorial",
     publishedAt: "2026-04-22",
     readingMinutes: 5,
-    cover: cover("1576092768241-dec231879fc3"),
+    cover: BRAND_IMAGES.chaiPourNeon,
     body: `India consumes more than **1.1 million tonnes** of tea annually — but the way we drink it is changing. The chai stall isn't dying; it's getting upgraded.
 
 ## The hybrid consumer
@@ -46,7 +44,7 @@ The next decade of Indian F&B belongs to brands that respect both the *feeling* 
     author: "Franchise Desk",
     publishedAt: "2026-04-10",
     readingMinutes: 7,
-    cover: cover("1554118811-1e0d58224f24"),
+    cover: BRAND_IMAGES.kioskModernYellow,
     body: `Both INKOTEA franchise formats are profitable. But they reward very different operator profiles.
 
 ## Choose **Kiosk** if you have:
@@ -72,7 +70,7 @@ The smartest INKOTEA partners often start with a kiosk, prove the unit economics
     author: "INKOTEA Editorial",
     publishedAt: "2026-03-28",
     readingMinutes: 8,
-    cover: cover("1495474472287-4d71bcdd2085"),
+    cover: BRAND_IMAGES.kioskCustomerBanner,
     body: `Most aspiring entrepreneurs overestimate revenue and underestimate costs. Here's the honest math behind a tea kiosk.
 
 ## Daily revenue (illustrative)
@@ -102,7 +100,7 @@ Numbers vary by location. Some INKOTEA kiosks recover their investment in **8 mo
     author: "Design Studio",
     publishedAt: "2026-03-15",
     readingMinutes: 6,
-    cover: cover("1559925393-8be0ec4767c8"),
+    cover: BRAND_IMAGES.cafeInteriorBusy,
     body: `Dwell time is the single biggest lever in café economics. The longer customers stay, the more they spend.
 
 1. **Warm lighting** — never above 3000K
@@ -122,7 +120,7 @@ Get these right and your average ticket goes from ₹120 to ₹220 without chang
     author: "Srinivas P. Mahendra",
     publishedAt: "2026-02-20",
     readingMinutes: 9,
-    cover: cover("1442975631115-c4f7b05b8a2c"),
+    cover: BRAND_IMAGES.kioskNightCrowd,
     body: `When we opened our first kiosk in 2021, we had one rule: every cup must taste the same, every single day.
 
 ## The first year
@@ -143,7 +141,7 @@ At outlet #6, we realized we weren't running a tea business — we were running 
     author: "Franchise Desk",
     publishedAt: "2026-02-05",
     readingMinutes: 6,
-    cover: cover("1521017432531-fbd92d768814"),
+    cover: BRAND_IMAGES.cafeFriendsChat,
     body: `Investing in an F&B franchise is part diligence, part instinct. Here's what serious operators look for.
 
 ## The five non-negotiables

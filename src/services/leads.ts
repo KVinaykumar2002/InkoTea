@@ -7,8 +7,12 @@ import type { LeadPayload, LeadResponse } from "@/types";
  */
 export const submitLead = (payload: LeadPayload): Promise<LeadResponse> =>
   new Promise((resolve) => {
-    if (typeof window !== "undefined") {
-       
+    if (
+      typeof window !== "undefined" &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      // Dev-only mirror of the would-be POST payload so engineers can
+      // sanity-check field shape without opening the network panel.
       console.info("[INKOTEA lead]", payload);
     }
     setTimeout(() => {

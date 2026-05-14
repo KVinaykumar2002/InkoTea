@@ -23,6 +23,15 @@ import {
   FOOTER_QUICK_LINKS,
   MODEL_LINKS,
 } from "@/lib/brand";
+import { BRAND_IMAGES } from "@/lib/brandImages";
+
+/**
+ * Single full-bleed footer background — a cinematic wide-aspect INKOTEA
+ * kiosk scene with the founder, guests, and the lit "One More Cup" menu
+ * board. Anchors the end of every page in real brand energy. A dark
+ * tea-brown gradient sits on top so the content stays high-contrast.
+ */
+const FOOTER_BG_IMAGE = BRAND_IMAGES.footerKioskScene;
 
 /** Cream amber used inside the dark footer for hover/accent states. */
 const FOOTER_ACCENT = "#E6C19A"; // brand amberGoldLight
@@ -65,14 +74,45 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
+        position: "relative",
         bgcolor: FOOTER_BG,
         color: FOOTER_TEXT,
         pt: { xs: 8, md: 12 },
         pb: 4,
         mt: { xs: 8, md: 12 },
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      {/* Single full-bleed brand photo — cinematic kiosk scene. Sits behind
+          a warm tea-brown gradient that keeps copy readable while letting
+          the green neon menu board and crowd glow through. */}
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${FOOTER_BG_IMAGE})`,
+          backgroundSize: "cover",
+          // Source is wide landscape (≈ 2.5:1). On desktop the centre frames
+          // the menu board + founder beautifully; on mobile we shift slightly
+          // right so the lit menu stays in view as the crop narrows.
+          backgroundPosition: { xs: "65% center", md: "center" },
+          backgroundRepeat: "no-repeat",
+          opacity: 0.32,
+          zIndex: 0,
+        }}
+      />
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(58,34,16,0.82) 0%, rgba(26,18,11,0.96) 100%)",
+          zIndex: 1,
+        }}
+      />
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Box
           sx={{
             display: "grid",

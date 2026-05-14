@@ -7,8 +7,11 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
 
-const HERO_IMG =
-  "https://images.unsplash.com/photo-1517959105821-eaf2591984ca?auto=format&fit=crop&w=2000&q=70";
+import { BRAND_IMAGES } from "@/lib/brandImages";
+
+// Brand menu spread (beverages + bakes on a wooden table) sourced
+// from the Social Café brochure — sets the food-pairing tone instantly.
+const HERO_IMG = BRAND_IMAGES.cafeMenuSpread;
 
 export function MenuHero() {
   return (
@@ -28,8 +31,8 @@ export function MenuHero() {
         sx={{
           position: "absolute",
           inset: 0,
-          // Tea-brown gradient as a fallback layer beneath the remote image —
-          // if Unsplash fails the hero still reads as a deliberate brand panel.
+          // Tea-brown gradient as a fallback layer beneath the brand image —
+          // even mid-load the hero still reads as a deliberate brand panel.
           bgcolor: "#3F4A1C",
           backgroundImage: `url(${HERO_IMG}), linear-gradient(135deg, #5C6B2C 0%, #3F4A1C 100%)`,
           backgroundSize: "cover, cover",

@@ -14,11 +14,27 @@ import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { FRANCHISE_MODELS } from "@/data/franchiseModels";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
 const MODEL_ICONS = {
   kiosk: StorefrontIcon,
   cafe: LocalCafeIcon,
 } as const;
+
+const MODEL_HEADER_IMAGES = {
+  kiosk: BRAND_IMAGES.franchiseKioskNight,
+  cafe: BRAND_IMAGES.franchiseCafeStorefront,
+} as const;
+
+/**
+ * Per-image focus point so the portrait source photos crop to the most
+ * distinctive band inside the wide card headers — see
+ * `FranchiseHero.SHOWCASE_IMAGES` for the same reasoning.
+ */
+const MODEL_HEADER_FOCUS: Record<keyof typeof MODEL_HEADER_IMAGES, string> = {
+  kiosk: "center 38%",
+  cafe: "center 28%",
+};
 
 const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }[] = [
   { key: "investment", label: "Investment" },
@@ -35,8 +51,8 @@ export function ModelComparison() {
     <Section bgcolor="background.default" id="models">
       <SectionHeading
         eyebrow="Choose Your Model"
-        title="One brand. Two simple investment options."
-        description="Both formats are profitable. They simply reward different operator profiles."
+        title="One strong café brand. Two simple investment options."
+        description="Both formats are profitable — they simply reward different operator profiles, locations and ambitions."
       />
 
       <Box
@@ -68,13 +84,38 @@ export function ModelComparison() {
               >
                 <Box
                   sx={{
+                    position: "relative",
                     bgcolor: accentBg,
                     color: "primary.contrastText",
                     px: 4,
                     py: 4,
+                    overflow: "hidden",
+                    minHeight: 220,
                   }}
                 >
-                  <Stack spacing={2}>
+                  <Box
+                    aria-hidden
+                    sx={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage: `url(${MODEL_HEADER_IMAGES[model.key]})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: MODEL_HEADER_FOCUS[model.key],
+                      opacity: 0.35,
+                      zIndex: 0,
+                    }}
+                  />
+                  <Box
+                    aria-hidden
+                    sx={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%)",
+                      zIndex: 1,
+                    }}
+                  />
+                  <Stack spacing={2} sx={{ position: "relative", zIndex: 2 }}>
                     <Stack direction="row" spacing={2} alignItems="center">
                       <Box
                         sx={{
@@ -85,6 +126,7 @@ export function ModelComparison() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          backdropFilter: "blur(6px)",
                         }}
                       >
                         <Icon fontSize="medium" />
@@ -106,7 +148,7 @@ export function ModelComparison() {
                     </Stack>
                     <Typography
                       variant="body1"
-                      sx={{ color: "rgba(255,255,255,0.92)" }}
+                      sx={{ color: "rgba(255,255,255,0.95)" }}
                     >
                       {model.tagline}
                     </Typography>

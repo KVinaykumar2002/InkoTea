@@ -15,10 +15,16 @@ import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { FRANCHISE_MODELS } from "@/data/franchiseModels";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
 const MODEL_ICONS = {
   kiosk: StorefrontIcon,
   cafe: LocalCafeIcon,
+} as const;
+
+const MODEL_HEADER_IMAGES = {
+  kiosk: BRAND_IMAGES.kioskDaylight,
+  cafe: BRAND_IMAGES.cafeHeroSitSipSmile,
 } as const;
 
 export function ModelsPreview() {
@@ -26,8 +32,8 @@ export function ModelsPreview() {
     <Section bgcolor="background.paper">
       <SectionHeading
         eyebrow="Two Formats. One Brand."
-        title="Choose your INKOTEA business model"
-        description="From a compact ₹2.5L kiosk to a full social café, every entrepreneur finds a way in."
+        title="One strong café brand. Two simple investment options."
+        description="From a compact ₹2.5L kiosk for high-footfall locations to a full ₹6.5L – ₹9L social café, every entrepreneur finds a way in."
       />
       <Box
         sx={{
@@ -60,6 +66,7 @@ export function ModelsPreview() {
               >
                 <Box
                   sx={{
+                    position: "relative",
                     bgcolor: accentBg,
                     color: accentText,
                     px: 4,
@@ -67,10 +74,36 @@ export function ModelsPreview() {
                     display: "flex",
                     alignItems: "center",
                     gap: 2,
+                    overflow: "hidden",
+                    minHeight: 160,
                   }}
                 >
                   <Box
+                    aria-hidden
                     sx={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage: `url(${MODEL_HEADER_IMAGES[model.key]})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      opacity: 0.4,
+                      zIndex: 0,
+                    }}
+                  />
+                  <Box
+                    aria-hidden
+                    sx={{
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%)",
+                      zIndex: 1,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      zIndex: 2,
                       width: 48,
                       height: 48,
                       borderRadius: 2,
@@ -78,14 +111,15 @@ export function ModelsPreview() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      backdropFilter: "blur(6px)",
                     }}
                   >
                     <Icon />
                   </Box>
-                  <Stack spacing={0.5}>
+                  <Stack spacing={0.5} sx={{ position: "relative", zIndex: 2 }}>
                     <Typography
                       variant="overline"
-                      sx={{ opacity: 0.85, letterSpacing: "0.18em" }}
+                      sx={{ opacity: 0.9, letterSpacing: "0.18em" }}
                     >
                       {model.format}
                     </Typography>
@@ -118,10 +152,12 @@ export function ModelsPreview() {
                         label={`Space ${model.spaceSqFt}`}
                         variant="outlined"
                       />
-                      <Chip
-                        label={`Setup ${model.setupTime}`}
-                        variant="outlined"
-                      />
+                      {model.dailySales ? (
+                        <Chip
+                          label={`Daily ${model.dailySales}`}
+                          variant="outlined"
+                        />
+                      ) : null}
                     </Stack>
 
                     <Stack spacing={1.25}>

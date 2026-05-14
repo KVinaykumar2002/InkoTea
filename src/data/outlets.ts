@@ -1,4 +1,5 @@
 import type { Outlet } from "@/types";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
 export const OUTLET_CITIES = [
   "Hyderabad",
@@ -10,10 +11,45 @@ export const OUTLET_CITIES = [
   "Guntur",
 ] as const;
 
-const img = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&q=70`;
+/**
+ * Per-format pools of brand-owned outlet imagery. We don't yet have
+ * real per-outlet photography, so each kiosk and café falls back to a
+ * deterministic brand shot from its format pool — picked by hashing
+ * the outlet id so the same outlet always renders with the same image
+ * across sessions / devices.
+ */
+const KIOSK_POOL = [
+  BRAND_IMAGES.kioskNightCrowd,
+  BRAND_IMAGES.kioskDaylight,
+  BRAND_IMAGES.kioskFoodcourt,
+  BRAND_IMAGES.kioskModernYellow,
+  BRAND_IMAGES.kioskStandaloneNight,
+  BRAND_IMAGES.kioskCustomerBanner,
+] as const;
 
-export const OUTLETS: Outlet[] = [
+const CAFE_POOL = [
+  BRAND_IMAGES.cafeStorefrontNight,
+  BRAND_IMAGES.cafeHeroSitSipSmile,
+  BRAND_IMAGES.cafeOutdoorSeating,
+  BRAND_IMAGES.cafeInteriorBusy,
+  BRAND_IMAGES.cafeFriendsChat,
+  BRAND_IMAGES.cafeCoupleCoffee,
+] as const;
+
+function hash(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i += 1) {
+    h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
+function brandImageFor(type: "kiosk" | "cafe", id: string): string {
+  const pool = type === "kiosk" ? KIOSK_POOL : CAFE_POOL;
+  return pool[hash(id) % pool.length];
+}
+
+const outletsRaw: Omit<Outlet, "image">[] = [
   {
     id: "hyd-hitech",
     name: "INKOTEA Hitech City",
@@ -21,7 +57,6 @@ export const OUTLETS: Outlet[] = [
     area: "Hitech City",
     address: "Plot 42, Cyber Towers Rd, Madhapur, Hyderabad 500081",
     type: "cafe",
-    image: img("1497515114629-f71d768fd07c"),
     mapsQuery: "Hitech City Hyderabad",
     openingYear: 2023,
   },
@@ -32,7 +67,6 @@ export const OUTLETS: Outlet[] = [
     area: "Kondapur",
     address: "Beside HDFC Bank, Kothaguda Junction, Kondapur, Hyderabad",
     type: "kiosk",
-    image: img("1567521464027-f127ff144326"),
     mapsQuery: "Kondapur Hyderabad",
     openingYear: 2022,
   },
@@ -43,7 +77,6 @@ export const OUTLETS: Outlet[] = [
     area: "Gachibowli",
     address: "DLF Cyber City, Gachibowli, Hyderabad 500032",
     type: "cafe",
-    image: img("1559925393-8be0ec4767c8"),
     mapsQuery: "Gachibowli Hyderabad",
     openingYear: 2024,
   },
@@ -54,7 +87,6 @@ export const OUTLETS: Outlet[] = [
     area: "Banjara Hills",
     address: "Road No. 12, Banjara Hills, Hyderabad 500034",
     type: "cafe",
-    image: img("1442975631115-c4f7b05b8a2c"),
     mapsQuery: "Banjara Hills Hyderabad",
     openingYear: 2023,
   },
@@ -65,7 +97,6 @@ export const OUTLETS: Outlet[] = [
     area: "Ameerpet",
     address: "Opp Maitrivanam, Ameerpet, Hyderabad 500038",
     type: "kiosk",
-    image: img("1445116572660-236099ec97a0"),
     mapsQuery: "Ameerpet Hyderabad",
     openingYear: 2022,
   },
@@ -76,7 +107,6 @@ export const OUTLETS: Outlet[] = [
     area: "Secunderabad",
     address: "MG Road, near Clock Tower, Secunderabad 500003",
     type: "kiosk",
-    image: img("1517248135467-4c7edcad34c4"),
     mapsQuery: "Secunderabad",
     openingYear: 2021,
   },
@@ -87,7 +117,6 @@ export const OUTLETS: Outlet[] = [
     area: "Hanamkonda",
     address: "Subedari, Hanamkonda, Warangal 506001",
     type: "kiosk",
-    image: img("1523920290228-4f321a939b4c"),
     mapsQuery: "Hanamkonda Warangal",
     openingYear: 2023,
   },
@@ -98,8 +127,6 @@ export const OUTLETS: Outlet[] = [
     area: "Kazipet",
     address: "KU Campus Road, Kazipet, Warangal",
     type: "kiosk",
-    // Modern tea shop with wooden accents and signage — Zhen Yao on Unsplash
-    image: img("1765604553017-bc84cd27974c"),
     mapsQuery: "Kazipet Warangal",
     openingYear: 2024,
   },
@@ -110,7 +137,6 @@ export const OUTLETS: Outlet[] = [
     area: "Tower Circle",
     address: "Tower Circle Main Rd, Karimnagar 505001",
     type: "kiosk",
-    image: img("1442512595331-e89e73853f31"),
     mapsQuery: "Tower Circle Karimnagar",
     openingYear: 2024,
   },
@@ -121,7 +147,6 @@ export const OUTLETS: Outlet[] = [
     area: "Bus Stand",
     address: "Bus Stand Main Rd, Nizamabad 503001",
     type: "kiosk",
-    image: img("1521017432531-fbd92d768814"),
     mapsQuery: "Nizamabad bus stand",
     openingYear: 2024,
   },
@@ -132,7 +157,6 @@ export const OUTLETS: Outlet[] = [
     area: "Bezwada",
     address: "MG Road, Bezwada, Vijayawada 520001",
     type: "cafe",
-    image: img("1455390582262-044cdead277a"),
     mapsQuery: "Bezwada Vijayawada",
     openingYear: 2025,
   },
@@ -143,7 +167,6 @@ export const OUTLETS: Outlet[] = [
     area: "Bhavanipuram",
     address: "Bhavanipuram Main Rd, Vijayawada 520012",
     type: "kiosk",
-    image: img("1495474472287-4d71bcdd2085"),
     mapsQuery: "Bhavanipuram Vijayawada",
     openingYear: 2024,
   },
@@ -154,7 +177,6 @@ export const OUTLETS: Outlet[] = [
     area: "MVP Colony",
     address: "Sector 2, MVP Colony, Visakhapatnam 530017",
     type: "cafe",
-    image: img("1559496417-e7f25cb247f3"),
     mapsQuery: "MVP Colony Visakhapatnam",
     openingYear: 2025,
   },
@@ -165,7 +187,6 @@ export const OUTLETS: Outlet[] = [
     area: "RK Beach",
     address: "Beach Road, RK Beach, Visakhapatnam 530002",
     type: "cafe",
-    image: img("1497935586351-b67a49e012bf"),
     mapsQuery: "RK Beach Visakhapatnam",
     openingYear: 2025,
   },
@@ -176,8 +197,12 @@ export const OUTLETS: Outlet[] = [
     area: "Arundelpet",
     address: "5/1 Arundelpet, Guntur 522002",
     type: "kiosk",
-    image: img("1519681393784-d120267933ba"),
     mapsQuery: "Arundelpet Guntur",
     openingYear: 2024,
   },
 ];
+
+export const OUTLETS: Outlet[] = outletsRaw.map((outlet) => ({
+  ...outlet,
+  image: brandImageFor(outlet.type, outlet.id),
+}));

@@ -1,4 +1,5 @@
 import type { MenuCategoryMeta, MenuItem } from "@/types";
+import { pickMenuImage } from "@/lib/brandImages";
 
 export const MENU_CATEGORIES: MenuCategoryMeta[] = [
   {
@@ -35,10 +36,13 @@ export const MENU_CATEGORIES: MenuCategoryMeta[] = [
   },
 ];
 
-const img = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=70`;
-
-export const MENU_ITEMS: MenuItem[] = [
+// We don't yet have per-item product photography from the brochure team, so
+// each menu item resolves to a hand-picked Unsplash photo via
+// `pickMenuImage` (see `MENU_ITEM_IMAGES` in `@/lib/brandImages`). Adding a
+// new item here is free — if it's not in the per-item map it falls back to
+// the category pool deterministically. When real product shots arrive,
+// drop them under `/public/brand` and override the entry in the map.
+const items: Omit<MenuItem, "image">[] = [
   {
     id: "desi-dum",
     name: "Desi Dum Chai",
@@ -46,7 +50,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Slow-cooked over flame with milk reduction, hand-pounded ginger and a pinch of cardamom.",
     priceRange: "₹25 – ₹40",
-    image: img("1576092768241-dec231879fc3"),
     isBestSeller: true,
   },
   {
@@ -56,7 +59,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Six-spice blend brewed to perfection — clove, cinnamon, fennel, pepper, cardamom & ginger.",
     priceRange: "₹20 – ₹35",
-    image: img("1571934811356-5cc061b6821f"),
     isBestSeller: true,
   },
   {
@@ -65,8 +67,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "signature-tea",
     description: "Crushed green cardamom infused into rich Assam tea milk.",
     priceRange: "₹25 – ₹35",
-    // Three orange chai cups on a black table — Aman Gupta on Unsplash
-    image: img("1646294567230-b56cb0cd1f5b"),
   },
   {
     id: "kashmiri",
@@ -75,8 +75,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Saffron, almond slivers and green tea — a warming Himalayan classic.",
     priceRange: "₹40 – ₹50",
-    // Clear glass cup of chai with sugar cubes — Nishaan ahmed on Unsplash
-    image: img("1609670438772-9cf3afc5052b"),
   },
   {
     id: "ginger",
@@ -85,8 +83,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Maa-ke-haath ki ghar wali kadak — strong, gingery and unforgettable.",
     priceRange: "₹25 – ₹35",
-    // Tea cup with lemon and ginger root — Kelly Sikkema on Unsplash
-    image: img("1682530016992-d8a2f30b6dd6"),
   },
   {
     id: "filter-coffee",
@@ -95,7 +91,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Decoction percolated overnight, frothed with hot milk in a stainless tumbler.",
     priceRange: "₹40 – ₹60",
-    image: img("1509042239860-f550ce710b93"),
     isBestSeller: true,
   },
   {
@@ -105,7 +100,6 @@ export const MENU_ITEMS: MenuItem[] = [
     description:
       "Double espresso with velvet steamed milk and a dusting of cocoa.",
     priceRange: "₹100 – ₹140",
-    image: img("1485808191679-5f86510681a2"),
   },
   {
     id: "latte",
@@ -113,7 +107,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "coffee",
     description: "Espresso with cardamom-infused milk — INKOTEA's signature twist.",
     priceRange: "₹120 – ₹160",
-    image: img("1461023058943-07fcbe16d735"),
   },
   {
     id: "ragi-java",
@@ -121,7 +114,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "coffee",
     description: "Traditional millet-based wellness drink, slow-cooked & nourishing.",
     priceRange: "₹50 – ₹70",
-    image: img("1517959105821-eaf2591984ca"),
   },
   {
     id: "boost",
@@ -129,7 +121,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "coffee",
     description: "Childhood comfort in a cup — frothy, malty and warm.",
     priceRange: "₹40 – ₹60",
-    image: img("1572490122747-3968b75cc699"),
   },
   {
     id: "oreo-shake",
@@ -137,7 +128,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "social-beverages",
     description: "Crushed Oreo cookies blended with thick vanilla cream.",
     priceRange: "₹100 – ₹140",
-    image: img("1572490122747-3968b75cc699"),
     isBestSeller: true,
   },
   {
@@ -146,7 +136,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "social-beverages",
     description: "Layered chocolate shake with KitKat chunks and whipped cream.",
     priceRange: "₹120 – ₹140",
-    image: img("1481391319762-47dff72954d9"),
   },
   {
     id: "mojito",
@@ -154,7 +143,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "social-beverages",
     description: "Muddled mint, lime, brown sugar and chilled soda.",
     priceRange: "₹80 – ₹100",
-    image: img("1437418747212-8d9709afab22"),
   },
   {
     id: "iced-tea",
@@ -162,7 +150,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "social-beverages",
     description: "Brewed black tea over ice with peach essence and a hint of lemon.",
     priceRange: "₹80 – ₹100",
-    image: img("1556679343-c7306c1976bc"),
   },
   {
     id: "osmania",
@@ -170,7 +157,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "Hyderabad's iconic crumbly tea biscuit — sweet, salty, melt-in-mouth.",
     priceRange: "₹15 – ₹30",
-    image: img("1568051243851-f9b136146e97"),
     isBestSeller: true,
   },
   {
@@ -179,7 +165,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "2-minute classic with cheese, onions, capsicum and INKOTEA tadka.",
     priceRange: "₹80 – ₹120",
-    image: img("1612929633738-8fe44f7ec841"),
   },
   {
     id: "samosa",
@@ -187,7 +172,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "Hand-folded, deep-fried, served hot with mint-tamarind chutney.",
     priceRange: "₹40 – ₹60",
-    image: img("1601050690597-df0568f70950"),
   },
   {
     id: "sandwich",
@@ -195,7 +179,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "Multigrain bread, fresh veggies, mint chutney, melted cheese.",
     priceRange: "₹120 – ₹180",
-    image: img("1539252554453-80ab65ce3586"),
   },
   {
     id: "fries",
@@ -203,7 +186,6 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "Crispy shoestring fries tossed in tangy peri-peri spice mix.",
     priceRange: "₹100 – ₹160",
-    image: img("1573080496219-bb080dd4f877"),
   },
   {
     id: "chocolate-cake",
@@ -211,6 +193,10 @@ export const MENU_ITEMS: MenuItem[] = [
     category: "comfort-bites",
     description: "Dense chocolate sponge layered with dark ganache truffle.",
     priceRange: "₹140 – ₹220",
-    image: img("1578985545062-69928b1d9587"),
   },
 ];
+
+export const MENU_ITEMS: MenuItem[] = items.map((item) => ({
+  ...item,
+  image: pickMenuImage(item.category, item.id),
+}));

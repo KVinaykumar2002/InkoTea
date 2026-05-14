@@ -12,13 +12,11 @@ interface Props {
   py?: { xs: number; md: number } | number;
   containerMaxWidth?: "sm" | "md" | "lg" | "xl" | false;
   sx?: SxProps<Theme>;
-  fullBleed?: boolean;
 }
 
 /**
  * Standard page section wrapper — applies vertical rhythm + container width
- * defined by the design system. Use `fullBleed` for backgrounds that should
- * span the full viewport width.
+ * defined by the design system.
  */
 export const Section = forwardRef<HTMLElement, Props>(function Section(
   {
@@ -28,23 +26,9 @@ export const Section = forwardRef<HTMLElement, Props>(function Section(
     py = { xs: 8, md: 12 },
     containerMaxWidth = "lg",
     sx,
-    fullBleed = false,
   },
   ref,
 ) {
-  if (fullBleed) {
-    return (
-      <Box
-        ref={ref}
-        component="section"
-        id={id}
-        sx={{ bgcolor, py, ...sx }}
-      >
-        {children}
-      </Box>
-    );
-  }
-
   return (
     <Box
       ref={ref}

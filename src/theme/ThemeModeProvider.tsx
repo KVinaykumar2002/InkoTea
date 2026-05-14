@@ -9,8 +9,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import type { PaletteMode } from "@mui/material";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import CssBaseline from "@mui/material/CssBaseline";
+import type { PaletteMode } from "@mui/material/styles";
 import { buildTheme } from "./index";
 
 interface ThemeModeContextValue {

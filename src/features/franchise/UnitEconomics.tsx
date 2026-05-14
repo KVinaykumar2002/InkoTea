@@ -19,9 +19,9 @@ export function UnitEconomics() {
   return (
     <Section bgcolor="background.default">
       <SectionHeading
-        eyebrow="Unit Economics"
+        eyebrow="Café Business Potential"
         title="Predictable cashflow. Healthy margins."
-        description="Illustrative ranges based on operating outlets across Telangana. Actual numbers vary with location and execution."
+        description="Illustrative ranges for the Social Café format, based on operating outlets across Telangana. Actual numbers vary with location and execution."
       />
       <Box
         sx={{

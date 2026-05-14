@@ -7,8 +7,11 @@ import Container from "@mui/material/Container";
 import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
 
-const HERO_IMG =
-  "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=2000&q=70";
+import { BRAND_IMAGES } from "@/lib/brandImages";
+
+// Real INKOTEA kiosk at night with a crowd — sets the "single kiosk
+// in Hyderabad" origin-story tone for the About page.
+const HERO_IMG = BRAND_IMAGES.kioskNightCrowd;
 
 export function StorySection() {
   return (
@@ -70,7 +73,7 @@ export function StorySection() {
             }}
           />
           <Typography variant="h1" sx={{ color: "inherit" }}>
-            India runs on chai.
+            One More Cup.
             <Box
               component="span"
               sx={{
@@ -79,7 +82,7 @@ export function StorySection() {
                 fontStyle: "italic",
               }}
             >
-              We're giving it structure.
+              One More Success.
             </Box>
           </Typography>
           <Typography
@@ -91,9 +94,14 @@ export function StorySection() {
               maxWidth: 700,
             }}
           >
-            INKOTEA was founded to organize India's most-loved beverage into a
-            scalable retail brand — without losing its emotion. From a single
-            kiosk in Hyderabad to 40+ outlets across Telangana and AP.
+            <Box component="strong" sx={{ color: "secondary.light" }}>
+              Inko
+            </Box>{" "}
+            means &ldquo;One More&rdquo; in Telugu — our motto celebrates the
+            joy of that perfect cup you can&rsquo;t resist. Founded in 2021 in
+            Hyderabad, INKOTEA has grown to 40+ outlets across India, bringing
+            comfort, affordability and quality in every serving — and is now
+            expanding aggressively through our Social Café format.
           </Typography>
         </Stack>
       </Container>

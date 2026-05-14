@@ -3,15 +3,10 @@ const nextConfig = {
   output: "export",
 
   images: {
+    // Static export ships images as-is; no remote optimisation needed.
+    // All product imagery now lives under `/public/brand` so we no longer
+    // need to allow-list any third-party hosts.
     unoptimized: true,
-
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-    ],
   },
 };
 

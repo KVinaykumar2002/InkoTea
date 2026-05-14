@@ -1,5 +1,5 @@
 import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
-import type { PaletteMode } from "@mui/material";
+import type { PaletteMode } from "@mui/material/styles";
 import { lightPalette, darkPalette, brandColors } from "./palette";
 import { typography } from "./typography";
 
