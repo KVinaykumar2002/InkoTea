@@ -1,8 +1,16 @@
 "use client";
 
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { BRAND } from "@/lib/brand";
+
+const phoneLinkSx = {
+  color: "primary.main",
+  textDecoration: "none",
+  fontWeight: 600,
+  "&:hover": { textDecoration: "underline" },
+} as const;
 
 export function OfficeAddressCard() {
   return (
@@ -24,20 +32,23 @@ export function OfficeAddressCard() {
       <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
         {BRAND.hq}
       </Typography>
-      <Typography variant="body2" sx={{ mt: 1.5, fontWeight: 600 }}>
-        <Box
-          component="a"
-          href={`tel:${BRAND.phoneDigits}`}
-          sx={{
-            color: "primary.main",
-            textDecoration: "none",
-            "&:hover": { textDecoration: "underline" },
-          }}
-        >
-          {BRAND.phone}
-        </Box>
-      </Typography>
-      <Typography variant="body2">
+      <Stack spacing={0.5} sx={{ mt: 1.5 }}>
+        <Typography variant="body2">
+          <Box component="a" href={`tel:${BRAND.phoneDigits}`} sx={phoneLinkSx}>
+            {BRAND.phone}
+          </Box>
+        </Typography>
+        <Typography variant="body2">
+          <Box
+            component="a"
+            href={`tel:${BRAND.phoneSecondaryDigits}`}
+            sx={phoneLinkSx}
+          >
+            {BRAND.phoneSecondary}
+          </Box>
+        </Typography>
+      </Stack>
+      <Typography variant="body2" sx={{ mt: 1 }}>
         <Box
           component="a"
           href={`mailto:${BRAND.emails.hello}`}

@@ -1,7 +1,6 @@
 import type {
   FranchiseModel,
   InvestmentBucket,
-  InvestmentPackage,
   ResponsibilitySplit,
 } from "@/types";
 
@@ -19,7 +18,7 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
     staff: "Minimum 2",
     format: "Quick-service kiosk",
     roiSpeed: "Investment recovery in 8 – 10 months",
-    target: "IT parks, colleges, gated communities, food courts",
+    target: "IT Parks, Colleges, Gated Communities, Food Courts",
     dailySales: "₹5,000 – ₹15,000+",
     highlights: [
       "Compact 150 sq ft footprint with strong branding",
@@ -57,7 +56,7 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
     staff: "3 – 5",
     format: "Dine-in social café",
     roiSpeed: "Medium (12 – 18 months)",
-    target: "Food streets, residential catchments, IT parks, highways",
+    target: "Food Streets, Residential Catchments, IT Parks, Highways",
     dailySales: "₹18,000 – ₹30,000+",
     monthlyRevenue: "₹5.5L – ₹7.5L",
     monthlyProfit: "₹1L – ₹1.5L",
@@ -66,7 +65,7 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
       "Signature teas, coffee, milkshakes & comfort bites",
       "Indoor or outdoor seating layouts",
       "Community-driven social café positioning",
-      "Two flexible package options (Standard & Turnkey)",
+      "Turnkey setup support — equipment, branding, training",
     ],
     idealLocations: [
       "Food streets",
@@ -82,50 +81,6 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
       "Long-term scalable growth seekers",
     ],
     accentColor: "success",
-  },
-];
-
-/**
- * Café investment packages — verbatim from the Social Café brochure.
- * Both packages exclude rent, furniture and site-specific civil works.
- */
-export const INVESTMENT_PACKAGES: InvestmentPackage[] = [
-  {
-    key: "standard",
-    name: "Standard Café Setup",
-    subtitle: "For existing or semi-ready shops",
-    total: "₹6,50,000",
-    breakdown: [
-      { label: "Franchise Brand Fee", value: "₹3,00,000" },
-      { label: "Equipment & Kitchen Setup", value: "₹3,50,000" },
-    ],
-    notIncluded: [
-      "Shop rent / lease",
-      "Interior design & execution",
-      "Civil & electrical works",
-      "Furniture & seating",
-      "Container structure (open spaces)",
-    ],
-    bestFor:
-      "Entrepreneurs with existing café spaces or renovation-based setups looking for a lower investment entry.",
-  },
-  {
-    key: "turnkey",
-    name: "Turnkey Café Setup",
-    subtitle: "For bare shops / first-time entrepreneurs",
-    total: "₹9,00,000",
-    breakdown: [
-      { label: "Franchise Fee + Equipment", value: "₹6,50,000" },
-      { label: "Interior + Civil + Electrical + CCTV", value: "₹2,50,000" },
-    ],
-    notIncluded: [
-      "Shop rent / lease",
-      "Furniture & loose seating",
-      "Container structure (highway / open plots)",
-    ],
-    bestFor:
-      "Bare shop locations, first-time franchise investors, and Tier-1 & Tier-2 city expansion.",
-    highlight: true,
   },
 ];
 

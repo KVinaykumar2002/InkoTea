@@ -109,26 +109,6 @@ export interface FAQ {
   audience: "franchise" | "customer";
 }
 
-export interface Competitor {
-  name: string;
-  position: string;
-  pricing: string;
-  experience: string;
-  scalability: string;
-  isUs?: boolean;
-}
-
-export interface InvestmentPackage {
-  key: "standard" | "turnkey";
-  name: string;
-  subtitle: string;
-  total: string;
-  breakdown: { label: string; value: string }[];
-  notIncluded: string[];
-  bestFor: string;
-  highlight?: boolean;
-}
-
 export interface LeadPayload {
   name: string;
   phone: string;

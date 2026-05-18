@@ -13,7 +13,11 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const SESSION_KEY = "inkotea-cta-dismissed";
-const HIDDEN_ROUTES = ["/franchise", "/contact"];
+// The home page ships its own always-visible floating franchise enquiry FAB
+// (`FloatingFranchiseEnquiry`) — keep the scroll-triggered sticky CTA off
+// "/" so they don't visually crowd each other at the same bottom-left slot.
+const HIDDEN_ROUTES_PREFIX = ["/franchise", "/contact"];
+const HIDDEN_ROUTES_EXACT = ["/"];
 
 /**
  * Slide-up CTA that appears after the user scrolls past 60% of the page.
@@ -51,7 +55,9 @@ export function StickyFranchiseCTA() {
     sessionStorage.setItem(SESSION_KEY, "1");
   };
 
-  const onHiddenRoute = HIDDEN_ROUTES.some((p) => pathname.startsWith(p));
+  const onHiddenRoute =
+    HIDDEN_ROUTES_EXACT.includes(pathname) ||
+    HIDDEN_ROUTES_PREFIX.some((p) => pathname.startsWith(p));
   if (onHiddenRoute || dismissed) return null;
 
   const motionInitial = reducedMotion

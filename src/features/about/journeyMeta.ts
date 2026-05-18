@@ -22,9 +22,7 @@ export interface JourneyMeta {
  * milestone is added to `ROADMAP` before this map is updated.
  */
 export const JOURNEY_META: Record<string, JourneyMeta> = {
-  "2021": { glyph: "single", cumulative: "1 outlet" },
-  "2023": { glyph: "tray", cumulative: "25 outlets" },
-  "2025": { glyph: "dual", cumulative: "30 outlets" },
-  "2026": { glyph: "map", cumulative: "40+ outlets" },
-  "2027": { glyph: "skyline", cumulative: "100+ outlets" },
+  "2021": { glyph: "single", cumulative: "First outlets" },
+  "2023": { glyph: "map", cumulative: "First North State" },
+  "2026": { glyph: "skyline", cumulative: "40+ outlets" },
 };

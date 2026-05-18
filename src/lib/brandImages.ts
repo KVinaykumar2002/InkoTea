@@ -68,6 +68,11 @@ export const BRAND_IMAGES = {
    * background that captures the brand's social-café energy in one frame.
    */
   footerKioskScene: "/brand/footer-kiosk-scene.jpeg",
+
+  /** Official portrait of founder Srinivas P. Mahendra (full colour). */
+  founderSrinivas: "/brand/founder-srinivas.jpeg",
+  /** Black-and-white editorial portrait of founder Srinivas P. Mahendra. */
+  founderSrinivasMono: "/brand/founder-srinivas-bw.jpeg",
 } as const;
 
 export type BrandImageKey = keyof typeof BRAND_IMAGES;

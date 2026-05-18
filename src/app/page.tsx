@@ -3,9 +3,11 @@ import { HeroSection } from "@/features/home/HeroSection";
 import { StatsStrip } from "@/features/home/StatsStrip";
 import { PositioningSection } from "@/features/home/PositioningSection";
 import { ModelsPreview } from "@/features/home/ModelsPreview";
+import { NearestOutletSection } from "@/features/home/NearestOutletSection";
 import { ExperienceSection } from "@/features/home/ExperienceSection";
 import { PressLogosStrip } from "@/features/home/PressLogosStrip";
 import { FranchiseCTASection } from "@/features/home/FranchiseCTASection";
+import { FloatingFranchiseEnquiry } from "@/components/layout/FloatingFranchiseEnquiry";
 
 export const metadata = buildPageMetadata({
   title: "INKOTEA — The Feeling of One More",
@@ -21,9 +23,11 @@ export default function HomePage() {
       <StatsStrip />
       <PositioningSection />
       <ModelsPreview />
+      <NearestOutletSection />
       <ExperienceSection />
       <PressLogosStrip />
       <FranchiseCTASection />
+      <FloatingFranchiseEnquiry />
     </>
   );
 }

@@ -20,8 +20,8 @@ export function OfficeMap() {
     >
       <Box
         component="iframe"
-        title="INKOTEA HQ — Hyderabad"
-        src="https://www.google.com/maps?q=Hitech+City+Hyderabad+Telangana+India&output=embed"
+        title="INKOTEA HQ — Miyapur, Hyderabad"
+        src="https://www.google.com/maps?q=INKOTEA+Miyapur+Hyderabad+Telangana+India&output=embed"
         sx={{ border: 0, width: "100%", height: "100%" }}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"

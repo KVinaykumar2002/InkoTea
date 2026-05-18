@@ -34,7 +34,7 @@ const CHANNELS = [
     icon: WhatsAppIcon,
     label: "Quick Chat",
     title: "WhatsApp & call",
-    text: `Talk to us instantly on ${BRAND.phone} — Mon–Sat, 10am to 7pm IST.`,
+    text: `Talk to us instantly on ${BRAND.phone} or ${BRAND.phoneSecondary} — Mon–Sat, 10am to 7pm IST.`,
     cta: { label: "Open WhatsApp", href: BRAND.whatsappLink },
     bg: "success.main",
     color: "success.contrastText",

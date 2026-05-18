@@ -10,13 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import { Section } from "@/components/common/Section";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { BRAND } from "@/lib/brand";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 
-// We don't yet have an official portrait of the founder in the brand kit.
-// Leaving `FOUNDER_IMG` as `undefined` makes MUI's `Avatar` skip the image
-// path entirely and render the on-brand initials fallback (`SP`) immediately,
-// which avoids any flash-of-broken-image. Drop a real photo into
-// `/public/brand/founder.jpeg` and replace this with that path when ready.
-const FOUNDER_IMG: string | undefined = undefined;
+const FOUNDER_IMG = BRAND_IMAGES.founderSrinivas;
 
 export function FounderSection() {
   return (
@@ -57,7 +53,7 @@ export function FounderSection() {
               sx={{
                 position: "relative",
                 width: "100%",
-                height: { xs: 320, md: 400 },
+                height: { xs: 360, md: 460 },
                 borderRadius: 4,
                 zIndex: 1,
                 boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
@@ -66,11 +62,12 @@ export function FounderSection() {
                 fontFamily: '"Playfair Display", serif',
                 fontSize: { xs: "5rem", md: "6.5rem" },
                 fontWeight: 700,
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center 20%",
+                },
               }}
             >
-              {/* MUI Avatar renders these children only when the image
-                  source fails to load, so the founder's initials become
-                  the on-brand fallback. */}
               {BRAND.founder.name
                 .split(" ")
                 .map((n) => n[0])
@@ -97,6 +94,30 @@ export function FounderSection() {
               {BRAND.founder.role}
             </Typography>
 
+            <Typography variant="body1" color="text.secondary">
+              Srinivas P. Mahendra is the Founder of INKOTEA, a passionate
+              entrepreneur with a vision to redefine the tea café experience by
+              blending quality, affordability, and strong franchise
+              opportunities. He launched the first INKOTEA outlet in April 2021
+              at Miyapur, Hyderabad, with the dream of building a proudly
+              Indian tea brand that could reach every town and city.
+            </Typography>
+
+            <Typography variant="body1" color="text.secondary">
+              Under his leadership, INKOTEA has rapidly expanded across multiple
+              locations and states through a scalable franchise model focused
+              on consistency, customer satisfaction, and innovative business
+              ideas. His entrepreneurial journey reflects dedication, practical
+              execution, and a strong belief in empowering young entrepreneurs
+              through affordable business opportunities.
+            </Typography>
+
+            <Typography variant="body1" color="text.secondary">
+              Apart from INKOTEA, Srinivas is also actively involved in
+              renewable energy and startup innovation sectors, bringing a
+              modern and growth-oriented approach to every venture he builds.
+            </Typography>
+
             <Box
               sx={{
                 position: "relative",
@@ -117,9 +138,20 @@ export function FounderSection() {
                 }}
               />
               <Typography
+                variant="overline"
+                sx={{
+                  color: "secondary.dark",
+                  letterSpacing: "0.2em",
+                  fontWeight: 700,
+                }}
+              >
+                Vision
+              </Typography>
+              <Typography
                 variant="h5"
                 component="blockquote"
                 sx={{
+                  mt: 1,
                   fontStyle: "italic",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 500,
@@ -127,18 +159,12 @@ export function FounderSection() {
                   m: 0,
                 }}
               >
-                Inko means "One More" in Telugu. We celebrate the joy of that
-                perfect cup you can't resist.
+                &ldquo;To build INKOTEA into one of India&rsquo;s most trusted
+                and loved tea café brands by creating premium beverage
+                experiences at affordable prices, while empowering entrepreneurs
+                through sustainable and scalable franchise opportunities.&rdquo;
               </Typography>
             </Box>
-
-            <Typography variant="body1" color="text.secondary">
-              Founded INKOTEA in {BRAND.founded} in Hyderabad with a single
-              kiosk and one rule: every cup must taste the same, every single
-              day. Built the brand into a 40+ outlet network across Telangana
-              and Andhra Pradesh — and is now scaling the Social Café format
-              for India's next phase of consumer growth.
-            </Typography>
 
             <Stack direction="row" spacing={1}>
               <IconButton

@@ -173,7 +173,7 @@ function ResponsibilityCard({
                   bgcolor: accentBg,
                 }}
               />
-              <Typography variant="body2" color="text.primary">
+              <Typography variant="body2" color="text.secondary">
                 {item}
               </Typography>
             </Stack>

@@ -11,6 +11,8 @@ export const BRAND = {
   hq: "Hyderabad, Telangana",
   phone: "+91 8919 566855",
   phoneDigits: "918919566855",
+  phoneSecondary: "+91 84640 20418",
+  phoneSecondaryDigits: "918464020418",
   emails: {
     franchise: "franchise@inkotea.com",
     investor: "investor@inkotea.com",
@@ -19,6 +21,10 @@ export const BRAND = {
   founder: {
     name: "Srinivas P. Mahendra",
     role: "Founder & CEO",
+  },
+  coFounder: {
+    name: "Naresh P. Mahendra",
+    role: "Co-Founder",
   },
   metrics: {
     outlets: 40,
@@ -83,6 +89,5 @@ export const FOOTER_QUICK_LINKS = [
 export const MODEL_LINKS = [
   { label: "Kiosk Model", href: "/franchise#kiosk" },
   { label: "Social Café Model", href: "/franchise#cafe" },
-  { label: "Investment Packages", href: "/franchise#packages" },
   { label: "Investor Relations", href: "/investor" },
 ] as const;

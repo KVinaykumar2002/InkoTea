@@ -1,37 +1,3 @@
-import type { Competitor } from "@/types";
-
-export const COMPETITORS: Competitor[] = [
-  {
-    name: "Tea Time",
-    position: "Volume-driven kiosks",
-    pricing: "Mass-affordable",
-    experience: "Quick takeaway",
-    scalability: "High (4000+ outlets)",
-  },
-  {
-    name: "Chaayos",
-    position: "Premium urban café",
-    pricing: "Premium pricing",
-    experience: "Lifestyle dine-in",
-    scalability: "Medium (250+ outlets)",
-  },
-  {
-    name: "Madras Filter Coffee",
-    position: "Regional coffee chain",
-    pricing: "Mid-market",
-    experience: "Heritage tasting",
-    scalability: "Regional",
-  },
-  {
-    name: "INKOTEA",
-    position: "Hybrid kiosk + café",
-    pricing: "Affordable Premium",
-    experience: "Volume + Experience",
-    scalability: "Multi-format scalable",
-    isUs: true,
-  },
-];
-
 export const MARKET_GAP = [
   {
     title: "Street Chai",
@@ -105,7 +71,7 @@ export const BRAND_PROMISE_PILLARS = [
   {
     icon: "LocalDrink",
     title: "Fresh Whole Milk",
-    text: "Daily-procured cow milk — never powdered, never reconstituted.",
+    text: "Daily-procured buffalo milk — never powdered, never reconstituted.",
   },
   {
     icon: "NoFood",
@@ -203,7 +169,30 @@ export const ROADMAP = [
   },
 ];
 
-export const JOURNEY_MILESTONES = ROADMAP;
+/**
+ * About-page "Our Journey" — actual past brand milestones (decoupled from
+ * `ROADMAP`, which is forward-looking and lives on the investor page).
+ * Each entry maps 1:1 to a card in `JourneyTimeline`; 2021's three real
+ * events are consolidated into one card to keep the existing
+ * one-card-per-year layout intact.
+ */
+export const JOURNEY_MILESTONES = [
+  {
+    year: "2021",
+    title: "First Outlet & First Franchises",
+    text: "Launched our first outlet in April at Miyapur, Hyderabad. In June, our first franchise sale was given in Mulugu, Warangal — followed by our first Andhra Pradesh sale in October at Narasaraopet.",
+  },
+  {
+    year: "2023",
+    title: "First North State Sale",
+    text: "Crossed beyond South India — our first North State franchise sale was given in November at Lucknow, opening the brand up to a national footprint.",
+  },
+  {
+    year: "2026",
+    title: "40th Outlet",
+    text: "Hit the 40-outlet milestone in May at Bachupalli — a proof point of the scalable franchise model and consistent brand experience across cities.",
+  },
+];
 
 export const PRESS_LOGOS = [
   "YourStory",

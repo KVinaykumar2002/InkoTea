@@ -5,6 +5,7 @@ import { JourneyTimeline } from "@/features/about/JourneyTimeline";
 import { DifferenceCards } from "@/features/about/DifferenceCards";
 import { VisionMissionPhilosophy } from "@/features/about/VisionMissionPhilosophy";
 import { FounderSection } from "@/features/about/FounderSection";
+import { CoFounderSection } from "@/features/about/CoFounderSection";
 
 export const metadata = buildPageMetadata({
   title: "About INKOTEA",
@@ -22,6 +23,7 @@ export default function AboutPage() {
       <DifferenceCards />
       <VisionMissionPhilosophy />
       <FounderSection />
+      <CoFounderSection />
     </>
   );
 }

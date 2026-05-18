@@ -12,15 +12,15 @@ import { ScrollReveal } from "@/components/common/ScrollReveal";
 
 const POSITIONS = [
   {
-    name: "Tea Time",
+    name: "Street Chai Stalls",
     label: "Mass Kiosks",
     description:
       "High-volume, low-experience. Built for transit footfall, not lingering.",
     accent: "muted",
   },
   {
-    name: "Chaayos",
-    label: "Premium Café",
+    name: "Premium Urban Cafés",
+    label: "Lifestyle Spaces",
     description:
       "Beautiful spaces, premium pricing — out of reach for daily Indian consumers.",
     accent: "muted",

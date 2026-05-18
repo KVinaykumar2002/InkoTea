@@ -186,7 +186,11 @@ export function ModelComparison() {
                             </Typography>
                             <Typography
                               variant="body2"
-                              sx={{ fontWeight: 600, textAlign: "right" }}
+                              sx={{
+                                fontWeight: 600,
+                                textAlign: "right",
+                                color: "text.secondary",
+                              }}
                             >
                               {String(model[row.key])}
                             </Typography>
@@ -216,7 +220,12 @@ export function ModelComparison() {
                               flexShrink: 0,
                             }}
                           />
-                          <Typography variant="body2">{h}</Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                          >
+                            {h}
+                          </Typography>
                         </Stack>
                       ))}
                     </Stack>
