@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { motion, useReducedMotion } from "framer-motion";
+import { pillarCardPadding } from "@/components/common/pillarCardStyles";
 import { JOURNEY_META } from "./journeyMeta";
 
 interface Props {
@@ -42,12 +43,12 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
       whileInView={reduced ? undefined : { opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-15% 0px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      spacing={1.5}
+      spacing={1.25}
       sx={{
         position: "relative",
-        p: { xs: 3, md: 3.5 },
-        pr: align === "right" ? { md: 6 } : undefined,
-        pl: align === "left" ? { md: 6 } : undefined,
+        p: pillarCardPadding,
+        pr: align === "right" ? { md: 4.5 } : undefined,
+        pl: align === "left" ? { md: 4.5 } : undefined,
         borderRadius: 3,
         textAlign: align,
         bgcolor: "background.paper",
@@ -125,10 +126,10 @@ function YearStamp({ year, side }: { year: string; side: "left" | "right" }) {
     <Box
       sx={{
         position: "absolute",
-        top: -14,
-        [side]: -14,
-        width: 56,
-        height: 56,
+        top: -10,
+        [side]: -10,
+        width: 48,
+        height: 48,
         borderRadius: "50%",
         display: "flex",
         alignItems: "center",

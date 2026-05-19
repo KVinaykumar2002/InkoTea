@@ -9,6 +9,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardPadding,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 
 const PILLARS = [
   {
@@ -33,10 +40,11 @@ const PILLARS = [
 
 export function VisionMissionPhilosophy() {
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" py={compactSectionPy}>
       <SectionHeading
         eyebrow="What guides us"
-        title="Vision, mission, philosophy"
+        title="Vision, Mission, Philosophy"
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -48,9 +56,9 @@ export function VisionMissionPhilosophy() {
         {PILLARS.map((p, idx) => (
           <ScrollReveal key={p.label} delay={idx * 0.1}>
             <Stack
-              spacing={2.5}
+              spacing={pillarCardSpacing}
               sx={{
-                p: 4,
+                p: pillarCardPadding,
                 height: "100%",
                 borderRadius: 3,
                 bgcolor: "background.paper",
@@ -59,14 +67,9 @@ export function VisionMissionPhilosophy() {
             >
               <Box
                 sx={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 2,
+                  ...pillarIconSx,
                   bgcolor: "primary.main",
                   color: "primary.contrastText",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
                 <p.icon />

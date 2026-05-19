@@ -9,6 +9,11 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  pillarCardPadding,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { BRAND } from "@/lib/brand";
 
 const CHANNELS = [
@@ -53,9 +58,9 @@ export function ContactChannels() {
       {CHANNELS.map((c, idx) => (
         <ScrollReveal key={c.label} delay={idx * 0.1}>
           <Stack
-            spacing={2.5}
+            spacing={pillarCardSpacing}
             sx={{
-              p: 4,
+              p: pillarCardPadding,
               borderRadius: 3,
               bgcolor: c.bg,
               color: c.color,
@@ -70,14 +75,9 @@ export function ContactChannels() {
           >
             <Box
               sx={{
-                width: 48,
-                height: 48,
-                borderRadius: 2,
+                ...pillarIconSx,
                 bgcolor: "rgba(255,255,255,0.18)",
                 color: "inherit",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
                 ...(c.bg === "background.paper" && {
                   bgcolor: "secondary.light",
                   color: "primary.dark",

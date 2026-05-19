@@ -4,6 +4,10 @@ import Box from "@mui/material/Box";
 import { motion, useReducedMotion } from "framer-motion";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import {
+  compactSectionHeadingSx,
+  compactSectionPy,
+} from "@/components/common/pillarCardStyles";
 import { JOURNEY_MILESTONES } from "@/data/competitors";
 import { JOURNEY_META } from "./journeyMeta";
 import { JourneyGlyph } from "./JourneyGlyph";
@@ -34,10 +38,11 @@ export function JourneyTimeline() {
   const reduced = useReducedMotion();
 
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" py={compactSectionPy}>
       <SectionHeading
         eyebrow="Our Journey"
         title="From a single kiosk to a multi-city retail brand"
+        sx={compactSectionHeadingSx}
       />
 
       <Box
@@ -45,8 +50,7 @@ export function JourneyTimeline() {
           position: "relative",
           maxWidth: 1040,
           mx: "auto",
-          // Padding-top so the first glyph isn't flush against the heading.
-          pt: { xs: 2, md: 3 },
+          pt: { xs: 0.5, md: 1 },
         }}
       >
         <PourSpine reduced={Boolean(reduced)} />
@@ -61,13 +65,11 @@ export function JourneyTimeline() {
                 sx={{
                   display: "grid",
                   gridTemplateColumns: {
-                    xs: "80px 1fr",
-                    md: "1fr 100px 1fr",
+                    xs: "72px 1fr",
+                    md: "1fr 88px 1fr",
                   },
                   alignItems: "center",
-                  // Generous vertical breathing-room so the glyphs sit clear
-                  // of each other and the spine reads as a real pour.
-                  mb: { xs: 6, md: 9 },
+                  mb: { xs: 4, md: 5 },
                   "&:last-of-type": { mb: 0 },
                 }}
               >
@@ -82,7 +84,7 @@ export function JourneyTimeline() {
                 >
                   <JourneyGlyph
                     kind={meta?.glyph ?? "single"}
-                    size={88}
+                    size={72}
                   />
                 </Box>
 
@@ -92,7 +94,7 @@ export function JourneyTimeline() {
                     display: { xs: "none", md: "flex" },
                     justifyContent: "flex-end",
                     gridColumn: 1,
-                    pr: 4,
+                    pr: 2.5,
                     visibility: isLeft ? "visible" : "hidden",
                   }}
                 >
@@ -107,7 +109,7 @@ export function JourneyTimeline() {
                     display: { xs: "none", md: "flex" },
                     justifyContent: "flex-start",
                     gridColumn: 3,
-                    pl: 4,
+                    pl: 2.5,
                     visibility: isLeft ? "hidden" : "visible",
                   }}
                 >
@@ -149,7 +151,7 @@ function PourSpine({ reduced }: { reduced: boolean }) {
       aria-hidden
       sx={{
         position: "absolute",
-        left: { xs: 39, md: "50%" },
+        left: { xs: 32, md: "50%" },
         top: 0,
         bottom: 0,
         width: 8,

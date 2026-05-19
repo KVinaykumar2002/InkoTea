@@ -32,7 +32,7 @@ export function StatsStrip() {
     <Box
       component="section"
       sx={{
-        py: { xs: 6, md: 8 },
+        py: { xs: 4, md: 5 },
         bgcolor: "background.paper",
         borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
@@ -64,7 +64,7 @@ export function StatsStrip() {
           variant="body2"
           align="center"
           color="text.secondary"
-          sx={{ mt: 6, fontStyle: "italic" }}
+          sx={{ mt: { xs: 3, md: 4 }, fontStyle: "italic" }}
         >
           Expanding across Telangana, Andhra Pradesh, and beyond.
         </Typography>

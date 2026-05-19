@@ -7,6 +7,11 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import IconButton from "@mui/material/IconButton";
 import { Section } from "@/components/common/Section";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactSectionPy,
+  pillarCardPadding,
+  pillarCardSpacing,
+} from "@/components/common/pillarCardStyles";
 import { BRAND } from "@/lib/brand";
 
 /**
@@ -19,12 +24,16 @@ import { BRAND } from "@/lib/brand";
  */
 export function CoFounderSection() {
   return (
-    <Section bgcolor="background.default">
+    <Section
+      bgcolor="background.default"
+      pt={compactSectionPy}
+      pb={{ xs: 2, md: 3 }}
+    >
       <Box
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 1.6fr" },
-          gap: { xs: 4, md: 8 },
+          gap: { xs: 3, md: 5 },
           alignItems: "flex-start",
         }}
       >
@@ -33,7 +42,7 @@ export function CoFounderSection() {
             sx={{
               position: "relative",
               borderRadius: 4,
-              p: { xs: 3, md: 4 },
+              p: pillarCardPadding,
               bgcolor: "primary.main",
               color: "primary.contrastText",
               overflow: "hidden",
@@ -50,7 +59,7 @@ export function CoFounderSection() {
                 pointerEvents: "none",
               }}
             />
-            <Stack spacing={1.5} sx={{ position: "relative", zIndex: 1 }}>
+            <Stack spacing={pillarCardSpacing} sx={{ position: "relative", zIndex: 1 }}>
               <Typography
                 variant="overline"
                 sx={{ color: "secondary.light", letterSpacing: "0.2em" }}
@@ -72,7 +81,7 @@ export function CoFounderSection() {
               >
                 {BRAND.coFounder.role}
               </Typography>
-              <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
+              <Stack direction="row" spacing={1} sx={{ pt: 0.5 }}>
                 <IconButton
                   aria-label={`${BRAND.coFounder.name} on LinkedIn`}
                   sx={{
@@ -89,7 +98,7 @@ export function CoFounderSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.15}>
-          <Stack spacing={3}>
+          <Stack spacing={pillarCardSpacing}>
             <Typography variant="body1" color="text.secondary">
               Naresh P. Mahendra, the Co-Founder of INKOTEA, has been a strong
               pillar behind the brand&rsquo;s growth journey. Being one of the

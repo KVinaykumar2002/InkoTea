@@ -12,6 +12,13 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { WHY_FORMAT_WORKS } from "@/data/franchiseModels";
 
 const ICONS = {
@@ -28,11 +35,12 @@ const ICONS = {
  */
 export function WhyFormatWorks() {
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" py={compactSectionPy}>
       <SectionHeading
         eyebrow="Why It Works Today"
         title="Why the INKOTEA format works in today's market"
         description="A proven foundation, comprehensive support and a flexible footprint — engineered for India's next phase of consumer growth."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -49,19 +57,14 @@ export function WhyFormatWorks() {
           const Icon = ICONS[reason.icon as keyof typeof ICONS];
           return (
             <ScrollReveal key={reason.title} delay={idx * 0.08}>
-              <Card sx={{ height: "100%", p: 1 }}>
-                <CardContent>
-                  <Stack spacing={2}>
+              <Card sx={{ height: "100%" }}>
+                <CardContent sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
                     <Box
                       sx={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 2,
+                        ...pillarIconSx,
                         bgcolor: "secondary.light",
                         color: "primary.dark",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                       }}
                     >
                       {Icon ? <Icon /> : null}

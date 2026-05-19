@@ -9,6 +9,12 @@ import Chip from "@mui/material/Chip";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardSpacing,
+} from "@/components/common/pillarCardStyles";
 
 const COLUMNS = [
   {
@@ -34,10 +40,11 @@ const COLUMNS = [
 
 export function DifferenceCards() {
   return (
-    <Section bgcolor="background.paper">
+    <Section bgcolor="background.paper" py={compactSectionPy}>
       <SectionHeading
         eyebrow="What makes us different"
         title="The middle ground tea retail was missing"
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -61,8 +68,8 @@ export function DifferenceCards() {
                   : "none",
               }}
             >
-              <CardContent sx={{ p: 4 }}>
-                <Stack spacing={3}>
+              <CardContent sx={compactCardContentSx}>
+                <Stack spacing={pillarCardSpacing}>
                   <Chip
                     label={col.isUs ? "INKOTEA Way" : col.label}
                     size="small"
@@ -89,37 +96,34 @@ export function DifferenceCards() {
                   >
                     {col.label}
                   </Typography>
-                  <Stack spacing={1.5}>
+                  <Stack spacing={1.25}>
                     {col.rows.map((r) => (
-                      <Stack
+                      <Typography
                         key={r}
-                        direction="row"
-                        spacing={1.5}
-                        alignItems="flex-start"
-                      >
-                        <Box
-                          sx={{
-                            width: 8,
-                            height: 8,
+                        variant="body2"
+                        sx={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 1.25,
+                          lineHeight: 1.6,
+                          color: col.isUs
+                            ? "rgba(255,255,255,0.92)"
+                            : "text.secondary",
+                          "&::before": {
+                            content: '""',
+                            flexShrink: 0,
+                            width: 6,
+                            height: 6,
                             borderRadius: "50%",
-                            mt: "8px",
                             bgcolor: col.isUs
                               ? "secondary.light"
                               : "text.disabled",
-                            flexShrink: 0,
-                          }}
-                        />
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            color: col.isUs
-                              ? "rgba(255,255,255,0.92)"
-                              : "text.secondary",
-                          }}
-                        >
-                          {r}
-                        </Typography>
-                      </Stack>
+                            mt: "calc((1lh - 6px) / 2)",
+                          },
+                        }}
+                      >
+                        {r}
+                      </Typography>
                     ))}
                   </Stack>
                 </Stack>

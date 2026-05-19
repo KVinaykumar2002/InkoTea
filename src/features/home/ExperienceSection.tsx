@@ -12,6 +12,13 @@ import NightlifeIcon from "@mui/icons-material/Nightlife";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { EXPERIENCE_USECASES } from "@/data/competitors";
 
 const ICONS = {
@@ -23,11 +30,12 @@ const ICONS = {
 
 export function ExperienceSection() {
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" py={compactSectionPy}>
       <SectionHeading
         eyebrow="More Than Just Tea"
         title="The reasons people walk in (and stay)"
         description="INKOTEA outlets aren't just tea stops. They're the moments in your day worth pausing for."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -47,25 +55,19 @@ export function ExperienceSection() {
               <Card
                 sx={{
                   height: "100%",
-                  p: 1,
                   "&:hover": {
                     borderColor: "primary.main",
                     transform: "translateY(-4px)",
                   },
                 }}
               >
-                <CardContent>
-                  <Stack spacing={2}>
+                <CardContent sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
                     <Box
                       sx={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 2,
+                        ...pillarIconSx,
                         bgcolor: "secondary.light",
                         color: "primary.dark",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                       }}
                     >
                       {Icon ? <Icon /> : null}

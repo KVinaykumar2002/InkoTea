@@ -9,6 +9,8 @@ import type { PaletteOptions } from "@mui/material/styles";
 export const brandColors = {
   oliveGreen: "#5C6B2C",
   oliveGreenDark: "#3F4A1C",
+  /** Deeper olive for high-contrast text on primary panels */
+  oliveGreenDeep: "#252F14",
   oliveGreenLight: "#7A8B45",
   amberGold: "#D4A574",
   amberGoldDark: "#B68554",

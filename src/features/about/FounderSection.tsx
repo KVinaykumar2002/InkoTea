@@ -9,6 +9,11 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import IconButton from "@mui/material/IconButton";
 import { Section } from "@/components/common/Section";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactSectionPy,
+  pillarCardPadding,
+  pillarCardSpacing,
+} from "@/components/common/pillarCardStyles";
 import { BRAND } from "@/lib/brand";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
@@ -16,70 +21,17 @@ const FOUNDER_IMG = BRAND_IMAGES.founderSrinivas;
 
 export function FounderSection() {
   return (
-    <Section bgcolor="background.paper">
+    <Section bgcolor="background.paper" py={compactSectionPy}>
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "1fr 1.5fr" },
-          gap: { xs: 5, md: 8 },
+          gridTemplateColumns: { xs: "1fr", md: "1.5fr 1fr" },
+          gap: { xs: 3, md: 5 },
           alignItems: "center",
         }}
       >
         <ScrollReveal>
-          <Box
-            sx={{
-              position: "relative",
-              maxWidth: 360,
-              mx: { xs: "auto", md: 0 },
-            }}
-          >
-            <Box
-              aria-hidden
-              sx={{
-                position: "absolute",
-                inset: -16,
-                borderRadius: 4,
-                bgcolor: "secondary.light",
-                opacity: 0.45,
-                transform: "rotate(-3deg)",
-                zIndex: 0,
-              }}
-            />
-            <Avatar
-              src={FOUNDER_IMG}
-              alt={BRAND.founder.name}
-              variant="rounded"
-              imgProps={{ loading: "lazy" }}
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: { xs: 360, md: 460 },
-                borderRadius: 4,
-                zIndex: 1,
-                boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
-                bgcolor: "primary.main",
-                color: "primary.contrastText",
-                fontFamily: '"Playfair Display", serif',
-                fontSize: { xs: "5rem", md: "6.5rem" },
-                fontWeight: 700,
-                "& img": {
-                  objectFit: "cover",
-                  objectPosition: "center 20%",
-                },
-              }}
-            >
-              {BRAND.founder.name
-                .split(" ")
-                .map((n) => n[0])
-                .filter(Boolean)
-                .slice(0, 2)
-                .join("")}
-            </Avatar>
-          </Box>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.15}>
-          <Stack spacing={3}>
+          <Stack spacing={pillarCardSpacing}>
             <Typography
               variant="overline"
               sx={{ color: "secondary.dark", letterSpacing: "0.2em" }}
@@ -121,8 +73,8 @@ export function FounderSection() {
             <Box
               sx={{
                 position: "relative",
-                pl: 4,
-                py: 1,
+                pl: pillarCardPadding,
+                py: 0.5,
                 borderLeft: (t) => `3px solid ${t.palette.secondary.main}`,
                 color: "text.secondary",
               }}
@@ -130,9 +82,9 @@ export function FounderSection() {
               <FormatQuoteIcon
                 sx={{
                   position: "absolute",
-                  top: -8,
-                  left: -10,
-                  fontSize: 36,
+                  top: -6,
+                  left: -8,
+                  fontSize: 28,
                   color: "secondary.main",
                   opacity: 0.5,
                 }}
@@ -148,10 +100,10 @@ export function FounderSection() {
                 Vision
               </Typography>
               <Typography
-                variant="h5"
+                variant="h6"
                 component="blockquote"
                 sx={{
-                  mt: 1,
+                  mt: 0.75,
                   fontStyle: "italic",
                   fontFamily: '"Playfair Display", serif',
                   fontWeight: 500,
@@ -179,6 +131,59 @@ export function FounderSection() {
               </IconButton>
             </Stack>
           </Stack>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.15}>
+          <Box
+            sx={{
+              position: "relative",
+              maxWidth: 360,
+              mx: { xs: "auto", md: "0 0 0 auto" },
+            }}
+          >
+            <Box
+              aria-hidden
+              sx={{
+                position: "absolute",
+                inset: -12,
+                borderRadius: 4,
+                bgcolor: "secondary.light",
+                opacity: 0.45,
+                transform: "rotate(3deg)",
+                zIndex: 0,
+              }}
+            />
+            <Avatar
+              src={FOUNDER_IMG}
+              alt={BRAND.founder.name}
+              variant="rounded"
+              imgProps={{ loading: "lazy" }}
+              sx={{
+                position: "relative",
+                width: "100%",
+                height: { xs: 300, md: 400 },
+                borderRadius: 4,
+                zIndex: 1,
+                boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
+                bgcolor: "primary.main",
+                color: "primary.contrastText",
+                fontFamily: '"Playfair Display", serif',
+                fontSize: { xs: "5rem", md: "6.5rem" },
+                fontWeight: 700,
+                "& img": {
+                  objectFit: "cover",
+                  objectPosition: "center 20%",
+                },
+              }}
+            >
+              {BRAND.founder.name
+                .split(" ")
+                .map((n) => n[0])
+                .filter(Boolean)
+                .slice(0, 2)
+                .join("")}
+            </Avatar>
+          </Box>
         </ScrollReveal>
       </Box>
     </Section>

@@ -14,6 +14,12 @@ import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardPadding,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { BRAND_PROMISE_PILLARS } from "@/data/competitors";
 
 const ICONS = {
@@ -29,11 +35,12 @@ const ICONS = {
 
 export function BrandPromisePillars() {
   return (
-    <Section bgcolor="background.paper">
+    <Section bgcolor="background.paper" py={compactSectionPy}>
       <SectionHeading
         eyebrow="What's in every cup"
         title="The careful the selection, the tastier the tea"
         description="Quality is not a marketing line. It's eight non-negotiable standards that every INKOTEA outlet follows, every shift, every day."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -53,7 +60,7 @@ export function BrandPromisePillars() {
                 spacing={1.5}
                 alignItems="flex-start"
                 sx={{
-                  p: 3,
+                  p: pillarCardPadding,
                   height: "100%",
                   borderRadius: 3,
                   bgcolor: "background.default",
@@ -68,14 +75,9 @@ export function BrandPromisePillars() {
               >
                 <Box
                   sx={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 2,
+                    ...pillarIconSx,
                     bgcolor: "secondary.light",
                     color: "primary.dark",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                   }}
                 >
                   {Icon ? <Icon fontSize="small" /> : null}

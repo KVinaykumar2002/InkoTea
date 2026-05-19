@@ -23,7 +23,7 @@ export default function HomePage() {
       <HeroSection />
       <StatsStrip />
       <PositioningSection />
-      <Section bgcolor="background.paper">
+      <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={{ xs: 5, md: 8 }}>
         <ModelsPreview embedded />
         <NearestOutletSection embedded />
       </Section>

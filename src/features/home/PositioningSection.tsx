@@ -9,6 +9,12 @@ import Chip from "@mui/material/Chip";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  pillarCardSpacing,
+} from "@/components/common/pillarCardStyles";
+import { brandColors } from "@/theme/palette";
 
 const POSITIONS = [
   {
@@ -36,17 +42,22 @@ const POSITIONS = [
 
 export function PositioningSection() {
   return (
-    <Section bgcolor="background.default">
+    <Section
+      bgcolor="background.default"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 4, md: 5 }}
+    >
       <SectionHeading
         eyebrow="Where We Stand"
         title="Not just tea. Not just a café. We are both."
         description="Indian tea retail has always been split between unstructured street stalls and overpriced cafés. INKOTEA bridges that gap."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-          gap: 3,
+          gap: 2.5,
         }}
       >
         {POSITIONS.map((pos, idx) => {
@@ -70,8 +81,8 @@ export function PositioningSection() {
                     : "none",
                 }}
               >
-                <CardContent sx={{ p: 4 }}>
-                  <Stack spacing={2}>
+                <CardContent sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
                     <Chip
                       label={pos.label}
                       size="small"
@@ -87,7 +98,7 @@ export function PositioningSection() {
                     <Typography
                       variant="h3"
                       sx={{
-                        color: isUs ? "secondary.light" : "primary.main",
+                        color: isUs ? brandColors.oliveGreenDeep : "primary.main",
                         fontStyle: isUs ? "italic" : "normal",
                       }}
                     >

@@ -11,6 +11,13 @@ import HubIcon from "@mui/icons-material/Hub";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import {
+  compactSectionHeadingSx,
+  compactSectionPy,
+  pillarCardPadding,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { CORE_USPS } from "@/data/competitors";
 
 const ICONS = {
@@ -23,10 +30,11 @@ const ICONS = {
 
 export function USPGrid() {
   return (
-    <Section bgcolor="background.paper">
+    <Section bgcolor="background.paper" py={compactSectionPy}>
       <SectionHeading
         eyebrow="Core USPs"
         title="Five reasons INKOTEA is built to scale"
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
@@ -44,9 +52,9 @@ export function USPGrid() {
           return (
             <ScrollReveal key={usp.title} delay={idx * 0.08}>
               <Stack
-                spacing={2}
+                spacing={pillarCardSpacing}
                 sx={{
-                  p: 3,
+                  p: pillarCardPadding,
                   height: "100%",
                   borderRadius: 3,
                   bgcolor: "background.default",
@@ -60,14 +68,9 @@ export function USPGrid() {
               >
                 <Box
                   sx={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 2,
+                    ...pillarIconSx,
                     bgcolor: "primary.main",
                     color: "primary.contrastText",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                   }}
                 >
                   {Icon ? <Icon fontSize="small" /> : null}
