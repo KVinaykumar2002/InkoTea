@@ -89,5 +89,5 @@ export const FOOTER_QUICK_LINKS = [
 export const MODEL_LINKS = [
   { label: "Kiosk Model", href: "/franchise#kiosk" },
   { label: "Social Café Model", href: "/franchise#cafe" },
-  { label: "Investor Relations", href: "/investor" },
+  { label: "", href: "" },
 ] as const;

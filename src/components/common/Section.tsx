@@ -10,6 +10,8 @@ interface Props {
   id?: string;
   bgcolor?: string;
   py?: { xs: number; md: number } | number;
+  pt?: { xs: number; md: number } | number;
+  pb?: { xs: number; md: number } | number;
   containerMaxWidth?: "sm" | "md" | "lg" | "xl" | false;
   sx?: SxProps<Theme>;
 }
@@ -24,17 +26,24 @@ export const Section = forwardRef<HTMLElement, Props>(function Section(
     id,
     bgcolor,
     py = { xs: 8, md: 12 },
+    pt,
+    pb,
     containerMaxWidth = "lg",
     sx,
   },
   ref,
 ) {
+  const paddingSx =
+    pt !== undefined || pb !== undefined
+      ? { pt: pt ?? py, pb: pb ?? py }
+      : { py };
+
   return (
     <Box
       ref={ref}
       component="section"
       id={id}
-      sx={{ bgcolor, py, ...sx }}
+      sx={{ bgcolor, ...paddingSx, ...sx }}
     >
       <Container maxWidth={containerMaxWidth}>{children}</Container>
     </Box>

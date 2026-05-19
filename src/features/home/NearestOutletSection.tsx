@@ -26,7 +26,14 @@ const PREVIEW_COUNT = 3;
  * lives on `/outlets`; this section is a tight 3-card teaser plus a
  * city-chip selector and a deeplink to the explorer for the long tail.
  */
-export function NearestOutletSection() {
+interface NearestOutletSectionProps {
+  /** Render without the outer Section wrapper (for grouped home layout). */
+  embedded?: boolean;
+}
+
+export function NearestOutletSection({
+  embedded = false,
+}: NearestOutletSectionProps) {
   const [activeCity, setActiveCity] = useState<(typeof OUTLET_CITIES)[number] | "All">(
     "All",
   );
@@ -39,12 +46,13 @@ export function NearestOutletSection() {
     return pool.slice(0, PREVIEW_COUNT);
   }, [activeCity]);
 
-  return (
-    <Section bgcolor="background.paper" id="find-outlet">
+  const content = (
+    <>
       <SectionHeading
         eyebrow="Find Your Nearest Outlet"
         title="40+ outlets across South India — one is closer than you think"
         description="Pick a city to see live outlets nearby, or browse the full network for directions, hours and contact details."
+        sx={embedded ? { mt: { xs: 3, md: 4 }, mb: { xs: 4, md: 5 } } : undefined}
       />
 
       <Stack
@@ -200,6 +208,16 @@ export function NearestOutletSection() {
           See all outlets
         </Button>
       </Stack>
+    </>
+  );
+
+  if (embedded) {
+    return <Box id="find-outlet">{content}</Box>;
+  }
+
+  return (
+    <Section bgcolor="background.paper" id="find-outlet">
+      {content}
     </Section>
   );
 }

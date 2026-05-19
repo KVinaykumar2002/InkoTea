@@ -1,4 +1,5 @@
 import { buildPageMetadata } from "@/lib/seo";
+import { Section } from "@/components/common/Section";
 import { HeroSection } from "@/features/home/HeroSection";
 import { StatsStrip } from "@/features/home/StatsStrip";
 import { PositioningSection } from "@/features/home/PositioningSection";
@@ -22,8 +23,10 @@ export default function HomePage() {
       <HeroSection />
       <StatsStrip />
       <PositioningSection />
-      <ModelsPreview />
-      <NearestOutletSection />
+      <Section bgcolor="background.paper">
+        <ModelsPreview embedded />
+        <NearestOutletSection embedded />
+      </Section>
       <ExperienceSection />
       <PressLogosStrip />
       <FranchiseCTASection />

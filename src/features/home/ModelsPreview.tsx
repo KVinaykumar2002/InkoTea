@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
@@ -27,9 +26,14 @@ const MODEL_HEADER_IMAGES = {
   cafe: BRAND_IMAGES.cafeHeroSitSipSmile,
 } as const;
 
-export function ModelsPreview() {
-  return (
-    <Section bgcolor="background.paper">
+interface ModelsPreviewProps {
+  /** Render without the outer Section wrapper (for grouped home layout). */
+  embedded?: boolean;
+}
+
+export function ModelsPreview({ embedded = false }: ModelsPreviewProps) {
+  const content = (
+    <>
       <SectionHeading
         eyebrow="Two Formats. One Brand."
         title="One strong café brand. Two simple investment options."
@@ -39,7 +43,9 @@ export function ModelsPreview() {
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-          gap: 3,
+          gap: 2.5,
+          maxWidth: 960,
+          mx: "auto",
         }}
       >
         {FRANCHISE_MODELS.map((model, idx) => {
@@ -69,13 +75,13 @@ export function ModelsPreview() {
                     position: "relative",
                     bgcolor: accentBg,
                     color: accentText,
-                    px: 4,
-                    py: 3,
+                    px: 2.5,
+                    py: 2,
                     display: "flex",
                     alignItems: "center",
-                    gap: 2,
+                    gap: 1.5,
                     overflow: "hidden",
-                    minHeight: 160,
+                    minHeight: 112,
                   }}
                 >
                   <Box
@@ -104,8 +110,8 @@ export function ModelsPreview() {
                     sx={{
                       position: "relative",
                       zIndex: 2,
-                      width: 48,
-                      height: 48,
+                      width: 40,
+                      height: 40,
                       borderRadius: 2,
                       bgcolor: "rgba(255,255,255,0.18)",
                       display: "flex",
@@ -124,7 +130,7 @@ export function ModelsPreview() {
                       {model.format}
                     </Typography>
                     <Typography
-                      variant="h4"
+                      variant="h5"
                       sx={{ color: "inherit", fontStyle: "italic" }}
                     >
                       {model.name}
@@ -132,75 +138,21 @@ export function ModelsPreview() {
                   </Stack>
                 </Box>
 
-                <CardContent sx={{ p: 4 }}>
-                  <Stack spacing={3}>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      sx={{ minHeight: { md: 96 } }}
-                    >
+                <CardContent sx={{ px: 2.5, py: 2, "&:last-child": { pb: 2.5 } }}>
+                  <Stack spacing={2}>
+                    <Typography variant="body2" color="text.secondary">
                       {model.description}
                     </Typography>
-
-                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                      <Chip
-                        label={`Investment ${model.investment}`}
-                        color={model.accentColor}
-                        variant="outlined"
-                      />
-                      <Chip
-                        label={`Space ${model.spaceSqFt}`}
-                        variant="outlined"
-                      />
-                      {model.dailySales ? (
-                        <Chip
-                          label={`Daily ${model.dailySales}`}
-                          variant="outlined"
-                        />
-                      ) : null}
-                    </Stack>
-
-                    <Stack spacing={1.25}>
-                      {model.highlights.slice(0, 4).map((h) => (
-                        <Typography
-                          key={h}
-                          variant="body2"
-                          color="text.primary"
-                          sx={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: 1.5,
-                            // Custom dot bullet rendered as a ::before
-                            // pseudo-element so it inherits body2's line
-                            // metrics. `1lh` then resolves to body2's line
-                            // height (responsive-safe) and the calc keeps
-                            // the 6px dot centered on the first line —
-                            // even when the text wraps to multiple lines.
-                            "&::before": {
-                              content: '""',
-                              flexShrink: 0,
-                              width: 6,
-                              height: 6,
-                              borderRadius: "50%",
-                              bgcolor: accentBg,
-                              mt: "calc((1lh - 6px) / 2)",
-                            },
-                          }}
-                        >
-                          {h}
-                        </Typography>
-                      ))}
-                    </Stack>
 
                     <Button
                       component={Link}
                       href={`/franchise#${model.key}`}
                       variant="contained"
                       color={model.accentColor}
+                      size="small"
                       endIcon={<ArrowForwardIcon />}
                       sx={{
                         alignSelf: "flex-start",
-                        mt: 1,
                         // Force pure white over the deep olive / tea-brown
                         // backgrounds so the CTA reads sharply in light theme
                         // (the palette's `cream` contrastText looked muted).
@@ -219,7 +171,7 @@ export function ModelsPreview() {
         })}
       </Box>
 
-      <Stack direction="row" justifyContent="center" sx={{ mt: 6 }}>
+      <Stack direction="row" justifyContent="center" sx={{ mt: 3, mb: 0 }}>
         <Button
           component={Link}
           href="/franchise"
@@ -231,6 +183,14 @@ export function ModelsPreview() {
           Compare both models in detail
         </Button>
       </Stack>
+    </>
+  );
+
+  if (embedded) return content;
+
+  return (
+    <Section bgcolor="background.paper" pt={{ xs: 8, md: 12 }} pb={{ xs: 8, md: 12 }}>
+      {content}
     </Section>
   );
 }
