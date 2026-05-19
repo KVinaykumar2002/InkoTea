@@ -92,7 +92,7 @@ export function Navbar() {
             gap: 2,
           }}
         >
-          <BrandLogo size="md" />
+          <BrandLogo size="md" variant="wordmark" />
 
           {isDesktop ? (
             <Stack
@@ -283,7 +283,7 @@ export function Navbar() {
           alignItems="center"
           sx={{ mb: 2 }}
         >
-          <BrandLogo size="sm" />
+          <BrandLogo size="sm" variant="wordmark" />
           <IconButton
             aria-label="Close menu"
             onClick={() => setDrawerOpen(false)}

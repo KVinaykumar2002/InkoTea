@@ -268,6 +268,17 @@ export function Footer() {
 
             <Button
               component="a"
+              href={`tel:${BRAND.phoneSecondaryDigits}`}
+              variant="outlined"
+              startIcon={<PhoneIcon />}
+              sx={reachUsButtonSx}
+              aria-label={`Call ${BRAND.name} on ${BRAND.phoneSecondary}`}
+            >
+              {BRAND.phoneSecondary}
+            </Button>
+
+            <Button
+              component="a"
               href={BRAND.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
