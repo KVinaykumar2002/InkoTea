@@ -26,7 +26,7 @@ export const franchiseFormSchema = yup.object({
   investmentRange: yup
     .string()
     .oneOf(
-      ["under-3l", "3l-6.5l", "6.5l-9l", "9l-plus"],
+      ["under-3l", "3l-6.5l", "6.5l-cafe"],
       "Pick an investment range",
     )
     .required("Pick an investment range"),
@@ -40,8 +40,7 @@ export const franchiseFormSchema = yup.object({
 export const INVESTMENT_RANGE_OPTIONS = [
   { value: "under-3l", label: "Under ₹3 Lakhs (Kiosk)" },
   { value: "3l-6.5l", label: "₹3 Lakhs – ₹6.5 Lakhs" },
-  { value: "6.5l-9l", label: "₹6.5 Lakhs – ₹9 Lakhs (Café)" },
-  { value: "9l-plus", label: "₹9 Lakhs+" },
+  { value: "6.5l-cafe", label: "Starting from ₹6.5 Lakhs (Social Café)" },
 ] as const;
 
 export const MODEL_OPTIONS = [

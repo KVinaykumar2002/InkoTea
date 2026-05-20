@@ -4,6 +4,16 @@ import type {
   ResponsibilitySplit,
 } from "@/types";
 
+/** Franchise pages show investment as an entry point, not a fixed total. */
+export function formatStartingFromInvestment(amount: string): string {
+  const trimmed = amount.trim();
+  if (/^starting from\b/i.test(trimmed)) return trimmed;
+  if (/^from\b/i.test(trimmed)) {
+    return `Starting from ${trimmed.replace(/^from\s+/i, "")}`;
+  }
+  return `Starting from ${trimmed}`;
+}
+
 export const FRANCHISE_MODELS: FranchiseModel[] = [
   {
     key: "kiosk",
@@ -13,7 +23,7 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
       "A smart, scalable tea-café kiosk designed for modern entrepreneurs. Fast service, strong branding and optimised operations in as little as 150 sq ft — proven across 40+ outlets and built for first-time F&B investors.",
     investment: "₹2.5L",
     investmentRange: [250000, 250000],
-    spaceSqFt: "Minimum 150 sq ft",
+    spaceSqFt: "150 sq ft",
     setupTime: "7 – 10 days",
     staff: "Minimum 2",
     format: "Quick-service kiosk",
@@ -49,8 +59,8 @@ export const FRANCHISE_MODELS: FranchiseModel[] = [
     tagline: "Sit. Sip. Smile. Premium social tea & coffee experience.",
     description:
       "A premium yet accessible neighbourhood mini-café offering signature teas & coffee, social beverages, milkshakes and quick comfort bites in a warm, inviting ambience. Designed to blend India's traditional chai culture with modern café experiences.",
-    investment: "₹6.5L – ₹9L",
-    investmentRange: [650000, 900000],
+    investment: "₹6.5L",
+    investmentRange: [650000, 650000],
     spaceSqFt: "300 – 500 sq ft",
     setupTime: "15 – 25 days",
     staff: "3 – 5",
@@ -248,8 +258,8 @@ export const UNIT_ECONOMICS = [
  * brochure narrative: low entry, two formats, proven base.
  */
 export const FRANCHISE_USPS = [
-  "Kiosk entry from ₹2.5 Lakhs",
-  "Social Café from ₹6.5 Lakhs",
+  "Kiosk starting from ₹2.5 Lakhs",
+  "Social Café starting from ₹6.5 Lakhs",
   "Two scalable formats",
   "Proven 40+ outlets",
   "End-to-end franchise support",

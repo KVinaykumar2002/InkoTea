@@ -11,7 +11,7 @@ export interface FranchiseFormValues {
   phone: string;
   email: string;
   city: string;
-  investmentRange: "" | "under-3l" | "3l-6.5l" | "6.5l-9l" | "9l-plus";
+  investmentRange: "" | "under-3l" | "3l-6.5l" | "6.5l-cafe";
   model: "" | FranchiseModelKey | "both";
   message: string;
 }

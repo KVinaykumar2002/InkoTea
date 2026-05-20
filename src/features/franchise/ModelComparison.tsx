@@ -12,8 +12,12 @@ import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import CheckIcon from "@mui/icons-material/Check";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { FRANCHISE_MODELS } from "@/data/franchiseModels";
+import {
+  FRANCHISE_MODELS,
+  formatStartingFromInvestment,
+} from "@/data/franchiseModels";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
 const MODEL_ICONS = {
@@ -38,7 +42,7 @@ const MODEL_HEADER_FOCUS: Record<keyof typeof MODEL_HEADER_IMAGES, string> = {
 
 const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }[] = [
   { key: "investment", label: "Investment" },
-  { key: "spaceSqFt", label: "Space" },
+  { key: "spaceSqFt", label: "Minimum Space" },
   { key: "setupTime", label: "Setup time" },
   { key: "staff", label: "Staff" },
   { key: "format", label: "Format" },
@@ -48,11 +52,17 @@ const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }
 
 export function ModelComparison() {
   return (
-    <Section bgcolor="background.default" id="models">
+    <Section
+      bgcolor="background.default"
+      id="models"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 2, md: 3 }}
+    >
       <SectionHeading
         eyebrow="Choose Your Model"
         title="One strong café brand. Two simple investment options."
         description="Both formats are profitable — they simply reward different operator profiles, locations and ambitions."
+        sx={compactSectionHeadingSx}
       />
 
       <Box
@@ -192,7 +202,11 @@ export function ModelComparison() {
                                 color: "text.secondary",
                               }}
                             >
-                              {String(model[row.key])}
+                              {row.key === "investment"
+                                ? formatStartingFromInvestment(
+                                    String(model.investment),
+                                  )
+                                : String(model[row.key])}
                             </Typography>
                           </Stack>
                         ))}

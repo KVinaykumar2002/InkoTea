@@ -12,6 +12,7 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { SUPPORT_PILLARS } from "@/data/franchiseModels";
 
@@ -25,11 +26,16 @@ const ICONS = {
 
 export function SupportSystem() {
   return (
-    <Section bgcolor="background.paper">
+    <Section
+      bgcolor="background.paper"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 5, md: 8 }}
+    >
       <SectionHeading
         eyebrow="Franchise Support"
         title="We don't hand you a brand. We launch your business."
         description="Every INKOTEA partner gets the same playbook our 40+ outlets are built on."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{

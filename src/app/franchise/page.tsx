@@ -1,8 +1,8 @@
 import { buildPageMetadata } from "@/lib/seo";
 import { FranchiseHero } from "@/features/franchise/FranchiseHero";
 import { ModelComparison } from "@/features/franchise/ModelComparison";
-import { KioskInvestmentBreakdown } from "@/features/franchise/KioskInvestmentBreakdown";
-import { UnitEconomics } from "@/features/franchise/UnitEconomics";
+// import { KioskInvestmentBreakdown } from "@/features/franchise/KioskInvestmentBreakdown";
+// import { UnitEconomics } from "@/features/franchise/UnitEconomics";
 import { WhatYouGetProvide } from "@/features/franchise/WhatYouGetProvide";
 import { SupportSystem } from "@/features/franchise/SupportSystem";
 import { WhyFormatWorks } from "@/features/franchise/WhyFormatWorks";
@@ -20,12 +20,12 @@ export default function FranchisePage() {
     <>
       <FranchiseHero />
       <ModelComparison />
-      <KioskInvestmentBreakdown />
-      <UnitEconomics />
+      {/* <KioskInvestmentBreakdown /> */}
+      {/* <UnitEconomics /> */}
       <WhatYouGetProvide />
       <SupportSystem />
       <WhyFormatWorks />
-      <FranchiseForm />
+      {/* <FranchiseForm /> */}
     </>
   );
 }

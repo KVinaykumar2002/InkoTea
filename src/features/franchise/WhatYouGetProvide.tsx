@@ -14,6 +14,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { RESPONSIBILITY_SPLITS } from "@/data/franchiseModels";
 import type { FranchiseModelKey } from "@/types";
@@ -45,11 +46,16 @@ export function WhatYouGetProvide() {
   if (!active) return null;
 
   return (
-    <Section bgcolor="background.paper">
+    <Section
+      bgcolor="background.paper"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 2, md: 3 }}
+    >
       <SectionHeading
         eyebrow="Roles & Responsibilities"
         title="What You Get vs What You Provide"
         description="Transparent split of who handles what. Pick a format below to see the exact responsibilities."
+        sx={compactSectionHeadingSx}
       />
 
       <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>

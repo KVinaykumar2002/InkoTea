@@ -13,7 +13,11 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { KIOSK_INVESTMENT_BUCKETS } from "@/data/franchiseModels";
+import {
+  FRANCHISE_MODELS,
+  KIOSK_INVESTMENT_BUCKETS,
+  formatStartingFromInvestment,
+} from "@/data/franchiseModels";
 
 const ICONS = {
   Kitchen: KitchenIcon,
@@ -32,8 +36,10 @@ export function KioskInvestmentBreakdown() {
     <Section bgcolor="background.default" id="kiosk-breakdown">
       <SectionHeading
         eyebrow="Kiosk Model — Investment Breakdown"
-        title="Start your INKOTEA Kiosk from ₹2.5 Lakhs"
-        description="Optimised for first-time entrepreneurs and small investors. Total investment is structured into three clear buckets you can plan against."
+        title={`Start your INKOTEA Kiosk — ${formatStartingFromInvestment(
+          FRANCHISE_MODELS[0].investment,
+        )}`}
+        description="Optimised for first-time entrepreneurs and small investors. Entry investment is structured into three clear buckets you can plan against."
       />
 
       <Box
@@ -92,7 +98,7 @@ export function KioskInvestmentBreakdown() {
                   variant="overline"
                   sx={{ opacity: 0.85, letterSpacing: "0.18em" }}
                 >
-                  Total Investment
+                  Investment
                 </Typography>
               </Stack>
 
@@ -102,9 +108,10 @@ export function KioskInvestmentBreakdown() {
                   color: "secondary.light",
                   fontStyle: "italic",
                   lineHeight: 1.05,
+                  fontSize: { xs: "2.25rem", md: "2.75rem" },
                 }}
               >
-                ₹2.5L
+                {formatStartingFromInvestment(FRANCHISE_MODELS[0].investment)}
               </Typography>
 
               <Typography

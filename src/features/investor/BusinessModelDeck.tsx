@@ -22,7 +22,7 @@ const NODES = [
     icon: LocalCafeIcon,
     label: "Cafés",
     title: "Brand & ticket",
-    text: "Build brand asset and average-ticket lift through experience-led social spaces. ₹6.5L–9L entry.",
+    text: "Build brand asset and average-ticket lift through experience-led social spaces. Starting from ₹6.5L entry.",
     color: "success",
   },
 ];

@@ -5,7 +5,7 @@ export const FAQS: FAQ[] = [
     id: "investment",
     question: "What is the investment required for an INKOTEA franchise?",
     answer:
-      "The Kiosk Model starts at ₹2.5 Lakhs total investment, optimised for first-time entrepreneurs and small investors. The Social Café Model ranges between ₹6.5 – ₹9 Lakhs depending on whether you choose the Standard package (existing/semi-ready shop) or the Turnkey package (bare shop, full setup including interior, civil, electrical & CCTV).",
+      "The Kiosk Model starts from ₹2.5 Lakhs total investment, optimised for first-time entrepreneurs and small investors. The Social Café Model starts from ₹6.5 Lakhs depending on whether you choose the Standard package (existing/semi-ready shop) or the Turnkey package (bare shop, full setup including interior, civil, electrical & CCTV).",
     audience: "franchise",
   },
   {

@@ -29,14 +29,14 @@ const SHOWCASE_IMAGES = [
   {
     src: BRAND_IMAGES.franchiseKioskNight,
     label: "Kiosk Model",
-    sub: "From \u20B92.5L",
+    sub: "Starting from \u20B92.5L",
     icon: StorefrontIcon,
     focus: "center 38%",
   },
   {
     src: BRAND_IMAGES.franchiseCafeStorefront,
     label: "Social Caf\u00E9 Model",
-    sub: "From \u20B96.5L",
+    sub: "Starting from \u20B96.5L",
     icon: LocalCafeIcon,
     focus: "center 28%",
   },
@@ -55,7 +55,7 @@ export function FranchiseHero() {
         bgcolor: "primary.main",
         color: "primary.contrastText",
         pt: { xs: 12, md: 16 },
-        pb: { xs: 10, md: 14 },
+        pb: { xs: 7, md: 9 },
         mt: { xs: -8, md: -10 },
         overflow: "hidden",
       }}
