@@ -9,12 +9,13 @@ import { ContactChannels } from "@/features/contact/ContactChannels";
 import { ContactFormBlock } from "@/features/contact/ContactFormBlock";
 import { OfficeMap } from "@/features/contact/OfficeMap";
 import { OfficeAddressCard } from "@/features/contact/OfficeAddressCard";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
 export const metadata = buildPageMetadata({
   title: "Contact INKOTEA",
   description:
-    "Talk to our franchise, investor or general team. WhatsApp, call, email or fill the contact form — we reply within 24 hours.",
+    "Talk to our franchise or general team. WhatsApp, call, email or fill the contact form — we reply within 24 hours.",
   path: "/contact",
 });
 
@@ -96,21 +97,26 @@ export default function ContactPage() {
                 lineHeight: 1.55,
               }}
             >
-              Whether you want to open a franchise, invest in the brand, or
-              just say hi — we read every message.
+              Whether you want to open a franchise or just say hi — we read
+              every message.
             </Typography>
           </Stack>
         </Container>
       </Box>
 
-      <Section bgcolor="background.default">
+      <Section
+        bgcolor="background.default"
+        pt={{ xs: 6, md: 8 }}
+        pb={{ xs: 2, md: 3 }}
+      >
         <ContactChannels />
       </Section>
 
-      <Section bgcolor="background.paper">
+      <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={{ xs: 8, md: 12 }}>
         <SectionHeading
           eyebrow="Send us a message"
           title="Drop a note — we'll get back within 24 hours"
+          sx={compactSectionHeadingSx}
         />
         <Box
           sx={{
