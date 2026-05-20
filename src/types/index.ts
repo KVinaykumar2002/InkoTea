@@ -117,7 +117,7 @@ export interface LeadPayload {
   investmentRange?: string;
   model?: FranchiseModelKey | "both";
   message?: string;
-  source: "footer" | "franchise" | "contact" | "investor";
+  source: "footer" | "franchise" | "contact" | "investor" | "popup";
 }
 
 export interface LeadResponse {

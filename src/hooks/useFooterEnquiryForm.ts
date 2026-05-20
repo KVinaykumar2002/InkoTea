@@ -36,11 +36,16 @@ interface SnackbarState {
   message: string;
 }
 
+type FooterEnquiryOptions = {
+  source?: LeadPayload["source"];
+};
+
 /**
  * Encapsulates state, validation and submission for the footer mini-enquiry
  * form. Components consuming this hook stay declarative.
  */
-export function useFooterEnquiryForm() {
+export function useFooterEnquiryForm(options: FooterEnquiryOptions = {}) {
+  const source = options.source ?? "footer";
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
     severity: "success",
@@ -57,7 +62,7 @@ export function useFooterEnquiryForm() {
         phone: values.phone,
         city: values.city.trim(),
         message: values.message.trim(),
-        source: "footer",
+        source,
       };
       try {
         const res = await submitLead(payload);

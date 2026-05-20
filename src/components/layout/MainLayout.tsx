@@ -6,6 +6,7 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { WhatsAppFAB } from "./WhatsAppFAB";
 import { StickyFranchiseCTA } from "./StickyFranchiseCTA";
+import { WelcomeEnquiryPopup } from "./WelcomeEnquiryPopup";
 
 /**
  * App-wide layout shell. Adds the fixed navbar (with content offset),
@@ -32,6 +33,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
       </Box>
       <Footer />
       <StickyFranchiseCTA />
+      <WelcomeEnquiryPopup />
       <WhatsAppFAB />
     </Box>
   );
