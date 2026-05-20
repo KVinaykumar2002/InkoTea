@@ -5,16 +5,18 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { MARKET_GAP } from "@/data/competitors";
 
 export function MarketGapSection() {
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={{ xs: 8, md: 12 }}>
       <SectionHeading
         eyebrow="The Market Gap"
         title="Two extremes. One missing middle."
         description="India's chai consumers had to choose between unstructured stalls and unaffordable cafés. We built INKOTEA so they don't have to."
+        sx={compactSectionHeadingSx}
       />
       <Box
         sx={{
