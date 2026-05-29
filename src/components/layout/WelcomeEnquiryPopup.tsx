@@ -3,7 +3,6 @@
 import { fontDisplayItalicSx } from "@/theme/fonts";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { FormikProvider } from "formik";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
@@ -33,8 +32,8 @@ const CARD_SURFACE = "#3B1D0E";
 const AUTO_CLOSE_MS = 3000;
 
 /**
- * Welcome enquiry dialog — opens automatically for 3 seconds on every page
- * load (initial visit and client-side route changes). Visitors can close
+ * Welcome enquiry dialog — opens automatically for 3 seconds on full page
+ * reload only (not on client-side navigation). Visitors can close
  * early or submit before it dismisses. Auto-close pauses once the visitor
  * focuses a field or enters data. Leads are tagged `source: "popup"`.
  */
@@ -50,7 +49,6 @@ function formHasInput(values: {
 }
 
 export function WelcomeEnquiryPopup() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [autoClosePaused, setAutoClosePaused] = useState(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -72,20 +70,15 @@ export function WelcomeEnquiryPopup() {
     setAutoClosePaused(true);
   }, [clearCloseTimer]);
 
-  const scheduleAutoClose = useCallback(() => {
-    clearCloseTimer();
+  // Mount-only: runs on full reload; skipped during in-app page changes.
+  useEffect(() => {
+    setOpen(true);
     closeTimerRef.current = setTimeout(() => {
       setOpen(false);
       closeTimerRef.current = null;
     }, AUTO_CLOSE_MS);
-  }, [clearCloseTimer]);
-
-  useEffect(() => {
-    setAutoClosePaused(false);
-    setOpen(true);
-    scheduleAutoClose();
     return clearCloseTimer;
-  }, [pathname, scheduleAutoClose, clearCloseTimer]);
+  }, [clearCloseTimer]);
 
   useEffect(() => {
     if (formHasInput(formik.values)) {
