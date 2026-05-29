@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -79,7 +81,7 @@ export function StorySection() {
               sx={{
                 display: "block",
                 color: "secondary.light",
-                fontStyle: "italic",
+                ...fontDisplayItalicSx,
               }}
             >
               One More Success.

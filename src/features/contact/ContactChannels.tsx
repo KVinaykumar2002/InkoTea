@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -82,7 +84,7 @@ export function ContactChannels() {
               variant="h5"
               sx={{
                 color: "inherit",
-                fontStyle: "italic",
+                ...fontDisplayItalicSx,
               }}
             >
               {c.title}

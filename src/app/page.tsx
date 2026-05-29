@@ -2,6 +2,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { Section } from "@/components/common/Section";
 import { HeroSection } from "@/features/home/HeroSection";
 import { StatsStrip } from "@/features/home/StatsStrip";
+import { ProductMarqueeStrips } from "@/features/home/ProductMarqueeStrips";
 import { PositioningSection } from "@/features/home/PositioningSection";
 import { ModelsPreview } from "@/features/home/ModelsPreview";
 import { NearestOutletSection } from "@/features/home/NearestOutletSection";
@@ -21,6 +22,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <ProductMarqueeStrips />
       <StatsStrip />
       <PositioningSection />
       <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={{ xs: 5, md: 8 }}>

@@ -66,7 +66,7 @@ export function MenuHero() {
             transition={{ duration: 0.7 }}
           >
             <Chip
-              label="Our Menu"
+              label="Our Products"
               sx={{
                 alignSelf: "flex-start",
                 bgcolor: "rgba(212,165,116,0.18)",

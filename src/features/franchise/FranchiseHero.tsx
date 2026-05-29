@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -119,7 +121,7 @@ export function FranchiseHero() {
                 sx={{
                   display: "block",
                   color: "secondary.light",
-                  fontStyle: "italic",
+                  ...fontDisplayItalicSx,
                 }}
               >
                 with INKOTEA
@@ -274,7 +276,7 @@ export function FranchiseHero() {
                       variant="h6"
                       sx={{
                         color: "#fff",
-                        fontStyle: "italic",
+                        ...fontDisplayItalicSx,
                         lineHeight: 1.2,
                       }}
                     >

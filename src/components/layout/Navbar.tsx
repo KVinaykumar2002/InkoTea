@@ -22,14 +22,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme, alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { useThemeMode } from "@/theme/ThemeModeProvider";
 import { BRAND, NAV_LINKS, NAV_MORE, NAV_PRIMARY } from "@/lib/brand";
+import { brandColors } from "@/theme/palette";
+
+const NAV_DARK_BG = brandColors.charcoal;
+const NAV_TEXT = brandColors.textOnDark;
+const NAV_TEXT_MUTED = "rgba(245, 239, 229, 0.72)";
+const NAV_ACCENT = brandColors.amberGold;
 
 /** Resolves whether a link should appear active for the current pathname. */
 const isLinkActive = (pathname: string, href: string) =>
@@ -37,11 +40,34 @@ const isLinkActive = (pathname: string, href: string) =>
     ? pathname === "/"
     : pathname === href || pathname.startsWith(`${href}/`);
 
+const navLinkSx = (active: boolean) => ({
+  color: active ? NAV_ACCENT : NAV_TEXT,
+  fontSize: "0.9rem",
+  fontWeight: active ? 600 : 500,
+  textDecoration: "none",
+  position: "relative",
+  py: 1,
+  whiteSpace: "nowrap",
+  borderRadius: 1,
+  transition: "color 0.2s ease",
+  "&:hover": { color: NAV_ACCENT },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: active ? "100%" : 0,
+    height: 2,
+    bgcolor: NAV_ACCENT,
+    transition: "width 0.25s ease",
+  },
+  "&:hover::after": { width: "100%" },
+});
+
 export function Navbar() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const pathname = usePathname();
-  const { mode, toggleMode } = useThemeMode();
   const [scrolled, setScrolled] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const moreButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -55,11 +81,8 @@ export function Navbar() {
   }, []);
 
   const navBg = useMemo(
-    () =>
-      mode === "dark"
-        ? alpha(theme.palette.background.default, 0.92)
-        : alpha("#FFFFFF", 0.92),
-    [mode, theme.palette.background.default],
+    () => alpha(NAV_DARK_BG, scrolled ? 0.97 : 0.94),
+    [scrolled],
   );
 
   const moreActive = NAV_MORE.some((l) => isLinkActive(pathname, l.href));
@@ -73,12 +96,13 @@ export function Navbar() {
           backdropFilter: "saturate(180%) blur(14px)",
           WebkitBackdropFilter: "saturate(180%) blur(14px)",
           borderBottom: `1px solid ${
-            scrolled ? theme.palette.divider : "transparent"
+            scrolled ? alpha(NAV_TEXT, 0.12) : "transparent"
           }`,
           transition: "border-color 0.3s ease, box-shadow 0.3s ease",
           boxShadow: scrolled
-            ? "0 6px 20px -16px rgba(0,0,0,0.18)"
+            ? "0 8px 28px -12px rgba(0,0,0,0.45)"
             : "none",
+          color: NAV_TEXT,
         }}
       >
         <Toolbar
@@ -88,18 +112,21 @@ export function Navbar() {
             width: "100%",
             mx: "auto",
             px: { xs: 2, md: 3 },
-            minHeight: { xs: 64, md: 76 },
-            gap: 2,
+            minHeight: { xs: 64, md: 72 },
+            gap: { xs: 1.5, md: 2 },
           }}
         >
-          <BrandLogo size="md" variant="wordmark" />
+          <Box sx={{ flexShrink: 0 }}>
+            <BrandLogo size="md" variant="wordmark" />
+          </Box>
 
           {isDesktop ? (
             <Stack
               direction="row"
-              spacing={{ md: 1.25, lg: 2 }}
+              spacing={{ md: 1.5, lg: 2.25 }}
               alignItems="center"
-              sx={{ ml: { md: 2, lg: 4 }, flexGrow: 1 }}
+              justifyContent="center"
+              sx={{ flexGrow: 1, px: 1 }}
             >
               {NAV_PRIMARY.map((link) => {
                 const active = isLinkActive(pathname, link.href);
@@ -109,28 +136,7 @@ export function Navbar() {
                     component={Link}
                     href={link.href}
                     aria-current={active ? "page" : undefined}
-                    sx={{
-                      color: active ? "primary.main" : "text.primary",
-                      fontSize: "0.9rem",
-                      fontWeight: active ? 600 : 500,
-                      textDecoration: "none",
-                      position: "relative",
-                      py: 1,
-                      whiteSpace: "nowrap",
-                      borderRadius: 1,
-                      "&:hover": { color: "primary.main" },
-                      "&::after": {
-                        content: '""',
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        width: active ? "100%" : 0,
-                        height: 2,
-                        bgcolor: "primary.main",
-                        transition: "width 0.25s ease",
-                      },
-                      "&:hover::after": { width: "100%" },
-                    }}
+                    sx={navLinkSx(active)}
                   >
                     {link.label}
                   </Box>
@@ -146,24 +152,18 @@ export function Navbar() {
                 endIcon={
                   <ExpandMoreIcon
                     sx={{
+                      color: "inherit",
                       transition: "transform 0.2s ease",
                       transform: moreOpen ? "rotate(180deg)" : "none",
                     }}
                   />
                 }
                 sx={{
-                  color: moreActive ? "primary.main" : "text.primary",
-                  fontSize: "0.9rem",
-                  fontWeight: moreActive ? 600 : 500,
+                  ...navLinkSx(moreActive),
                   textTransform: "none",
                   px: 1,
-                  py: 1,
                   minWidth: 0,
-                  borderRadius: 1,
-                  "&:hover": {
-                    color: "primary.main",
-                    bgcolor: "transparent",
-                  },
+                  "&:hover": { bgcolor: "transparent" },
                 }}
               >
                 More
@@ -173,11 +173,18 @@ export function Navbar() {
                 anchorEl={moreButtonRef.current}
                 open={moreOpen}
                 onClose={() => setMoreOpen(false)}
-                MenuListProps={{ "aria-labelledby": "navbar-more-button" }}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                transformOrigin={{ vertical: "top", horizontal: "center" }}
                 slotProps={{
-                  paper: { sx: { mt: 1, minWidth: 200 } },
+                  paper: {
+                    sx: {
+                      mt: 1.5,
+                      minWidth: 200,
+                      bgcolor: brandColors.charcoalLight,
+                      color: NAV_TEXT,
+                      border: `1px solid ${alpha(NAV_TEXT, 0.12)}`,
+                    },
+                  },
                 }}
               >
                 {NAV_MORE.map((link) => {
@@ -194,7 +201,12 @@ export function Navbar() {
                         fontSize: "0.9rem",
                         fontWeight: active ? 600 : 500,
                         py: 1,
-                        color: active ? "primary.main" : "text.primary",
+                        color: active ? NAV_ACCENT : NAV_TEXT,
+                        "&:hover": { bgcolor: alpha(NAV_ACCENT, 0.12) },
+                        "&.Mui-selected": {
+                          bgcolor: alpha(NAV_ACCENT, 0.16),
+                          "&:hover": { bgcolor: alpha(NAV_ACCENT, 0.2) },
+                        },
                       }}
                     >
                       {link.label}
@@ -207,28 +219,7 @@ export function Navbar() {
             <Box sx={{ flexGrow: 1 }} />
           )}
 
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <IconButton
-              onClick={toggleMode}
-              size="small"
-              aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
-              sx={{
-                color: "text.primary",
-                border: 1,
-                borderColor: "divider",
-                "&:hover": {
-                  bgcolor: alpha(theme.palette.primary.main, 0.08),
-                  borderColor: "primary.main",
-                  color: "primary.main",
-                },
-              }}
-            >
-              {mode === "light" ? (
-                <DarkModeIcon fontSize="small" />
-              ) : (
-                <LightModeIcon fontSize="small" />
-              )}
-            </IconButton>
+          <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0 }}>
             {isDesktop ? (
               <Button
                 component={Link}
@@ -238,9 +229,8 @@ export function Navbar() {
                 size="medium"
                 sx={{
                   whiteSpace: "nowrap",
-                  flexShrink: 0,
-                  display: { md: "none", lg: "inline-flex" },
                   fontWeight: 700,
+                  display: "inline-flex",
                 }}
               >
                 Apply for Franchise
@@ -250,9 +240,12 @@ export function Navbar() {
                 aria-label="Open navigation menu"
                 onClick={() => setDrawerOpen(true)}
                 sx={{
-                  color: "text.primary",
-                  border: 1,
-                  borderColor: "divider",
+                  color: NAV_TEXT,
+                  border: `1px solid ${alpha(NAV_TEXT, 0.22)}`,
+                  "&:hover": {
+                    bgcolor: alpha(NAV_ACCENT, 0.12),
+                    borderColor: NAV_ACCENT,
+                  },
                 }}
               >
                 <MenuIcon />
@@ -273,6 +266,8 @@ export function Navbar() {
               p: 2,
               display: "flex",
               flexDirection: "column",
+              bgcolor: NAV_DARK_BG,
+              color: NAV_TEXT,
             },
           },
         }}
@@ -287,6 +282,7 @@ export function Navbar() {
           <IconButton
             aria-label="Close menu"
             onClick={() => setDrawerOpen(false)}
+            sx={{ color: NAV_TEXT }}
           >
             <CloseIcon />
           </IconButton>
@@ -306,11 +302,13 @@ export function Navbar() {
                   sx={{
                     borderRadius: 2,
                     mb: 0.5,
+                    color: NAV_TEXT,
                     "&.Mui-selected": {
-                      bgcolor: "primary.main",
-                      color: "primary.contrastText",
-                      "&:hover": { bgcolor: "primary.dark" },
+                      bgcolor: alpha(NAV_ACCENT, 0.2),
+                      color: NAV_ACCENT,
+                      "&:hover": { bgcolor: alpha(NAV_ACCENT, 0.28) },
                     },
+                    "&:hover": { bgcolor: alpha(NAV_TEXT, 0.06) },
                   }}
                 >
                   <ListItemText
@@ -323,11 +321,11 @@ export function Navbar() {
           })}
         </List>
 
-        <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 2, borderColor: alpha(NAV_TEXT, 0.12) }} />
         <Typography
           variant="overline"
           sx={{
-            color: "text.secondary",
+            color: NAV_TEXT_MUTED,
             letterSpacing: "0.16em",
             px: 1,
             mb: 1,
@@ -341,10 +339,17 @@ export function Navbar() {
             href={`tel:${BRAND.phoneDigits}`}
             startIcon={<PhoneIcon />}
             variant="outlined"
-            color="primary"
             fullWidth
             onClick={() => setDrawerOpen(false)}
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              color: NAV_TEXT,
+              borderColor: alpha(NAV_TEXT, 0.28),
+              "&:hover": {
+                borderColor: NAV_ACCENT,
+                bgcolor: alpha(NAV_ACCENT, 0.1),
+              },
+            }}
           >
             Call
           </Button>
@@ -355,10 +360,17 @@ export function Navbar() {
             rel="noopener noreferrer"
             startIcon={<WhatsAppIcon />}
             variant="outlined"
-            color="primary"
             fullWidth
             onClick={() => setDrawerOpen(false)}
-            sx={{ justifyContent: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              color: NAV_TEXT,
+              borderColor: alpha(NAV_TEXT, 0.28),
+              "&:hover": {
+                borderColor: NAV_ACCENT,
+                bgcolor: alpha(NAV_ACCENT, 0.1),
+              },
+            }}
           >
             WhatsApp
           </Button>

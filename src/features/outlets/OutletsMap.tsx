@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -40,7 +42,11 @@ export function OutletsMap() {
         spacing={2}
         sx={{ mt: 3 }}
       >
-        <Typography variant="body2" color="text.secondary" sx={{ fontStyle: "italic" }}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ fontStyle: "italic" }}
+        >
           Map shows the regions where INKOTEA actively operates. Outlets-level
           markers coming soon.
         </Typography>

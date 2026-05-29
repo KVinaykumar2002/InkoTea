@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -51,7 +53,7 @@ export function FranchiseCTASection() {
           </Typography>
           <Typography
             variant="h2"
-            sx={{ color: "inherit", maxWidth: 760, fontStyle: "italic" }}
+            sx={{ color: "inherit", maxWidth: 760, ...fontDisplayItalicSx }}
           >
             Start your own INKOTEA outlet
           </Typography>

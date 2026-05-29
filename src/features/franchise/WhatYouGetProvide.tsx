@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import { useState, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -156,7 +158,7 @@ function ResponsibilityCard({
         >
           {icon}
         </Box>
-        <Typography variant="h5" sx={{ color: "inherit", fontStyle: "italic" }}>
+        <Typography variant="h5" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
           {title}
         </Typography>
       </Box>

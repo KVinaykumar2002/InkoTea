@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { PRESS_LOGOS } from "@/data/competitors";
+import { fontDisplayItalicSx } from "@/theme/fonts";
 
 /**
  * "As Featured In" credibility strip. Uses placeholder typographic marks
@@ -48,8 +49,7 @@ export function PressLogosStrip() {
               key={logo}
               variant="h6"
               sx={{
-                fontFamily: '"Playfair Display", serif',
-                fontStyle: "italic",
+                ...fontDisplayItalicSx,
                 color: "text.secondary",
                 opacity: 0.55,
                 fontSize: { xs: "1rem", md: "1.25rem" },

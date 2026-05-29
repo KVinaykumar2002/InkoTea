@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -65,7 +67,7 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
       <Typography
         variant="h5"
         sx={{
-          fontStyle: "italic",
+          ...fontDisplayItalicSx,
           color: "primary.dark",
           // Make room for the stamp on the side it lives on.
           pl: align === "right" ? 0 : { md: 2 },

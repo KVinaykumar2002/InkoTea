@@ -1,46 +1,65 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { motion, useTransform, type MotionValue } from "framer-motion";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { AnimatePresence, motion, useTransform, type MotionValue } from "framer-motion";
 
-import { BRAND_IMAGES } from "@/lib/brandImages";
+import {
+  HERO_CAROUSEL_INTERVAL_MS,
+  HERO_SLIDES,
+  type HeroSlide,
+} from "./heroSlides";
 
 interface HeroBackdropProps {
-  /** Normalised pointer X (-1..1) — driven by a spring in HeroSection. */
   parallaxX: MotionValue<number>;
-  /** Normalised pointer Y (-1..1) — driven by a spring in HeroSection. */
   parallaxY: MotionValue<number>;
   reduced: boolean;
+  activeIndex: number;
+  onSelectSlide: (index: number) => void;
 }
 
 /**
- * Hero backdrop — the photo and every static overlay that goes over it.
- *
- * Stack (back → front):
- *   1. Photo, with a slow Ken-Burns zoom (1 → 1.03 → 1) and a tiny pointer
- *      parallax. Wrapped in an extra "overscan" box so the zoom never
- *      reveals letterbox edges.
- *   2. Warm radial glow positioned behind the chai glass on the right —
- *      breathes opacity to give the scene depth.
- *   3. Left-side darkening gradient — keeps the headline legible.
- *   4. Bottom vertical gradient — bleeds the photo into the next section.
- *   5. Subtle vignette around the whole frame.
- *
- * All animations are pure transform/opacity, GPU-accelerated, no layout
- * shift. Honours `prefers-reduced-motion` — the photo holds still and the
- * glow stops breathing.
+ * Hero backdrop — cross-fading photo carousel plus overlays.
+ * Pointer parallax applies to the active slide only.
  */
-export function HeroBackdrop({ parallaxX, parallaxY, reduced }: HeroBackdropProps) {
-  // Photo gets the smallest parallax range — the further from camera, the
-  // less it moves.
+export function HeroBackdrop({
+  parallaxX,
+  parallaxY,
+  reduced,
+  activeIndex,
+  onSelectSlide,
+}: HeroBackdropProps) {
   const photoX = useTransform(parallaxX, [-1, 1], [-6, 6]);
   const photoY = useTransform(parallaxY, [-1, 1], [-4, 4]);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (reduced || paused || HERO_SLIDES.length <= 1) return;
+    const id = window.setInterval(() => {
+      onSelectSlide((activeIndex + 1) % HERO_SLIDES.length);
+    }, HERO_CAROUSEL_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [reduced, paused, activeIndex, onSelectSlide]);
+
+  const go = (delta: number) => {
+    const next =
+      (activeIndex + delta + HERO_SLIDES.length) % HERO_SLIDES.length;
+    onSelectSlide(next);
+  };
 
   return (
     <>
       <Box
         component={motion.div}
         style={{ x: photoX, y: photoY }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={() => setPaused(false)}
         sx={{
           position: "absolute",
           inset: "-24px",
@@ -48,26 +67,13 @@ export function HeroBackdrop({ parallaxX, parallaxY, reduced }: HeroBackdropProp
           willChange: "transform",
         }}
       >
-        <Box
-          component={motion.div}
-          animate={reduced ? undefined : { scale: [1, 1.04, 1], y: [0, -3, 0] }}
-          transition={
-            reduced
-              ? undefined
-              : {
-                  scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-                  y: { duration: 9, repeat: Infinity, ease: "easeInOut" },
-                }
-          }
-          sx={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage: `url(${BRAND_IMAGES.heroChaiScene})`,
-            backgroundSize: "cover",
-            backgroundPosition: { xs: "70% center", md: "center" },
-            willChange: "transform",
-          }}
-        />
+        <AnimatePresence mode="sync" initial={false}>
+          <HeroSlideLayer
+            key={activeIndex}
+            slide={HERO_SLIDES[activeIndex]}
+            reduced={reduced}
+          />
+        </AnimatePresence>
       </Box>
 
       <Box
@@ -129,6 +135,130 @@ export function HeroBackdrop({ parallaxX, parallaxY, reduced }: HeroBackdropProp
           pointerEvents: "none",
         }}
       />
+
+      {HERO_SLIDES.length > 1 ? (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+              position: "absolute",
+              bottom: { xs: 20, md: 28 },
+              right: { xs: 16, md: 32 },
+              zIndex: 4,
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <IconButton
+              aria-label="Previous hero slide"
+              onClick={() => go(-1)}
+              size="small"
+              sx={carouselControlSx}
+            >
+              <ChevronLeftIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              aria-label="Next hero slide"
+              onClick={() => go(1)}
+              size="small"
+              sx={carouselControlSx}
+            >
+              <ChevronRightIcon fontSize="small" />
+            </IconButton>
+          </Stack>
+
+          <Stack
+            direction="row"
+            spacing={1}
+            role="tablist"
+            aria-label="Hero slides"
+            sx={{
+              position: "absolute",
+              bottom: { xs: 20, md: 28 },
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 4,
+            }}
+          >
+            {HERO_SLIDES.map((_, idx) => (
+              <Box
+                key={idx}
+                component="button"
+                type="button"
+                role="tab"
+                aria-selected={idx === activeIndex}
+                aria-label={`Show slide ${idx + 1} of ${HERO_SLIDES.length}`}
+                onClick={() => onSelectSlide(idx)}
+                sx={{
+                  width: idx === activeIndex ? 28 : 8,
+                  height: 8,
+                  p: 0,
+                  border: "none",
+                  borderRadius: 999,
+                  cursor: "pointer",
+                  bgcolor:
+                    idx === activeIndex
+                      ? "secondary.main"
+                      : "rgba(255,255,255,0.35)",
+                  transition: "width 0.3s ease, background-color 0.3s ease",
+                }}
+              />
+            ))}
+          </Stack>
+        </>
+      ) : null}
     </>
   );
 }
+
+function HeroSlideLayer({
+  slide,
+  reduced,
+}: {
+  slide: HeroSlide;
+  reduced: boolean;
+}) {
+  return (
+    <Box
+      component={motion.div}
+      initial={reduced ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={reduced ? undefined : { opacity: 0 }}
+      transition={{ duration: reduced ? 0 : 0.9, ease: "easeInOut" }}
+      aria-hidden
+      sx={{
+        position: "absolute",
+        inset: 0,
+      }}
+    >
+      <Box
+        component={motion.div}
+        animate={reduced ? undefined : { scale: [1, 1.04, 1], y: [0, -3, 0] }}
+        transition={
+          reduced
+            ? undefined
+            : {
+                scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
+                y: { duration: 9, repeat: Infinity, ease: "easeInOut" },
+              }
+        }
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${slide.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: slide.position,
+          willChange: "transform, opacity",
+        }}
+      />
+    </Box>
+  );
+}
+
+const carouselControlSx = {
+  color: "#fff",
+  bgcolor: "rgba(0,0,0,0.35)",
+  border: "1px solid rgba(255,255,255,0.25)",
+  backdropFilter: "blur(8px)",
+  "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
+} as const;

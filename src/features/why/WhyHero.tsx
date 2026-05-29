@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -85,7 +87,7 @@ export function WhyHero() {
                 sx={{
                   display: "block",
                   color: "secondary.light",
-                  fontStyle: "italic",
+                  ...fontDisplayItalicSx,
                 }}
               >
                 We&apos;re the middle revolution.

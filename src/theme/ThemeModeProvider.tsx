@@ -4,9 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
   type ReactNode,
 } from "react";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
@@ -16,6 +14,7 @@ import { buildTheme } from "./index";
 
 interface ThemeModeContextValue {
   mode: PaletteMode;
+  /** Kept for API compatibility — site is locked to light mode. */
   toggleMode: () => void;
   setMode: (mode: PaletteMode) => void;
 }
@@ -24,55 +23,23 @@ const ThemeModeContext = createContext<ThemeModeContextValue | undefined>(
   undefined,
 );
 
-const STORAGE_KEY = "inkotea-theme-mode";
-
 interface Props {
   children: ReactNode;
-  defaultMode?: PaletteMode;
 }
 
-export function ThemeModeProvider({ children, defaultMode = "light" }: Props) {
-  const [mode, setModeState] = useState<PaletteMode>(defaultMode);
+/**
+ * Site content uses the light palette only. The navbar carries its own dark
+ * styling so the rest of the page stays bright and readable.
+ */
+export function ThemeModeProvider({ children }: Props) {
+  const mode: PaletteMode = "light";
+  const theme = useMemo(() => buildTheme(mode), []);
+  const noop = useCallback(() => {}, []);
+  const setMode = useCallback((_next: PaletteMode) => {}, []);
 
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as PaletteMode | null;
-    if (stored === "light" || stored === "dark") {
-      setModeState(stored);
-      return;
-    }
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      setModeState("dark");
-    }
-  }, []);
-
-  const setMode = useCallback((next: PaletteMode) => {
-    setModeState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      /* storage may be unavailable; ignore */
-    }
-  }, []);
-
-  const toggleMode = useCallback(() => {
-    setModeState((prev) => {
-      const next: PaletteMode = prev === "light" ? "dark" : "light";
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
-  }, []);
-
-  const theme = useMemo(() => buildTheme(mode), [mode]);
   const ctx = useMemo(
-    () => ({ mode, toggleMode, setMode }),
-    [mode, toggleMode, setMode],
+    () => ({ mode, toggleMode: noop, setMode }),
+    [noop, setMode],
   );
 
   return (
@@ -85,10 +52,6 @@ export function ThemeModeProvider({ children, defaultMode = "light" }: Props) {
   );
 }
 
-/**
- * Access the active palette mode and a toggle for switching it.
- * Must be used inside <ThemeModeProvider />.
- */
 export function useThemeMode(): ThemeModeContextValue {
   const ctx = useContext(ThemeModeContext);
   if (!ctx) {

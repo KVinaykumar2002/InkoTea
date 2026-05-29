@@ -3,11 +3,30 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  pillarCardSpacing,
+} from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { MARKET_GAP } from "@/data/competitors";
+
+const cardSx = {
+  height: "100%",
+  bgcolor: "background.paper",
+  border: 1,
+  borderColor: "divider",
+  transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+  "&:hover": {
+    borderColor: "primary.main",
+    boxShadow: "0 16px 40px -24px rgba(92, 58, 33, 0.28)",
+  },
+};
 
 export function MarketGapSection() {
   return (
@@ -30,52 +49,38 @@ export function MarketGapSection() {
           const isUs = item.accent === "highlight";
           return (
             <ScrollReveal key={item.title} delay={idx * 0.1}>
-              <Stack
-                spacing={2.5}
+              <Card
                 sx={{
-                  p: { xs: 3, md: 4 },
-                  borderRadius: 3,
-                  height: "100%",
-                  bgcolor: isUs ? "primary.main" : "background.paper",
-                  color: isUs ? "primary.contrastText" : "text.primary",
-                  border: isUs
-                    ? "none"
-                    : (t) => `1px solid ${t.palette.divider}`,
-                  transform: isUs
-                    ? { xs: "none", md: "translateY(-8px) scale(1.03)" }
-                    : "none",
-                  boxShadow: isUs
-                    ? "0 24px 60px -20px rgba(92, 58, 33, 0.45)"
-                    : "none",
+                  ...cardSx,
+                  ...(isUs
+                    ? { borderColor: "primary.main", borderWidth: 2 }
+                    : {}),
                 }}
               >
-                <Typography
-                  variant="overline"
-                  sx={{
-                    color: isUs ? "secondary.light" : "text.secondary",
-                    letterSpacing: "0.18em",
-                  }}
-                >
-                  {isUs ? "INKOTEA" : "Existing option"}
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    color: isUs ? "secondary.light" : "text.primary",
-                    fontStyle: isUs ? "italic" : "normal",
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: isUs ? "rgba(255,255,255,0.92)" : "text.secondary",
-                  }}
-                >
-                  {item.description}
-                </Typography>
-              </Stack>
+                <CardContent sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
+                    <Chip
+                      label={isUs ? "INKOTEA" : "Existing option"}
+                      size="small"
+                      color={isUs ? "primary" : "default"}
+                      variant={isUs ? "filled" : "outlined"}
+                      sx={{ alignSelf: "flex-start", fontWeight: 700 }}
+                    />
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        color: "primary.main",
+                        fontSize: { xs: "1.35rem", md: "1.5rem" },
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
             </ScrollReveal>
           );
         })}

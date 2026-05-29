@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -80,7 +82,7 @@ export function VisionMissionPhilosophy() {
               >
                 {p.label}
               </Typography>
-              <Typography variant="h5" sx={{ fontStyle: "italic" }}>
+              <Typography variant="h5" sx={{ }}>
                 {p.title}
               </Typography>
               <Typography variant="body1" color="text.secondary">

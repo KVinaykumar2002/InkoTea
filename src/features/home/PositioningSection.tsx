@@ -14,7 +14,6 @@ import {
   compactSectionHeadingSx,
   pillarCardSpacing,
 } from "@/components/common/pillarCardStyles";
-import { brandColors } from "@/theme/palette";
 
 const POSITIONS = [
   {
@@ -22,23 +21,35 @@ const POSITIONS = [
     label: "Mass Kiosks",
     description:
       "High-volume, low-experience. Built for transit footfall, not lingering.",
-    accent: "muted",
+    featured: false,
   },
   {
     name: "Premium Urban Cafés",
     label: "Lifestyle Spaces",
     description:
       "Beautiful spaces, premium pricing — out of reach for daily Indian consumers.",
-    accent: "muted",
+    featured: false,
   },
   {
     name: "INKOTEA",
     label: "The Bridge",
     description:
       "Affordability + experience. Two scalable formats. One brand promise.",
-    accent: "highlight",
+    featured: true,
   },
 ];
+
+const cardSx = {
+  height: "100%",
+  bgcolor: "background.paper",
+  border: 1,
+  borderColor: "divider",
+  transition: "border-color 0.25s ease, box-shadow 0.25s ease",
+  "&:hover": {
+    borderColor: "primary.main",
+    boxShadow: "0 16px 40px -24px rgba(92, 58, 33, 0.28)",
+  },
+};
 
 export function PositioningSection() {
   return (
@@ -58,68 +69,51 @@ export function PositioningSection() {
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
           gap: 2.5,
+          alignItems: "stretch",
         }}
       >
-        {POSITIONS.map((pos, idx) => {
-          const isUs = pos.accent === "highlight";
-          return (
-            <ScrollReveal key={pos.name} delay={idx * 0.1}>
-              <Card
-                sx={{
-                  height: "100%",
-                  p: 1,
-                  bgcolor: isUs ? "primary.main" : "background.paper",
-                  color: isUs ? "primary.contrastText" : "text.primary",
-                  border: isUs ? "none" : undefined,
-                  position: "relative",
-                  overflow: "visible",
-                  transform: isUs
-                    ? { xs: "none", md: "translateY(-12px)" }
-                    : "none",
-                  boxShadow: isUs
-                    ? "0 24px 60px -20px rgba(92, 58, 33, 0.45)"
-                    : "none",
-                }}
-              >
-                <CardContent sx={compactCardContentSx}>
-                  <Stack spacing={pillarCardSpacing}>
-                    <Chip
-                      label={pos.label}
-                      size="small"
-                      sx={{
-                        alignSelf: "flex-start",
-                        bgcolor: isUs
-                          ? "secondary.main"
-                          : "secondary.light",
-                        color: isUs ? "secondary.contrastText" : "primary.dark",
-                        fontWeight: 700,
-                      }}
-                    />
-                    <Typography
-                      variant="h3"
-                      sx={{
-                        color: isUs ? brandColors.oliveGreenDeep : "primary.main",
-                        fontStyle: isUs ? "italic" : "normal",
-                      }}
-                    >
-                      {pos.name}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        color: isUs
-                          ? "rgba(255,255,255,0.85)"
-                          : "text.secondary",
-                      }}
-                    >
-                      {pos.description}
-                    </Typography>
-                  </Stack>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          );
-        })}
+        {POSITIONS.map((pos, idx) => (
+          <ScrollReveal key={pos.name} delay={idx * 0.1}>
+            <Card
+              sx={{
+                ...cardSx,
+                ...(pos.featured
+                  ? {
+                      borderColor: "primary.main",
+                      borderWidth: 2,
+                    }
+                  : {}),
+              }}
+            >
+              <CardContent sx={compactCardContentSx}>
+                <Stack spacing={pillarCardSpacing}>
+                  <Chip
+                    label={pos.label}
+                    size="small"
+                    color={pos.featured ? "primary" : "default"}
+                    variant={pos.featured ? "filled" : "outlined"}
+                    sx={{
+                      alignSelf: "flex-start",
+                      fontWeight: 700,
+                    }}
+                  />
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: "primary.main",
+                      fontSize: { xs: "1.35rem", md: "1.5rem" },
+                    }}
+                  >
+                    {pos.name}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {pos.description}
+                  </Typography>
+                </Stack>
+              </CardContent>
+            </Card>
+          </ScrollReveal>
+        ))}
       </Box>
     </Section>
   );

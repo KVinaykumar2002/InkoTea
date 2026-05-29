@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Link from "next/link";
 import { SafeImage } from "@/components/common/SafeImage";
 import Box from "@mui/material/Box";
@@ -12,6 +14,7 @@ import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ReactMarkdown from "react-markdown";
+import { fonts } from "@/theme/fonts";
 import { BLOG_CATEGORIES } from "@/data/blogPosts";
 import type { BlogPost } from "@/types";
 
@@ -131,7 +134,7 @@ export function BlogDetail({ post }: Props) {
         <Box
           sx={{
             "& h1, & h2, & h3, & h4": {
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: fonts.display,
               fontWeight: 700,
               mt: 5,
               mb: 2,
@@ -151,9 +154,9 @@ export function BlogDetail({ post }: Props) {
               pl: 3,
               py: 0.5,
               my: 3,
-              fontStyle: "italic",
               color: "text.primary",
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: fonts.display,
+              fontStyle: "italic",
               fontSize: "1.25rem",
             },
             "& ul, & ol": { pl: 3, mb: 3 },
@@ -185,7 +188,7 @@ export function BlogDetail({ post }: Props) {
               py: 0.25,
               borderRadius: 1,
               fontSize: "0.95em",
-              fontFamily: "monospace",
+              fontFamily: fonts.body,
             },
           }}
         >

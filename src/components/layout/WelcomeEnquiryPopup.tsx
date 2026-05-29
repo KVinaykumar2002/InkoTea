@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { FormikProvider } from "formik";
@@ -139,7 +141,7 @@ export function WelcomeEnquiryPopup() {
             >
               Welcome to INKOTEA
             </Typography>
-            <Typography variant="h5" sx={{ color: "inherit", fontStyle: "italic" }}>
+            <Typography variant="h5" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
               Start your franchise journey
             </Typography>
           </Stack>

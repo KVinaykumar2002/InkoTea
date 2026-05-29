@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -68,7 +70,7 @@ export function BusinessModelDeck() {
         variant="body2"
         align="center"
         color="text.secondary"
-        sx={{ mt: 6, fontStyle: "italic", maxWidth: 720, mx: "auto" }}
+        sx={{ mt: 6, ...fontDisplayItalicSx, maxWidth: 720, mx: "auto" }}
       >
         Each city follows the same playbook: kiosks first to validate demand,
         cafés next to capture lifestyle and brand premium.
@@ -113,7 +115,7 @@ function ModelNode({ node }: { node: (typeof NODES)[number] }) {
       >
         {node.label}
       </Typography>
-      <Typography variant="h4" sx={{ color: "inherit", fontStyle: "italic" }}>
+      <Typography variant="h4" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
         {node.title}
       </Typography>
       <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.92)" }}>

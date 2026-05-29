@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import { FormikProvider } from "formik";
 
 import Box from "@mui/material/Box";
@@ -99,7 +101,7 @@ export function FranchiseForm() {
 
             <Typography
               variant="h3"
-              sx={{ color: "inherit", fontStyle: "italic", lineHeight: 1.2 }}
+              sx={{ color: "inherit", ...fontDisplayItalicSx, lineHeight: 1.2 }}
             >
               The fastest way into India&apos;s chai retail boom.
             </Typography>

@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -170,7 +172,7 @@ export function Footer() {
               variant="overline"
               sx={{
                 color: "secondary.light",
-                fontStyle: "italic",
+                ...fontDisplayItalicSx,
                 letterSpacing: "0.18em",
               }}
             >

@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -131,7 +133,7 @@ export function ModelsPreview({ embedded = false }: ModelsPreviewProps) {
                     </Typography>
                     <Typography
                       variant="h5"
-                      sx={{ color: "inherit", fontStyle: "italic" }}
+                      sx={{ color: "inherit", ...fontDisplayItalicSx }}
                     >
                       {model.name}
                     </Typography>

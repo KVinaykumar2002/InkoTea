@@ -5,6 +5,7 @@ import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { fontDisplaySx } from "@/theme/fonts";
 
 interface Props {
   size?: "sm" | "md" | "lg";
@@ -94,7 +95,7 @@ export function BrandLogo({
             <Typography
               component="span"
               sx={{
-                fontFamily: '"Playfair Display", serif',
+                ...fontDisplaySx,
                 fontWeight: 700,
                 fontSize: dims.text,
                 letterSpacing: "0.04em",

@@ -1,6 +1,7 @@
 import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
 import type { PaletteMode } from "@mui/material/styles";
 import { lightPalette, darkPalette, brandColors } from "./palette";
+import { fonts } from "./fonts";
 import { typography } from "./typography";
 
 /**
@@ -75,7 +76,16 @@ export const buildTheme = (mode: PaletteMode) => {
       },
       MuiChip: {
         styleOverrides: {
-          root: { fontWeight: 600 },
+          root: { fontWeight: 600, fontFamily: fonts.body },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: { fontFamily: fonts.body },
+          h1: { fontFamily: fonts.display },
+          h2: { fontFamily: fonts.display },
+          h3: { fontFamily: fonts.display },
+          h4: { fontFamily: fonts.display },
         },
       },
       MuiTextField: {

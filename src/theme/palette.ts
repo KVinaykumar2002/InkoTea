@@ -51,7 +51,7 @@ export const lightPalette: PaletteOptions = {
     contrastText: "#FFFFFF",
   },
   background: {
-    default: brandColors.cream,
+    default: "#FFFFFF",
     paper: "#FFFFFF",
   },
   text: {

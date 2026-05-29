@@ -1,3 +1,4 @@
+import { fontDisplayItalicSx } from "@/theme/fonts";
 import Link from "next/link";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -15,7 +16,7 @@ export default function NotFound() {
           sx={{
             fontSize: { xs: "5rem", md: "8rem" },
             color: "primary.main",
-            fontStyle: "italic",
+            ...fontDisplayItalicSx,
             lineHeight: 1,
           }}
         >

@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -150,7 +152,7 @@ export function ModelComparison() {
                         </Typography>
                         <Typography
                           variant="h3"
-                          sx={{ color: "inherit", fontStyle: "italic" }}
+                          sx={{ color: "inherit", ...fontDisplayItalicSx }}
                         >
                           {model.name}
                         </Typography>

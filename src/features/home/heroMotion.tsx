@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import type { SxProps, Theme } from "@mui/material/styles";
 import { animate, motion } from "framer-motion";
+import { fontDisplayItalicSx } from "@/theme/fonts";
 
 /**
  * Cinematic ease-out quartic — the "luxury" Bézier curve favoured by Linear,
@@ -154,7 +155,7 @@ export function ShimmerSpan({ children, delay = 0, duration = 2.2, reduced }: Sh
         sx={{
           display: "inline-block",
           color: "secondary.light",
-          fontStyle: "italic",
+          ...fontDisplayItalicSx,
         }}
       >
         {children}
@@ -170,7 +171,7 @@ export function ShimmerSpan({ children, delay = 0, duration = 2.2, reduced }: Sh
       transition={{ delay, duration, ease: "easeInOut" }}
       sx={{
         display: "inline-block",
-        fontStyle: "italic",
+        ...fontDisplayItalicSx,
         backgroundImage:
           "linear-gradient(110deg, #E6C19A 0%, #E6C19A 42%, #FFF6DA 50%, #E6C19A 58%, #E6C19A 100%)",
         backgroundSize: "200% 100%",

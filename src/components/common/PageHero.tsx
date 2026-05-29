@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
+import { fontDisplayItalicSx } from "@/theme/fonts";
 
 interface Props {
   eyebrow: string;
@@ -74,7 +75,7 @@ export function PageHero({
                 sx={{
                   display: "block",
                   color: isDark ? "secondary.light" : "primary.main",
-                  fontStyle: "italic",
+                  ...fontDisplayItalicSx,
                 }}
               >
                 {highlight}

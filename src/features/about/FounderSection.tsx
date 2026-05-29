@@ -16,6 +16,7 @@ import {
 } from "@/components/common/pillarCardStyles";
 import { BRAND } from "@/lib/brand";
 import { BRAND_IMAGES } from "@/lib/brandImages";
+import { fontDisplayItalicSx, fontDisplaySx } from "@/theme/fonts";
 
 const FOUNDER_IMG = BRAND_IMAGES.founderSrinivas;
 
@@ -104,8 +105,7 @@ export function FounderSection() {
                 component="blockquote"
                 sx={{
                   mt: 0.75,
-                  fontStyle: "italic",
-                  fontFamily: '"Playfair Display", serif',
+                  ...fontDisplayItalicSx,
                   fontWeight: 500,
                   color: "text.primary",
                   m: 0,
@@ -167,7 +167,7 @@ export function FounderSection() {
                 boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
                 bgcolor: "primary.main",
                 color: "primary.contrastText",
-                fontFamily: '"Playfair Display", serif',
+                ...fontDisplaySx,
                 fontSize: { xs: "5rem", md: "6.5rem" },
                 fontWeight: 700,
                 "& img": {

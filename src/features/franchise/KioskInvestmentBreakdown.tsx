@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -106,7 +108,7 @@ export function KioskInvestmentBreakdown() {
                 variant="h1"
                 sx={{
                   color: "secondary.light",
-                  fontStyle: "italic",
+                  ...fontDisplayItalicSx,
                   lineHeight: 1.05,
                   fontSize: { xs: "2.25rem", md: "2.75rem" },
                 }}
@@ -215,7 +217,7 @@ export function KioskInvestmentBreakdown() {
         align="center"
         display="block"
         color="text.secondary"
-        sx={{ mt: 4, fontStyle: "italic" }}
+        sx={{ mt: 4, ...fontDisplayItalicSx }}
       >
         Indicative daily gross sales of ₹5,000 – ₹15,000+ depending on footfall
         and operations. Actual results vary based on location and execution.

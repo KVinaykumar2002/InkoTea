@@ -11,7 +11,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <AppRouterCacheProvider options={{ key: "mui", enableCssLayer: true }}>
-      <ThemeModeProvider defaultMode="light">
+      <ThemeModeProvider>
         <MainLayout>{children}</MainLayout>
       </ThemeModeProvider>
     </AppRouterCacheProvider>

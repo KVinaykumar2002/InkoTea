@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -52,6 +52,10 @@ import {
  */
 export function HeroSection() {
   const reduced = Boolean(useReducedMotion());
+  const [slideIndex, setSlideIndex] = useState(0);
+  const onSelectSlide = useCallback((index: number) => {
+    setSlideIndex(index);
+  }, []);
 
   // Pointer position normalised to [-1, 1] across the viewport. The springs
   // damp the raw signal so layer movement feels analog, not jittery — this
@@ -94,7 +98,13 @@ export function HeroSection() {
         willChange: "transform, opacity",
       }}
     >
-      <HeroBackdrop parallaxX={parallaxX} parallaxY={parallaxY} reduced={reduced} />
+      <HeroBackdrop
+        parallaxX={parallaxX}
+        parallaxY={parallaxY}
+        reduced={reduced}
+        activeIndex={slideIndex}
+        onSelectSlide={onSelectSlide}
+      />
       <HeroAtmosphere parallaxX={parallaxX} parallaxY={parallaxY} reduced={reduced} />
 
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 3, py: 8 }}>

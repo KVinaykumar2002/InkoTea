@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import { useState } from "react";
 import { FormikProvider } from "formik";
 import Box from "@mui/material/Box";
@@ -121,7 +123,7 @@ export function FloatingFranchiseEnquiry() {
             >
               Franchise Enquiry
             </Typography>
-            <Typography variant="h5" sx={{ color: "inherit", fontStyle: "italic" }}>
+            <Typography variant="h5" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
               Start your INKOTEA outlet
             </Typography>
           </Stack>

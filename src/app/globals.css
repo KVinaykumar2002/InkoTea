@@ -13,6 +13,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: var(--font-inter), "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,6 +31,20 @@ html {
 @layer base {
   a {
     color: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-playfair), "Playfair Display", serif;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font-family: inherit;
   }
 }
 
@@ -72,6 +87,7 @@ img {
   color: #f5efe5;
   padding: 12px 18px;
   border-radius: 0 0 12px 0;
+  font-family: var(--font-inter), "Inter", sans-serif;
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
@@ -82,4 +98,22 @@ img {
 .skip-link:focus-visible {
   transform: translateY(0);
   outline-offset: 4px;
+}
+
+@keyframes inkotea-marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes inkotea-marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

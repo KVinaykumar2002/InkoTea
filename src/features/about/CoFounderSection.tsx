@@ -1,5 +1,7 @@
 "use client";
 
+import { fontDisplayItalicSx } from "@/theme/fonts";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -68,7 +70,7 @@ export function CoFounderSection() {
               </Typography>
               <Typography
                 variant="h2"
-                sx={{ color: "inherit", fontStyle: "italic", lineHeight: 1.15 }}
+                sx={{ color: "inherit", ...fontDisplayItalicSx, lineHeight: 1.15 }}
               >
                 {BRAND.coFounder.name}
               </Typography>
