@@ -1,12 +1,12 @@
 import type { TypographyVariantsOptions } from "@mui/material/styles";
-import {
-  fontFamily,
-  fontSize,
-  fontSizeDisplay,
-  fontWeight,
-  lineHeight,
-} from "./fonts";
+import { fontFamily, fontSize, fontWeight, lineHeight } from "./fonts";
 
+const headingLineHeight = lineHeight.base;
+
+/**
+ * MUI typography mapped strictly to the Lato token scale.
+ * `base` (14px) is the largest size; headings use bold weights on the ramp.
+ */
 export const typography: TypographyVariantsOptions = {
   fontFamily: fontFamily.stack,
   fontSize: 14,
@@ -17,54 +17,51 @@ export const typography: TypographyVariantsOptions = {
   h1: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.bold,
-    fontSize: fontSizeDisplay.h1,
-    lineHeight: lineHeight.tight,
-    letterSpacing: "-0.02em",
+    fontSize: fontSize.base,
+    lineHeight: headingLineHeight,
+    letterSpacing: "-0.01em",
   },
   h2: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.bold,
-    fontSize: fontSizeDisplay.h2,
-    lineHeight: lineHeight.tight,
-    letterSpacing: "-0.015em",
+    fontSize: fontSize["4xl"],
+    lineHeight: headingLineHeight,
   },
   h3: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.semibold,
-    fontSize: fontSizeDisplay.h3,
-    lineHeight: lineHeight.snug,
-    letterSpacing: "-0.01em",
+    fontSize: fontSize["3xl"],
+    lineHeight: headingLineHeight,
   },
   h4: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.semibold,
-    fontSize: fontSizeDisplay.h4,
-    lineHeight: lineHeight.snug,
+    fontSize: fontSize["2xl"],
+    lineHeight: headingLineHeight,
   },
   h5: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.semibold,
     fontSize: fontSize.xl,
-    lineHeight: lineHeight.snug,
+    lineHeight: headingLineHeight,
   },
   h6: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.semibold,
-    fontSize: fontSize["2xl"],
-    lineHeight: lineHeight.snug,
-    letterSpacing: "0.01em",
+    fontSize: fontSize.lg,
+    lineHeight: headingLineHeight,
   },
   subtitle1: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.medium,
     fontSize: fontSize.lg,
-    lineHeight: lineHeight.normal,
+    lineHeight: lineHeight.base,
   },
   subtitle2: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.medium,
     fontSize: fontSize.md,
-    lineHeight: lineHeight.normal,
+    lineHeight: lineHeight.base,
     letterSpacing: "0.02em",
   },
   body1: {
@@ -91,14 +88,14 @@ export const typography: TypographyVariantsOptions = {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.medium,
     fontSize: fontSize.xs,
-    lineHeight: lineHeight.normal,
+    lineHeight: lineHeight.base,
     letterSpacing: "0.02em",
   },
   overline: {
     fontFamily: fontFamily.stack,
     fontWeight: fontWeight.bold,
     fontSize: fontSize.sm,
-    lineHeight: lineHeight.normal,
+    lineHeight: lineHeight.base,
     letterSpacing: "0.16em",
     textTransform: "uppercase",
   },

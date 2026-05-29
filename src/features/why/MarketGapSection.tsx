@@ -70,7 +70,7 @@ export function MarketGapSection() {
                       variant="h3"
                       sx={{
                         color: "primary.main",
-                        fontSize: { xs: "1.35rem", md: "1.5rem" },
+                        fontSize: "var(--font-size-3xl)",
                       }}
                     >
                       {item.title}

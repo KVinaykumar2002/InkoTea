@@ -1,12 +1,12 @@
 /**
- * Typography design tokens — Lato primary stack.
+ * Typography design tokens — Lato only, entire site.
  *
- * UI scale (`xs` → `4xl`) is compact; `base` is the main reading size.
- * Page headings use `display.*` sizes (still Lato) for marketing legibility.
+ * `font.family.stack` = Lato, sans-serif (Next.js loads via `--font-lato`).
+ * All text sizes must come from this scale or `base` — no ad-hoc rem/px in components.
  */
 export const fontFamily = {
   primary: "Lato",
-  stack: 'var(--font-lato), "Lato", sans-serif',
+  stack: 'var(--font-lato), Lato, sans-serif',
 } as const;
 
 export const fontSize = {
@@ -31,21 +31,13 @@ export const fontWeight = {
 
 export const lineHeight = {
   base: "23.8px",
-  tight: 1.2,
-  snug: 1.35,
-  normal: 1.5,
-  relaxed: 1.65,
+  tight: "23.8px",
+  snug: "23.8px",
+  normal: "23.8px",
+  relaxed: "23.8px",
 } as const;
 
-/** Page-level headings (Lato, larger than the UI ramp) */
-export const fontSizeDisplay = {
-  h1: "clamp(2rem, 4vw, 2.75rem)",
-  h2: "clamp(1.75rem, 3.5vw, 2.25rem)",
-  h3: "clamp(1.5rem, 3vw, 1.875rem)",
-  h4: "clamp(1.25rem, 2.5vw, 1.5rem)",
-} as const;
-
-/** CSS custom properties written to `:root` in globals.css */
+/** CSS custom properties on `:root` (see globals.css) */
 export const fontCssVars = {
   "--font-family-primary": fontFamily.primary,
   "--font-family-stack": fontFamily.stack,
@@ -62,7 +54,7 @@ export const fontCssVars = {
   "--font-size-4xl": fontSize["4xl"],
 } as const;
 
-/** @deprecated Use `fontFamily.stack` — kept for existing imports */
+/** @deprecated Use `fontFamily.stack` */
 export const fonts = {
   body: fontFamily.stack,
   display: fontFamily.stack,
@@ -75,4 +67,17 @@ export const fontDisplaySx = { fontFamily: fontFamily.stack } as const;
 export const fontDisplayItalicSx = {
   fontFamily: fontFamily.stack,
   fontStyle: "italic",
+} as const;
+
+/** Shorthand `sx` font-size tokens */
+export const fontSizeSx = {
+  xs: { fontSize: fontSize.xs },
+  sm: { fontSize: fontSize.sm },
+  md: { fontSize: fontSize.md },
+  lg: { fontSize: fontSize.lg },
+  xl: { fontSize: fontSize.xl },
+  "2xl": { fontSize: fontSize["2xl"] },
+  "3xl": { fontSize: fontSize["3xl"] },
+  "4xl": { fontSize: fontSize["4xl"] },
+  base: { fontSize: fontSize.base, lineHeight: lineHeight.base },
 } as const;

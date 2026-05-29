@@ -42,7 +42,7 @@ const isLinkActive = (pathname: string, href: string) =>
 
 const navLinkSx = (active: boolean) => ({
   color: active ? NAV_ACCENT : NAV_TEXT,
-  fontSize: "0.9rem",
+  fontSize: "var(--font-size-md)",
   fontWeight: active ? 600 : 500,
   textDecoration: "none",
   position: "relative",
@@ -198,7 +198,7 @@ export function Navbar() {
                       onClick={() => setMoreOpen(false)}
                       aria-current={active ? "page" : undefined}
                       sx={{
-                        fontSize: "0.9rem",
+                        fontSize: "var(--font-size-md)",
                         fontWeight: active ? 600 : 500,
                         py: 1,
                         color: active ? NAV_ACCENT : NAV_TEXT,

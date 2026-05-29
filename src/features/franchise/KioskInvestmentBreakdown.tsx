@@ -110,7 +110,7 @@ export function KioskInvestmentBreakdown() {
                   color: "secondary.light",
                   ...fontDisplayItalicSx,
                   lineHeight: 1.05,
-                  fontSize: { xs: "2.25rem", md: "2.75rem" },
+                  fontSize: "var(--font-size-base)",
                 }}
               >
                 {formatStartingFromInvestment(FRANCHISE_MODELS[0].investment)}

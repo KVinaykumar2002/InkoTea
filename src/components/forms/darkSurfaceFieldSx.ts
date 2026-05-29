@@ -32,7 +32,7 @@ export const buildDarkSurfaceFieldSx = (
     borderRadius: "18px",
     backgroundColor: "rgba(255,255,255,0.02)",
     color: FIELD_TEXT,
-    fontSize: "16px",
+    fontSize: "var(--font-size-base)",
     minHeight: "56px",
 
     "& fieldset": {
@@ -74,7 +74,7 @@ export const buildDarkSurfaceFieldSx = (
 
   "& .MuiInputLabel-root": {
     color: "rgba(233,215,195,0.72)",
-    fontSize: "15px",
+    fontSize: "var(--font-size-base)",
     transform: "translate(14px, 17px) scale(1)",
   },
   "& .MuiInputLabel-root.Mui-focused": {
@@ -101,7 +101,7 @@ export const buildDarkSurfaceFieldSx = (
   // Phone field "+91" prefix
   "& .MuiInputAdornment-root, & .MuiInputAdornment-root .MuiTypography-root": {
     color: FIELD_TEXT,
-    fontSize: "1rem",
+    fontSize: "var(--font-size-base)",
   },
 
   "& .MuiFormHelperText-root": {
@@ -125,7 +125,7 @@ export const darkSurfaceSubmitSx: SxProps<Theme> = {
   py: 1.4,
   borderRadius: "999px",
   textTransform: "none",
-  fontSize: "1rem",
+  fontSize: "var(--font-size-base)",
   fontWeight: 700,
   backgroundColor: FIELD_CARET,
   color: "#1E120B",

@@ -70,7 +70,7 @@ export function StorySection() {
               border: "1px solid rgba(212,165,116,0.4)",
               fontWeight: 600,
               letterSpacing: "0.12em",
-              fontSize: "0.7rem",
+              fontSize: "var(--font-size-xs)",
               textTransform: "uppercase",
             }}
           />

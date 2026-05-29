@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
+import { createTheme, alpha } from "@mui/material/styles";
 import type { PaletteMode } from "@mui/material/styles";
 import { lightPalette, darkPalette, brandColors } from "./palette";
 import { fontFamily, fontSize, fontWeight, lineHeight } from "./fonts";
@@ -90,8 +90,64 @@ export const buildTheme = (mode: PaletteMode) => {
         },
       },
       MuiTypography: {
+        defaultProps: { variantMapping: undefined },
         styleOverrides: {
-          root: { fontFamily: fontFamily.stack },
+          root: {
+            fontFamily: fontFamily.stack,
+            fontWeight: fontWeight.base,
+          },
+          h1: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize.base,
+            fontWeight: fontWeight.bold,
+            lineHeight: lineHeight.base,
+          },
+          h2: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize["4xl"],
+            fontWeight: fontWeight.bold,
+            lineHeight: lineHeight.snug,
+          },
+          h3: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize["3xl"],
+            fontWeight: fontWeight.semibold,
+            lineHeight: lineHeight.snug,
+          },
+          h4: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize["2xl"],
+            fontWeight: fontWeight.semibold,
+            lineHeight: lineHeight.snug,
+          },
+          h5: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize.xl,
+            fontWeight: fontWeight.semibold,
+            lineHeight: lineHeight.snug,
+          },
+          h6: {
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize.lg,
+            fontWeight: fontWeight.semibold,
+            lineHeight: lineHeight.snug,
+          },
+          body1: {
+            fontSize: fontSize.base,
+            fontWeight: fontWeight.base,
+            lineHeight: lineHeight.base,
+          },
+          body2: {
+            fontSize: fontSize.md,
+            fontWeight: fontWeight.base,
+            lineHeight: lineHeight.base,
+          },
+          button: {
+            fontSize: fontSize.base,
+            lineHeight: lineHeight.base,
+          },
+          caption: { fontSize: fontSize.xs },
+          overline: { fontSize: fontSize.sm },
         },
       },
       MuiTextField: {
@@ -217,7 +273,7 @@ export const buildTheme = (mode: PaletteMode) => {
               },
             },
           }),
-          sizeSmall: { fontSize: "0.9375rem" },
+          sizeSmall: { fontSize: fontSize.md },
         },
       },
       MuiFormHelperText: {
@@ -225,7 +281,7 @@ export const buildTheme = (mode: PaletteMode) => {
           root: ({ theme }) => ({
             marginInline: 6,
             marginTop: 6,
-            fontSize: "0.8438rem",
+            fontSize: fontSize.sm,
             lineHeight: 1.4,
             "&.Mui-error": { color: theme.palette.error.main },
           }),
@@ -313,5 +369,5 @@ export const buildTheme = (mode: PaletteMode) => {
     },
   });
 
-  return responsiveFontSizes(base);
+  return base;
 };

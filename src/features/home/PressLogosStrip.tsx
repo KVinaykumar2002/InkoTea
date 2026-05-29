@@ -52,7 +52,7 @@ export function PressLogosStrip() {
                 ...fontDisplayItalicSx,
                 color: "text.secondary",
                 opacity: 0.55,
-                fontSize: { xs: "1rem", md: "1.25rem" },
+                fontSize: "var(--font-size-base)",
                 transition: "opacity 0.2s ease, color 0.2s ease",
                 "&:hover": { opacity: 1, color: "primary.main" },
               }}
