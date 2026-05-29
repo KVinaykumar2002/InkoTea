@@ -14,7 +14,7 @@ import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ReactMarkdown from "react-markdown";
-import { fonts } from "@/theme/fonts";
+import { fontFamily, fontSize, fontWeight } from "@/theme/fonts";
 import { BLOG_CATEGORIES } from "@/data/blogPosts";
 import type { BlogPost } from "@/types";
 
@@ -134,7 +134,7 @@ export function BlogDetail({ post }: Props) {
         <Box
           sx={{
             "& h1, & h2, & h3, & h4": {
-              fontFamily: fonts.display,
+              fontFamily: fontFamily.stack,
               fontWeight: 700,
               mt: 5,
               mb: 2,
@@ -155,7 +155,7 @@ export function BlogDetail({ post }: Props) {
               py: 0.5,
               my: 3,
               color: "text.primary",
-              fontFamily: fonts.display,
+              fontFamily: fontFamily.stack,
               fontStyle: "italic",
               fontSize: "1.25rem",
             },
@@ -188,7 +188,7 @@ export function BlogDetail({ post }: Props) {
               py: 0.25,
               borderRadius: 1,
               fontSize: "0.95em",
-              fontFamily: fonts.body,
+              fontFamily: fontFamily.stack,
             },
           }}
         >

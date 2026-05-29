@@ -1,7 +1,7 @@
 import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
 import type { PaletteMode } from "@mui/material/styles";
 import { lightPalette, darkPalette, brandColors } from "./palette";
-import { fonts } from "./fonts";
+import { fontFamily, fontSize, fontWeight, lineHeight } from "./fonts";
 import { typography } from "./typography";
 
 /**
@@ -22,7 +22,13 @@ export const buildTheme = (mode: PaletteMode) => {
       MuiCssBaseline: {
         styleOverrides: {
           html: { scrollBehavior: "smooth" },
-          body: { overflowX: "hidden" },
+          body: {
+            overflowX: "hidden",
+            fontFamily: fontFamily.stack,
+            fontSize: fontSize.base,
+            fontWeight: fontWeight.base,
+            lineHeight: lineHeight.base,
+          },
           "::selection": {
             backgroundColor: brandColors.amberGold,
             color: brandColors.charcoal,
@@ -51,7 +57,7 @@ export const buildTheme = (mode: PaletteMode) => {
           sizeLarge: {
             paddingInline: 32,
             paddingBlock: 14,
-            fontSize: "1rem",
+            fontSize: fontSize.base,
           },
         },
       },
@@ -76,16 +82,16 @@ export const buildTheme = (mode: PaletteMode) => {
       },
       MuiChip: {
         styleOverrides: {
-          root: { fontWeight: 600, fontFamily: fonts.body },
+          root: {
+            fontFamily: fontFamily.stack,
+            fontWeight: fontWeight.semibold,
+            fontSize: fontSize.sm,
+          },
         },
       },
       MuiTypography: {
         styleOverrides: {
-          root: { fontFamily: fonts.body },
-          h1: { fontFamily: fonts.display },
-          h2: { fontFamily: fonts.display },
-          h3: { fontFamily: fonts.display },
-          h4: { fontFamily: fonts.display },
+          root: { fontFamily: fontFamily.stack },
         },
       },
       MuiTextField: {
@@ -94,8 +100,8 @@ export const buildTheme = (mode: PaletteMode) => {
       MuiInputBase: {
         styleOverrides: {
           input: {
-            fontSize: "1rem",
-            lineHeight: 1.4,
+            fontSize: fontSize.base,
+            lineHeight: lineHeight.base,
             "&::placeholder": {
               opacity: 0.55,
               fontWeight: 400,
@@ -107,7 +113,7 @@ export const buildTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: ({ theme }) => ({
             borderRadius: 14,
-            fontSize: "1rem",
+            fontSize: fontSize.base,
             backgroundColor:
               theme.palette.mode === "light"
                 ? "#FFFFFF"
@@ -179,9 +185,9 @@ export const buildTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: ({ theme }) => ({
             fontFamily: "inherit",
-            fontSize: "1rem",
-            fontWeight: 500,
-            lineHeight: 1.2,
+            fontSize: fontSize.base,
+            fontWeight: fontWeight.medium,
+            lineHeight: lineHeight.snug,
             color:
               theme.palette.mode === "light"
                 ? alpha(theme.palette.text.primary, 0.62)
@@ -244,8 +250,8 @@ export const buildTheme = (mode: PaletteMode) => {
         },
         styleOverrides: {
           select: {
-            fontSize: "1rem",
-            fontWeight: 500,
+            fontSize: fontSize.base,
+            fontWeight: fontWeight.medium,
             display: "flex",
             alignItems: "center",
           },
@@ -269,7 +275,7 @@ export const buildTheme = (mode: PaletteMode) => {
       MuiMenuItem: {
         styleOverrides: {
           root: ({ theme }) => ({
-            fontWeight: 500,
+            fontWeight: fontWeight.medium,
             paddingTop: 10,
             paddingBottom: 10,
             paddingLeft: 16,
@@ -294,8 +300,8 @@ export const buildTheme = (mode: PaletteMode) => {
             marginRight: 6,
             "& .MuiTypography-root": {
               color: theme.palette.text.primary,
-              fontSize: "1rem",
-              fontWeight: 600,
+              fontSize: fontSize.base,
+              fontWeight: fontWeight.semibold,
             },
           }),
           positionStart: { marginLeft: -2 },
