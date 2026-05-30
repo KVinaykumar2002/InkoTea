@@ -44,7 +44,7 @@ export function FAQAccordion() {
           sx={{
             "& .MuiTab-root": {
               fontWeight: 600,
-              fontSize: "1rem",
+              fontSize: "var(--font-size-base)",
               textTransform: "none",
               px: 3,
             },

@@ -14,7 +14,7 @@ export default function NotFound() {
         <Typography
           variant="h1"
           sx={{
-            fontSize: { xs: "5rem", md: "8rem" },
+            fontSize: "var(--font-size-base)",
             color: "primary.main",
             ...fontDisplayItalicSx,
             lineHeight: 1,

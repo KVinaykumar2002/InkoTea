@@ -79,8 +79,8 @@ export function InfiniteMarquee({
                 ...fontDisplayItalicSx,
                 fontWeight: isPress ? 500 : 600,
                 fontSize: isPress
-                  ? { xs: "1rem", md: "1.25rem" }
-                  : { xs: "1.05rem", md: "1.35rem" },
+                  ? "var(--font-size-base)"
+                  : "var(--font-size-base)",
                 color: isAccent
                   ? "secondary.light"
                   : isPress
@@ -97,7 +97,7 @@ export function InfiniteMarquee({
                 component="span"
                 sx={{
                   ...fontBodySx,
-                  fontSize: { xs: "0.8rem", md: "0.875rem" },
+                  fontSize: "var(--font-size-sm)",
                   fontWeight: 500,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",

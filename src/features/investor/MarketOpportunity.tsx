@@ -65,7 +65,10 @@ export function MarketOpportunity() {
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ fontSize: "1.0625rem", lineHeight: 1.7 }}
+                sx={{
+                  fontSize: "var(--font-size-base)",
+                  lineHeight: "var(--font-line-height-base)",
+                }}
               >
                 {para}
               </Typography>

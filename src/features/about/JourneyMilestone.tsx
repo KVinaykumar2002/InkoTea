@@ -106,7 +106,7 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
               color: "secondary.dark",
               fontWeight: 700,
               letterSpacing: "0.16em",
-              fontSize: "0.7rem",
+              fontSize: "var(--font-size-xs)",
               lineHeight: 1.6,
             }}
           >
@@ -159,7 +159,7 @@ function YearStamp({ year, side }: { year: string; side: "left" | "right" }) {
           fontWeight: 800,
           color: "primary.dark",
           letterSpacing: "0.04em",
-          fontSize: "0.8rem",
+          fontSize: "var(--font-size-sm)",
           lineHeight: 1,
           position: "relative",
           zIndex: 1,

@@ -9,12 +9,30 @@
    wins for buttons while plain anchors still inherit color normally. */
 @layer base, mui;
 
+:root {
+  --font-family-primary: Lato;
+  --font-family-stack: var(--font-lato), Lato, sans-serif;
+  --font-size-base: 14px;
+  --font-weight-base: 500;
+  --font-line-height-base: 23.8px;
+  --font-size-xs: 10.88px;
+  --font-size-sm: 11.52px;
+  --font-size-md: 12.16px;
+  --font-size-lg: 12.48px;
+  --font-size-xl: 12.8px;
+  --font-size-2xl: 13.12px;
+  --font-size-3xl: 13.28px;
+  --font-size-4xl: 13.33px;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  /* Body default — Inter only (see src/theme/fonts.ts) */
-  font-family: var(--font-inter), "Inter", sans-serif;
+  font-family: var(--font-family-stack);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-base);
+  line-height: var(--font-line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,19 +52,12 @@ html {
     color: inherit;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    /* Display default — Playfair Display only */
-    font-family: var(--font-playfair), "Playfair Display", serif;
-  }
-
   button,
   input,
   textarea,
-  select {
-    font-family: inherit;
+  select,
+  .MuiTypography-root {
+    font-family: var(--font-family-stack);
   }
 }
 
@@ -89,9 +100,9 @@ img {
   color: #f5efe5;
   padding: 12px 18px;
   border-radius: 0 0 12px 0;
-  font-family: var(--font-inter), "Inter", sans-serif;
+  font-family: var(--font-family-stack);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: var(--font-size-base);
   text-decoration: none;
   transition: transform 0.2s ease;
 }

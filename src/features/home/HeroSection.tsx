@@ -143,7 +143,7 @@ export function HeroSection() {
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  fontSize: "0.7rem",
+                  fontSize: "var(--font-size-xs)",
                   px: 1,
                   backdropFilter: "blur(8px)",
                 }}
@@ -328,7 +328,7 @@ function MetricCard({
             sx={{
               color: "#fff",
               fontWeight: 700,
-              fontSize: { xs: "1rem", md: "1.05rem" },
+              fontSize: "var(--font-size-base)",
               lineHeight: 1.1,
             }}
           >
@@ -347,7 +347,7 @@ function MetricCard({
           <Typography
             sx={{
               color: "rgba(255,255,255,0.7)",
-              fontSize: "0.78rem",
+              fontSize: "var(--font-size-xs)",
               letterSpacing: "0.04em",
             }}
           >
