@@ -45,7 +45,7 @@ export function OutletsMap() {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ fontStyle: "italic" }}
+          sx={{ ...fontDisplayItalicSx }}
         >
           Map shows the regions where INKOTEA actively operates. Outlets-level
           markers coming soon.

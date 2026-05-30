@@ -6,7 +6,7 @@ export const MARKET_GAP = [
     accent: "muted",
   },
   {
-    title: "Premium Cafés",
+    title: "Premium Cafes",
     description:
       "Beautiful spaces, but priced out of reach for daily Indian consumers.",
     accent: "muted",
@@ -24,7 +24,7 @@ export const CORE_USPS = [
     icon: "Storefront",
     title: "Dual Business Model",
     description:
-      "Kiosk for volume, Social Café for experience. One brand, two scalable formats.",
+      "Kiosk for volume, Social Cafe for experience. One brand, two scalable formats.",
   },
   {
     icon: "PriceCheck",
@@ -108,7 +108,7 @@ export const EXPERIENCE_USECASES = [
   },
   {
     icon: "Laptop",
-    title: "Work-from-Café Vibe",
+    title: "Work-from-Cafe Vibe",
     text: "Strong WiFi, charging points and a focused ambience.",
   },
   {
@@ -154,8 +154,8 @@ export const ROADMAP = [
   },
   {
     year: "2025",
-    title: "Café Format Launch",
-    text: "Social Café concept rolls out — INKOTEA becomes a dual-format brand.",
+    title: "Cafe Format Launch",
+    text: "Social Cafe concept rolls out — INKOTEA becomes a dual-format brand.",
   },
   {
     year: "2026",

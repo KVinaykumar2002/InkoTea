@@ -81,7 +81,6 @@ export function Footer() {
         color: FOOTER_TEXT,
         pt: { xs: 8, md: 12 },
         pb: 4,
-        mt: { xs: 8, md: 12 },
         overflow: "hidden",
       }}
     >

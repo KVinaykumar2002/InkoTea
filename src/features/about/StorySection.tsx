@@ -103,7 +103,7 @@ export function StorySection() {
             joy of that perfect cup you can&rsquo;t resist. Founded in 2021 in
             Hyderabad, INKOTEA has grown to 40+ outlets across India, bringing
             comfort, affordability and quality in every serving — and is now
-            expanding aggressively through our Social Café format.
+            expanding aggressively through our Social Cafe format.
           </Typography>
         </Stack>
       </Container>

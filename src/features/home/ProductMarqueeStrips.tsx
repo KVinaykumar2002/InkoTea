@@ -14,7 +14,7 @@ const BRAND_ROW: MarqueeItem[] = [
   { label: BRAND.tagline },
   { label: "Masala Chai" },
   { label: "Filter Coffee" },
-  { label: "Social Café" },
+  { label: "Social Cafe" },
   { label: "Kiosk Model" },
   { label: "Comfort Bites" },
   { label: "One More Cup" },

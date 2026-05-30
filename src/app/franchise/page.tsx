@@ -11,7 +11,7 @@ import { FranchiseForm } from "@/features/franchise/FranchiseForm";
 export const metadata = buildPageMetadata({
   title: "Franchise Opportunity",
   description:
-    "Start your own INKOTEA tea kiosk from ₹2.5L or a Social Café from ₹6.5L. Compare models, see investment breakdowns, unit economics and what's included vs not.",
+    "Start your own INKOTEA tea kiosk from ₹2.5L or a Social Cafe from ₹6.5L. Compare models, see investment breakdowns, unit economics and what's included vs not.",
   path: "/franchise",
 });
 

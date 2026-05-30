@@ -15,6 +15,7 @@ import {
   compactSectionPy,
   pillarCardSpacing,
 } from "@/components/common/pillarCardStyles";
+import { fontDisplayItalicSx } from "@/theme/fonts";
 
 const COLUMNS = [
   {
@@ -23,7 +24,7 @@ const COLUMNS = [
     isUs: false,
   },
   {
-    label: "Café Chains",
+    label: "Cafe Chains",
     rows: ["Expensive pricing", "Premium niche only", "Slow to scale regionally"],
     isUs: false,
   },
@@ -91,7 +92,7 @@ export function DifferenceCards() {
                     variant="h4"
                     sx={{
                       color: col.isUs ? "secondary.light" : "text.primary",
-                      fontStyle: col.isUs ? "italic" : "normal",
+                      ...(col.isUs ? fontDisplayItalicSx : {}),
                     }}
                   >
                     {col.label}

@@ -22,7 +22,7 @@ const NODES = [
   },
   {
     icon: LocalCafeIcon,
-    label: "Cafés",
+    label: "Cafes",
     title: "Brand & ticket",
     text: "Build brand asset and average-ticket lift through experience-led social spaces. Starting from ₹6.5L entry.",
     color: "success",
@@ -35,7 +35,7 @@ export function BusinessModelDeck() {
       <SectionHeading
         eyebrow="Business Model"
         title="Two formats. One network. Compounding returns."
-        description="The dual-format strategy lets INKOTEA enter cities at the kiosk price-point and graduate proven catchments into cafés."
+        description="The dual-format strategy lets INKOTEA enter cities at the kiosk price-point and graduate proven catchments into cafes."
       />
       <Box
         sx={{
@@ -73,7 +73,7 @@ export function BusinessModelDeck() {
         sx={{ mt: 6, ...fontDisplayItalicSx, maxWidth: 720, mx: "auto" }}
       >
         Each city follows the same playbook: kiosks first to validate demand,
-        cafés next to capture lifestyle and brand premium.
+        cafes next to capture lifestyle and brand premium.
       </Typography>
     </Section>
   );

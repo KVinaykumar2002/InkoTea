@@ -38,8 +38,8 @@ export function ModelsPreview({ embedded = false }: ModelsPreviewProps) {
     <>
       <SectionHeading
         eyebrow="Two Formats. One Brand."
-        title="One strong café brand. Two simple investment options."
-        description="From a compact ₹2.5L kiosk for high-footfall locations to a full ₹6.5L social café, every entrepreneur finds a way in."
+        title="One strong cafe brand. Two simple investment options."
+        description="From a compact ₹2.5L kiosk for high-footfall locations to a full ₹6.5L social cafe, every entrepreneur finds a way in."
       />
       <Box
         sx={{

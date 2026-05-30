@@ -213,7 +213,7 @@ Tracked here so future agents don't re-discover the same items.
 | Add a brand image | drop into `public/brand/`, register in `lib/brandImages.ts::BRAND_IMAGES` |
 | Adjust theme tokens | `src/theme/palette.ts` (colors), `typography.ts` (type scale), `index.ts` (component overrides) |
 | Add a form field | extend the relevant `useXxxForm` hook + its validation schema, then drop a `Formik*` wrapper into the form component |
-| New franchise data | `src/data/franchiseModels.ts` (sole source of truth for kiosk vs café numbers) |
+| New franchise data | `src/data/franchiseModels.ts` (sole source of truth for kiosk vs cafe numbers) |
 
 ---
 

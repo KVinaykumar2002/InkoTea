@@ -117,7 +117,7 @@ export function OutletsExplorer() {
                   style={{ objectFit: "cover" }}
                 />
                 <Chip
-                  label={outlet.type === "kiosk" ? "Kiosk" : "Social Café"}
+                  label={outlet.type === "kiosk" ? "Kiosk" : "Social Cafe"}
                   size="small"
                   color={outlet.type === "kiosk" ? "primary" : "success"}
                   sx={{

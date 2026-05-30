@@ -62,7 +62,7 @@ export function ModelComparison() {
     >
       <SectionHeading
         eyebrow="Choose Your Model"
-        title="One strong café brand. Two simple investment options."
+        title="One strong cafe brand. Two simple investment options."
         description="Both formats are profitable — they simply reward different operator profiles, locations and ambitions."
         sx={compactSectionHeadingSx}
       />

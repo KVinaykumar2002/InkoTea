@@ -7,7 +7,7 @@ import { OpenYourCityCTA } from "@/features/outlets/OpenYourCityCTA";
 export const metadata = buildPageMetadata({
   title: "Outlets",
   description:
-    "Browse INKOTEA outlets across Hyderabad, Warangal, Vijayawada, Visakhapatnam and beyond. Find the nearest tea kiosk or social café to you.",
+    "Browse INKOTEA outlets across Hyderabad, Warangal, Vijayawada, Visakhapatnam and beyond. Find the nearest tea kiosk or social cafe to you.",
   path: "/outlets",
 });
 

@@ -22,7 +22,7 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
   {
     image: BRAND_IMAGES.cafeHeroSitSipSmile,
     position: "center 35%",
-    alt: "INKOTEA Social Café storefront",
+    alt: "INKOTEA Social Cafe storefront",
   },
   {
     image: BRAND_IMAGES.chaiPourNeon,

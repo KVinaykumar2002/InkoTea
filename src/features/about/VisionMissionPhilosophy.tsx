@@ -23,14 +23,14 @@ const PILLARS = [
   {
     icon: RocketLaunchIcon,
     label: "Mission",
-    title: "Build India's most scalable premium mini social café network",
+    title: "Build India's most scalable premium mini social cafe network",
     text: "Standardize chai retail and enable micro-entrepreneurs across India through compact, brand-driven outlets at every footfall.",
   },
   {
     icon: VisibilityIcon,
     label: "Vision",
-    title: "Modern social café spaces — across cities and towns",
-    text: "To create community-driven café spaces across India through tea, conversations and community — combining traditional Indian beverage culture with a contemporary café experience.",
+    title: "Modern social cafe spaces — across cities and towns",
+    text: "To create community-driven cafe spaces across India through tea, conversations and community — combining traditional Indian beverage culture with a contemporary cafe experience.",
   },
   {
     icon: FavoriteIcon,

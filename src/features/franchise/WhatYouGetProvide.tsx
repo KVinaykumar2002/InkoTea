@@ -23,7 +23,7 @@ import type { FranchiseModelKey } from "@/types";
 
 const MODEL_LABELS: Record<FranchiseModelKey, string> = {
   kiosk: "Kiosk Model",
-  cafe: "Social Café Model",
+  cafe: "Social Cafe Model",
 };
 
 const MODEL_ICONS: Record<FranchiseModelKey, typeof StorefrontIcon> = {
@@ -33,7 +33,7 @@ const MODEL_ICONS: Record<FranchiseModelKey, typeof StorefrontIcon> = {
 
 /**
  * "What You Get vs What You Provide" — present in both brochures
- * (Kiosk page 9 and the Social Café not-included sections). Rendered
+ * (Kiosk page 9 and the Social Cafe not-included sections). Rendered
  * as tabs so partners can flip between the two formats without
  * scrolling past two giant tables.
  */

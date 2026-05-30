@@ -31,7 +31,7 @@ const ICONS = {
  * Kiosk Model investment breakdown — sourced from the Kiosk brochure.
  * Renders the 3-bucket structure (Equipment / Raw Materials / Branding)
  * around a single ₹2.5L total, sitting between the model comparison and
- * the café investment packages on the franchise page.
+ * the cafe investment packages on the franchise page.
  */
 export function KioskInvestmentBreakdown() {
   return (

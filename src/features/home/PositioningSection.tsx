@@ -24,7 +24,7 @@ const POSITIONS = [
     featured: false,
   },
   {
-    name: "Premium Urban Cafés",
+    name: "Premium Urban Cafes",
     label: "Lifestyle Spaces",
     description:
       "Beautiful spaces, premium pricing — out of reach for daily Indian consumers.",
@@ -60,8 +60,8 @@ export function PositioningSection() {
     >
       <SectionHeading
         eyebrow="Where We Stand"
-        title="Not just tea. Not just a café. We are both."
-        description="Indian tea retail has always been split between unstructured street stalls and overpriced cafés. INKOTEA bridges that gap."
+        title="Not just tea. Not just a cafe. We are both."
+        description="Indian tea retail has always been split between unstructured street stalls and overpriced cafes. INKOTEA bridges that gap."
         sx={compactSectionHeadingSx}
       />
       <Box

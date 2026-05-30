@@ -22,7 +22,7 @@ export const buildTheme = (mode: PaletteMode) => {
       MuiCssBaseline: {
         styleOverrides: {
           html: { scrollBehavior: "smooth" },
-          body: { overflowX: "hidden" },
+          body: { overflowX: "hidden", fontFamily: fonts.body },
           "::selection": {
             backgroundColor: brandColors.amberGold,
             color: brandColors.charcoal,

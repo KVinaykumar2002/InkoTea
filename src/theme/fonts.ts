@@ -1,23 +1,31 @@
 /**
- * INKOTEA uses exactly two typefaces site-wide:
- *   - Inter (body, UI, labels)
- *   - Playfair Display (headings, brand emphasis)
+ * INKOTEA type system:
+ *   - Inter (body, UI, labels, form fields)
+ *   - Playfair Display (headings h1–h4)
+ *   - Calibri (hero highlights, taglines, and other accent lines)
  *
- * Import stacks from here — do not add other font-family values in components.
+ * Use the helpers below instead of inline `fontFamily` / `fontStyle`.
  */
 export const fonts = {
   body: 'var(--font-inter), "Inter", sans-serif',
   display: 'var(--font-playfair), "Playfair Display", serif',
+  accent: 'var(--font-calibri), "Calibri", "Candara", "Segoe UI", sans-serif',
 } as const;
+
+export type InkoteaFontRole = keyof typeof fonts;
 
 /** Inter — paragraphs, buttons, chips, form fields */
 export const fontBodySx = { fontFamily: fonts.body } as const;
 
-/** Playfair Display — h1–h4 and brand lines */
+/** Playfair Display — h1–h4 headings */
 export const fontDisplaySx = { fontFamily: fonts.display } as const;
 
-/** Playfair italic — hero highlights and taglines */
+/** Calibri — hero highlights, taglines, and accent lines (replaces italic Playfair) */
 export const fontDisplayItalicSx = {
-  fontFamily: fonts.display,
-  fontStyle: "italic",
+  fontFamily: fonts.accent,
+  fontStyle: "normal",
+  fontWeight: 400,
 } as const;
+
+/** Alias — same Calibri accent stack */
+export const fontAccentSx = fontDisplayItalicSx;

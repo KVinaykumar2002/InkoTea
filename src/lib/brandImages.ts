@@ -2,7 +2,7 @@
  * Centralised registry of brand-owned imagery shipped with the site.
  *
  * All assets live under `/public/brand` and are sourced from the official
- * INKOTEA Kiosk Model and Social Café brochures. Components should import
+ * INKOTEA Kiosk Model and Social Cafe brochures. Components should import
  * paths from this file (instead of hard-coding strings) so future swaps
  * stay a single-line change.
  */
@@ -31,27 +31,27 @@ export const BRAND_IMAGES = {
   /** Wide banner — customer being served at a kiosk. */
   kioskCustomerBanner: "/brand/kiosk-customer-banner.jpeg",
 
-  // ------- Social Café assets -------
+  // ------- Social Cafe assets -------
   /** "INKOTEA SOCIAL CAFE — Sit. Sip. Smile." daytime storefront. */
   cafeHeroSitSipSmile: "/brand/cafe-hero-sitsipsmile.jpeg",
-  /** Couple chatting over coffee inside a cozy café — dine-in experience. */
+  /** Couple chatting over coffee inside a cozy cafe — dine-in experience. */
   cafeCoupleCoffee: "/brand/cafe-couple-coffee.jpeg",
   /** "INKOTEA SOCIAL CAFE" neon storefront at dusk. */
   cafeStorefrontNight: "/brand/cafe-storefront-night.jpeg",
   /** Menu spread — beverages, bakes and bites on a wooden table. */
   cafeMenuSpread: "/brand/cafe-menu-spread.jpeg",
-  /** Busy café interior — espresso machine, hanging lights, customers. */
+  /** Busy cafe interior — espresso machine, hanging lights, customers. */
   cafeInteriorBusy: "/brand/cafe-interior-busy.jpeg",
-  /** Group of friends laughing around a café table (Indian context). */
+  /** Group of friends laughing around a cafe table (Indian context). */
   cafeFriendsChat: "/brand/cafe-friends-chat.jpeg",
-  /** Café storefront with outdoor cane-chair seating. */
+  /** Cafe storefront with outdoor cane-chair seating. */
   cafeOutdoorSeating: "/brand/cafe-outdoor-seating.jpeg",
 
   // ------- Franchise-page hero assets -------
   /**
    * Cinematic INKOTEA Social Cafe storefront at dusk — warm interior
    * lighting, full tables visible through the glass, "Sit. Sip. Smile."
-   * tagline lit up. Used for the Social Café card in the franchise hero
+   * tagline lit up. Used for the Social Cafe card in the franchise hero
    * and model comparison.
    */
   franchiseCafeStorefront: "/brand/franchise-cafe-storefront.jpeg",
@@ -65,7 +65,7 @@ export const BRAND_IMAGES = {
    * Cinematic wide-aspect (≈ 2.5:1) shot of an INKOTEA kiosk with happy
    * customers gathered around — the menu board lit in green, the founder
    * sipping with a guest. Designed as a single full-bleed footer
-   * background that captures the brand's social-café energy in one frame.
+   * background that captures the brand's social-cafe energy in one frame.
    */
   footerKioskScene: "/brand/footer-kiosk-scene.jpeg",
 

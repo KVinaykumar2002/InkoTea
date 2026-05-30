@@ -13,6 +13,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  /* Body default — Inter only (see src/theme/fonts.ts) */
   font-family: var(--font-inter), "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,6 +38,7 @@ html {
   h2,
   h3,
   h4 {
+    /* Display default — Playfair Display only */
     font-family: var(--font-playfair), "Playfair Display", serif;
   }
 

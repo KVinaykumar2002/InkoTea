@@ -15,7 +15,7 @@ export interface FranchiseModel {
   target: string;
   /** Daily gross-sales range pulled from the brand brochures. */
   dailySales?: string;
-  /** Monthly revenue range (Café format only — per Social Café brochure). */
+  /** Monthly revenue range (Cafe format only — per Social Cafe brochure). */
   monthlyRevenue?: string;
   /** Monthly profit range (illustrative, location-dependent). */
   monthlyProfit?: string;

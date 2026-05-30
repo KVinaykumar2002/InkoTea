@@ -22,14 +22,14 @@ const KPIS = [
   {
     end: 14,
     suffix: "%",
-    label: "Annual growth in organized café category",
+    label: "Annual growth in organized cafe category",
   },
 ];
 
 const NARRATIVE = [
   "India is the world's second-largest tea producer and the largest tea consumer per capita. Yet over 90% of the retail market remains unorganized.",
   "The opportunity isn't to invent demand — it's to capture and structure existing demand into a branded, scalable retail network.",
-  "INKOTEA's dual-format model is purpose-built for this transition: Kiosks unlock volume in transit zones, Cafés capture experience-led spending in residential and commercial catchments.",
+  "INKOTEA's dual-format model is purpose-built for this transition: Kiosks unlock volume in transit zones, Cafes capture experience-led spending in residential and commercial catchments.",
 ];
 
 export function MarketOpportunity() {

@@ -40,11 +40,11 @@ export const franchiseFormSchema = yup.object({
 export const INVESTMENT_RANGE_OPTIONS = [
   { value: "under-3l", label: "Under ₹3 Lakhs (Kiosk)" },
   { value: "3l-6.5l", label: "₹3 Lakhs – ₹6.5 Lakhs" },
-  { value: "6.5l-cafe", label: "Starting from ₹6.5 Lakhs (Social Café)" },
+  { value: "6.5l-cafe", label: "Starting from ₹6.5 Lakhs (Social Cafe)" },
 ] as const;
 
 export const MODEL_OPTIONS = [
   { value: "kiosk", label: "INKOTEA Kiosk" },
-  { value: "cafe", label: "INKOTEA Social Café" },
+  { value: "cafe", label: "INKOTEA Social Cafe" },
   { value: "both", label: "Open to both — advise me" },
 ] as const;

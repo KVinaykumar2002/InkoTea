@@ -5,14 +5,14 @@ export const FAQS: FAQ[] = [
     id: "investment",
     question: "What is the investment required for an INKOTEA franchise?",
     answer:
-      "The Kiosk Model starts from ₹2.5 Lakhs total investment, optimised for first-time entrepreneurs and small investors. The Social Café Model starts from ₹6.5 Lakhs depending on whether you choose the Standard package (existing/semi-ready shop) or the Turnkey package (bare shop, full setup including interior, civil, electrical & CCTV).",
+      "The Kiosk Model starts from ₹2.5 Lakhs total investment, optimised for first-time entrepreneurs and small investors. The Social Cafe Model starts from ₹6.5 Lakhs depending on whether you choose the Standard package (existing/semi-ready shop) or the Turnkey package (bare shop, full setup including interior, civil, electrical & CCTV).",
     audience: "franchise",
   },
   {
     id: "space",
     question: "What space is required?",
     answer:
-      "Kiosks need a minimum of 150 sq ft and work best in high-footfall locations like IT parks, colleges, gated communities, commercial areas and food courts. Social Cafés are recommended at 300 – 500 sq ft for a comfortable customer seating, efficient kitchen workflow and standard brand ambience.",
+      "Kiosks need a minimum of 150 sq ft and work best in high-footfall locations like IT parks, colleges, gated communities, commercial areas and food courts. Social Cafes are recommended at 300 – 500 sq ft for a comfortable customer seating, efficient kitchen workflow and standard brand ambience.",
     audience: "franchise",
   },
   {
@@ -26,7 +26,7 @@ export const FAQS: FAQ[] = [
     id: "breakeven",
     question: "What is the typical break-even period?",
     answer:
-      "Many kiosk locations target investment recovery in 8 – 10 months. Cafés typically see break-even between 12 – 18 months, varying by location, footfall and execution.",
+      "Many kiosk locations target investment recovery in 8 – 10 months. Cafes typically see break-even between 12 – 18 months, varying by location, footfall and execution.",
     audience: "franchise",
   },
   {
@@ -47,7 +47,7 @@ export const FAQS: FAQ[] = [
     id: "staffing",
     question: "How many staff do I need?",
     answer:
-      "A kiosk runs efficiently with a minimum of 2 employees. A Social Café typically operates with 3 – 5 staff depending on footfall and seating capacity.",
+      "A kiosk runs efficiently with a minimum of 2 employees. A Social Cafe typically operates with 3 – 5 staff depending on footfall and seating capacity.",
     audience: "franchise",
   },
   {
@@ -59,7 +59,7 @@ export const FAQS: FAQ[] = [
   },
   {
     id: "monthly-revenue",
-    question: "What monthly revenue and profit can a Social Café expect?",
+    question: "What monthly revenue and profit can a Social Cafe expect?",
     answer:
       "Indicative ranges (subject to location and execution): daily sales ₹18,000 – ₹30,000+, monthly revenue ₹5.5L – ₹7.5L, and estimated monthly profit ₹1L – ₹1.5L. These are illustrative and not guaranteed.",
     audience: "franchise",
@@ -82,14 +82,14 @@ export const FAQS: FAQ[] = [
     id: "products",
     question: "What products do INKOTEA outlets offer?",
     answer:
-      "Signature teas (Desi Dum, Masala, Elaichi, Kashmiri, Ginger), coffee & health drinks (Instant Coffee, Ragi Java, Boost, Horlicks), modern beverages (mojitos, flavored teas, milkshakes, seasonal specials) and quick comfort bites (Osmania biscuits, Oreo snacks, Maggi, light eatery items). Cafés carry an extended menu including grilled sandwiches and desserts.",
+      "Signature teas (Desi Dum, Masala, Elaichi, Kashmiri, Ginger), coffee & health drinks (Instant Coffee, Ragi Java, Boost, Horlicks), modern beverages (mojitos, flavored teas, milkshakes, seasonal specials) and quick comfort bites (Osmania biscuits, Oreo snacks, Maggi, light eatery items). Cafes carry an extended menu including grilled sandwiches and desserts.",
     audience: "customer",
   },
   {
     id: "format",
     question: "Are INKOTEA outlets dine-in or takeaway?",
     answer:
-      "Both. Kiosks are quick-service takeaway formats. Social Cafés are designed as dine-in social spaces with seating, work-friendly tables, and outdoor options at select highway locations.",
+      "Both. Kiosks are quick-service takeaway formats. Social Cafes are designed as dine-in social spaces with seating, work-friendly tables, and outdoor options at select highway locations.",
     audience: "customer",
   },
   {

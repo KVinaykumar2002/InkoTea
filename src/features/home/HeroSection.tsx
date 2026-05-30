@@ -184,8 +184,8 @@ export function HeroSection() {
                 textShadow: "0 2px 12px rgba(0,0,0,0.4)",
               }}
             >
-              From a ₹2.5L kiosk to a full Social Café — INKOTEA blends India&rsquo;s
-              traditional chai culture with a modern café experience. 40+ outlets
+              From a ₹2.5L kiosk to a full Social Cafe — INKOTEA blends India&rsquo;s
+              traditional chai culture with a modern cafe experience. 40+ outlets
               and growing across Telangana &amp; AP.
             </Typography>
           </FadeUp>

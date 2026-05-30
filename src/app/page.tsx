@@ -14,7 +14,7 @@ import { FloatingFranchiseEnquiry } from "@/components/layout/FloatingFranchiseE
 export const metadata = buildPageMetadata({
   title: "INKOTEA — The Feeling of One More",
   description:
-    "India's chai culture, reimagined for today. Explore franchise opportunities and find your nearest INKOTEA outlet — kiosks from ₹2.5L, social cafés from ₹6.5L.",
+    "India's chai culture, reimagined for today. Explore franchise opportunities and find your nearest INKOTEA outlet — kiosks from ₹2.5L, social cafes from ₹6.5L.",
   path: "/",
 });
 

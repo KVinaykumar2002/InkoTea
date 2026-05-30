@@ -34,7 +34,7 @@ export function MarketGapSection() {
       <SectionHeading
         eyebrow="The Market Gap"
         title="Two extremes. One missing middle."
-        description="India's chai consumers had to choose between unstructured stalls and unaffordable cafés. We built INKOTEA so they don't have to."
+        description="India's chai consumers had to choose between unstructured stalls and unaffordable cafes. We built INKOTEA so they don't have to."
         sx={compactSectionHeadingSx}
       />
       <Box

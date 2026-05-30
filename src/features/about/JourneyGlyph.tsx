@@ -11,7 +11,7 @@ import type { GlyphKind } from "./journeyMeta";
  *
  *   single  → one chai glass with steam               (kiosk launch)
  *   tray    → three glasses on a tray                 (franchise scale)
- *   dual    → glass + café cup-and-saucer side-by-side (dual format)
+ *   dual    → glass + cafe cup-and-saucer side-by-side (dual format)
  *   map     → state-shaped blob with glass + pins     (regional spread)
  *   skyline → city silhouette behind a hero glass     (multi-city brand)
  *
@@ -198,7 +198,7 @@ function TrayGlyph() {
   );
 }
 
-/** Chai glass + café cup-and-saucer — milestone 3 (dual format launch). */
+/** Chai glass + cafe cup-and-saucer — milestone 3 (dual format launch). */
 function DualGlyph() {
   return (
     <g>

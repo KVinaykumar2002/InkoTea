@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { SafeImage } from "@/components/common/SafeImage";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
-/** Beverages + bakes spread from the Social Café brochure. */
+/** Beverages + bakes spread from the Social Cafe brochure. */
 const HERO_IMG = BRAND_IMAGES.cafeMenuSpread;
 
 export function MenuHero() {

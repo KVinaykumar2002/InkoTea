@@ -16,8 +16,10 @@ interface InfiniteMarqueeProps {
   /** Scroll direction — row 1 typically left, row 2 right */
   direction?: "left" | "right";
   durationSeconds?: number;
-  /** Muted strip vs inverted accent strip */
-  variant?: "default" | "accent";
+  /** Muted strip vs inverted accent strip vs press / featured logos */
+  variant?: "default" | "accent" | "press";
+  /** Omit top/bottom borders when the parent section already defines them */
+  edgeless?: boolean;
 }
 
 /**
@@ -29,20 +31,25 @@ export function InfiniteMarquee({
   direction = "left",
   durationSeconds = 32,
   variant = "default",
+  edgeless = false,
 }: InfiniteMarqueeProps) {
   const reduced = Boolean(useReducedMotion());
   const doubled = [...items, ...items];
+  const isAccent = variant === "accent";
+  const isPress = variant === "press";
 
   return (
     <Box
       sx={{
         overflow: "hidden",
         py: { xs: 1.75, md: 2.25 },
-        bgcolor: variant === "accent" ? "primary.main" : "background.paper",
-        borderTop: (t) =>
-          variant === "accent" ? "none" : `1px solid ${t.palette.divider}`,
-        borderBottom: (t) =>
-          variant === "accent" ? "none" : `1px solid ${t.palette.divider}`,
+        bgcolor: isAccent ? "primary.main" : "background.paper",
+        ...(!edgeless && {
+          borderTop: (t) =>
+            isAccent ? "none" : `1px solid ${t.palette.divider}`,
+          borderBottom: (t) =>
+            isAccent ? "none" : `1px solid ${t.palette.divider}`,
+        }),
       }}
     >
       <Box
@@ -70,12 +77,16 @@ export function InfiniteMarquee({
               component="span"
               sx={{
                 ...fontDisplayItalicSx,
-                fontWeight: 600,
-                fontSize: { xs: "1.05rem", md: "1.35rem" },
-                color:
-                  variant === "accent"
-                    ? "secondary.light"
+                fontWeight: isPress ? 500 : 600,
+                fontSize: isPress
+                  ? { xs: "1rem", md: "1.25rem" }
+                  : { xs: "1.05rem", md: "1.35rem" },
+                color: isAccent
+                  ? "secondary.light"
+                  : isPress
+                    ? "text.secondary"
                     : "primary.main",
+                opacity: isPress ? 0.55 : 1,
                 whiteSpace: "nowrap",
               }}
             >
@@ -91,7 +102,7 @@ export function InfiniteMarquee({
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   color:
-                    variant === "accent"
+                    isAccent
                       ? "rgba(255,255,255,0.72)"
                       : "text.secondary",
                   whiteSpace: "nowrap",
@@ -106,9 +117,12 @@ export function InfiniteMarquee({
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                bgcolor:
-                  variant === "accent" ? "secondary.main" : "primary.main",
-                opacity: 0.45,
+                bgcolor: isAccent
+                  ? "secondary.main"
+                  : isPress
+                    ? "text.secondary"
+                    : "primary.main",
+                opacity: isPress ? 0.35 : 0.45,
                 flexShrink: 0,
               }}
             />

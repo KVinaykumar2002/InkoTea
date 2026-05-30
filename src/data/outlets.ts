@@ -13,7 +13,7 @@ export const OUTLET_CITIES = [
 
 /**
  * Per-format pools of brand-owned outlet imagery. We don't yet have
- * real per-outlet photography, so each kiosk and café falls back to a
+ * real per-outlet photography, so each kiosk and cafe falls back to a
  * deterministic brand shot from its format pool — picked by hashing
  * the outlet id so the same outlet always renders with the same image
  * across sessions / devices.

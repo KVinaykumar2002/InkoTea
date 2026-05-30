@@ -6,7 +6,7 @@ export const BRAND = {
   name: "INKOTEA",
   tagline: "The Feeling of One More",
   shortDescription:
-    "India's most accessible beverage brand — bridging chai culture with modern café experiences.",
+    "India's most accessible beverage brand — bridging chai culture with modern cafe experiences.",
   founded: 2021,
   hq: "Hyderabad, Telangana",
   phone: "+91 8919 566855",
@@ -88,6 +88,6 @@ export const FOOTER_QUICK_LINKS = [
 
 export const MODEL_LINKS = [
   { label: "Kiosk Model", href: "/franchise#kiosk" },
-  { label: "Social Café Model", href: "/franchise#cafe" },
+  { label: "Social Cafe Model", href: "/franchise#cafe" },
   { label: "", href: "" },
 ] as const;

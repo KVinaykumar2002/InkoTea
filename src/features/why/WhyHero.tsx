@@ -101,7 +101,7 @@ export function WhyHero() {
                 lineHeight: 1.55,
               }}
             >
-              Street stalls are too unstructured. Premium cafés are too
+              Street stalls are too unstructured. Premium cafes are too
               expensive. INKOTEA is the first scalable brand built for the
               massive middle that nobody else is serving.
             </Typography>

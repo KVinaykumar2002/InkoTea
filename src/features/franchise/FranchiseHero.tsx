@@ -24,7 +24,7 @@ import { BRAND_IMAGES } from "@/lib/brandImages";
  * Per-image `background-position` so the portrait source photos crop to
  * their most distinctive subject area inside the landscape showcase cards:
  *   - Kiosk : keep the green "INKOTEA" neon header + the vendor visible.
- *   - Café  : keep the "INKOTEA Social Cafe — Sit. Sip. Smile." sign band
+ *   - Cafe  : keep the "INKOTEA Social Cafe — Sit. Sip. Smile." sign band
  *             visible at the top of the strip rather than the sidewalk.
  */
 const SHOWCASE_IMAGES = [
@@ -37,7 +37,7 @@ const SHOWCASE_IMAGES = [
   },
   {
     src: BRAND_IMAGES.franchiseCafeStorefront,
-    label: "Social Caf\u00E9 Model",
+    label: "Social Cafe Model",
     sub: "Starting from \u20B96.5L",
     icon: LocalCafeIcon,
     focus: "center 28%",
@@ -115,7 +115,7 @@ export function FranchiseHero() {
               }}
             />
             <Typography variant="h1" sx={{ color: "inherit" }}>
-              Start Your Own Tea or Café Business
+              Start Your Own Tea or Cafe Business
               <Box
                 component="span"
                 sx={{

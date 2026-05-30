@@ -66,7 +66,7 @@ export function StatsStrip() {
           variant="body2"
           align="center"
           color="text.secondary"
-          sx={{ mt: { xs: 3, md: 4 }, fontStyle: "italic" }}
+          sx={{ mt: { xs: 3, md: 4 }, ...fontDisplayItalicSx }}
         >
           Expanding across Telangana, Andhra Pradesh, and beyond.
         </Typography>

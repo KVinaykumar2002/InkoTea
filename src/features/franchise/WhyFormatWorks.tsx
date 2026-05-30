@@ -29,7 +29,7 @@ const ICONS = {
 } as const;
 
 /**
- * Why-it-works confidence builder modeled on the Social Café brochure
+ * Why-it-works confidence builder modeled on the Social Cafe brochure
  * (page 8). Sits above the apply form on the franchise page so partners
  * see the proof points right before converting.
  */

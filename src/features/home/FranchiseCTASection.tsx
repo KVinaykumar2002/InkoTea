@@ -22,6 +22,8 @@ export function FranchiseCTASection() {
   return (
     <Section
       bgcolor="primary.main"
+      pt={{ xs: 8, md: 12 }}
+      pb={{ xs: 6, md: 8 }}
       sx={{
         color: "primary.contrastText",
         position: "relative",

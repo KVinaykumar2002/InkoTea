@@ -81,7 +81,7 @@ export function InvestorHero() {
             }}
           >
             INKOTEA is positioned at the intersection of India's largest
-            beverage category and its fastest-growing café culture. Here's how
+            beverage category and its fastest-growing cafe culture. Here's how
             we plan to scale.
           </Typography>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>

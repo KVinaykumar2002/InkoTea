@@ -49,7 +49,7 @@ export function FounderSection() {
 
             <Typography variant="body1" color="text.secondary">
               Srinivas P. Mahendra is the Founder of INKOTEA, a passionate
-              entrepreneur with a vision to redefine the tea café experience by
+              entrepreneur with a vision to redefine the tea cafe experience by
               blending quality, affordability, and strong franchise
               opportunities. He launched the first INKOTEA outlet in April 2021
               at Miyapur, Hyderabad, with the dream of building a proudly
@@ -112,7 +112,7 @@ export function FounderSection() {
                 }}
               >
                 &ldquo;To build INKOTEA into one of India&rsquo;s most trusted
-                and loved tea café brands by creating premium beverage
+                and loved tea cafe brands by creating premium beverage
                 experiences at affordable prices, while empowering entrepreneurs
                 through sustainable and scalable franchise opportunities.&rdquo;
               </Typography>
