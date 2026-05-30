@@ -76,7 +76,7 @@ export function WhyHero() {
                 border: "1px solid rgba(212,165,116,0.4)",
                 fontWeight: 600,
                 letterSpacing: "0.12em",
-                fontSize: "var(--font-size-xs)",
+                fontSize: "0.7rem",
                 textTransform: "uppercase",
               }}
             />

@@ -75,12 +75,14 @@ export function InfiniteMarquee({
           >
             <Typography
               component="span"
+              variant={isPress ? "h6" : undefined}
               sx={{
                 ...fontDisplayItalicSx,
-                fontWeight: isPress ? 500 : 600,
+                fontWeight: 600,
                 fontSize: isPress
-                  ? "var(--font-size-base)"
-                  : "var(--font-size-base)",
+                  ? { xs: "1rem", md: "1.25rem" }
+                  : { xs: "1.05rem", md: "1.35rem" },
+                lineHeight: isPress ? 1.35 : undefined,
                 color: isAccent
                   ? "secondary.light"
                   : isPress
@@ -97,7 +99,7 @@ export function InfiniteMarquee({
                 component="span"
                 sx={{
                   ...fontBodySx,
-                  fontSize: "var(--font-size-sm)",
+                  fontSize: { xs: "0.8rem", md: "0.875rem" },
                   fontWeight: 500,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",

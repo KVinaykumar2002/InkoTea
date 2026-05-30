@@ -12,7 +12,7 @@ import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ReactMarkdown from "react-markdown";
-import { fontFamily } from "@/theme/fonts";
+import { fontDisplayItalicSx, fontDisplaySx, fontBodySx } from "@/theme/fonts";
 import { BLOG_CATEGORIES } from "@/data/blogPosts";
 import type { BlogPost } from "@/types";
 
@@ -72,7 +72,9 @@ export function BlogDetail({ post }: Props) {
                 </Typography>
               </Stack>
             </Stack>
-            <Typography variant="h1">{post.title}</Typography>
+            <Typography variant="h1" sx={{ fontSize: { xs: "2.25rem", md: "3rem" } }}>
+              {post.title}
+            </Typography>
             <Typography variant="h5" color="text.secondary" sx={{ fontWeight: 400 }}>
               {post.excerpt}
             </Typography>
@@ -130,18 +132,17 @@ export function BlogDetail({ post }: Props) {
         <Box
           sx={{
             "& h1, & h2, & h3, & h4": {
-              fontFamily: fontFamily.stack,
+              ...fontDisplaySx,
               fontWeight: 700,
               mt: 5,
               mb: 2,
               color: "text.primary",
             },
-            "& h2": { fontSize: "var(--font-size-4xl)" },
-            "& h3": { fontSize: "var(--font-size-2xl)" },
+            "& h2": { fontSize: "1.75rem" },
+            "& h3": { fontSize: "1.4rem" },
             "& p": {
-              fontSize: "var(--font-size-base)",
-              lineHeight: "var(--font-line-height-base)",
-              fontWeight: "var(--font-weight-base)",
+              fontSize: "1.0625rem",
+              lineHeight: 1.75,
               color: "text.secondary",
               mb: 2.5,
             },
@@ -152,16 +153,15 @@ export function BlogDetail({ post }: Props) {
               py: 0.5,
               my: 3,
               color: "text.primary",
-              fontFamily: fontFamily.stack,
-              fontStyle: "italic",
-              fontSize: "var(--font-size-lg)",
+              ...fontDisplayItalicSx,
+              fontSize: "1.25rem",
             },
             "& ul, & ol": { pl: 3, mb: 3 },
             "& li": {
-              fontSize: "var(--font-size-base)",
-              lineHeight: "var(--font-line-height-base)",
+              fontSize: "1.0625rem",
               color: "text.secondary",
               mb: 1,
+              lineHeight: 1.7,
             },
             "& table": {
               width: "100%",
@@ -184,8 +184,8 @@ export function BlogDetail({ post }: Props) {
               px: 0.75,
               py: 0.25,
               borderRadius: 1,
-              fontSize: "var(--font-size-sm)",
-              fontFamily: fontFamily.stack,
+              fontSize: "0.95em",
+              ...fontBodySx,
             },
           }}
         >

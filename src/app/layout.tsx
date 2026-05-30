@@ -1,13 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Lato } from "next/font/google";
+import { Inter, Playfair_Display, Carlito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { BRAND } from "@/lib/brand";
 
-const lato = Lato({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-lato",
+  variable: "--font-inter",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair",
+  weight: ["500", "600", "700"],
+});
+
+const calibri = Carlito({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-calibri",
   weight: ["400", "700"],
 });
 
@@ -47,7 +60,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={lato.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${playfair.variable} ${calibri.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <Providers>{children}</Providers>
       </body>

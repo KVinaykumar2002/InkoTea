@@ -214,7 +214,7 @@ export function Footer() {
                   color: "inherit",
                   opacity: 0.85,
                   textDecoration: "none",
-                  fontSize: "var(--font-size-md)",
+                  fontSize: "0.95rem",
                   "&:hover": { opacity: 1, color: "secondary.light" },
                 }}
               >
@@ -239,7 +239,7 @@ export function Footer() {
                   color: "inherit",
                   opacity: 0.85,
                   textDecoration: "none",
-                  fontSize: "var(--font-size-md)",
+                  fontSize: "0.95rem",
                   "&:hover": { opacity: 1, color: "secondary.light" },
                 }}
               >
@@ -338,7 +338,7 @@ export function Footer() {
               component={Link}
               href="/privacy"
               sx={{
-                fontSize: "var(--font-size-xs)",
+                fontSize: "0.8125rem",
                 color: "inherit",
                 opacity: 0.65,
                 textDecoration: "none",
@@ -351,7 +351,7 @@ export function Footer() {
               component={Link}
               href="/terms"
               sx={{
-                fontSize: "var(--font-size-xs)",
+                fontSize: "0.8125rem",
                 color: "inherit",
                 opacity: 0.65,
                 textDecoration: "none",

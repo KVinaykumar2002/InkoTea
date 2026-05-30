@@ -168,7 +168,7 @@ export function FounderSection() {
                 bgcolor: "primary.main",
                 color: "primary.contrastText",
                 ...fontDisplaySx,
-                fontSize: "var(--font-size-base)",
+                fontSize: { xs: "5rem", md: "6.5rem" },
                 fontWeight: 700,
                 "& img": {
                   objectFit: "cover",
