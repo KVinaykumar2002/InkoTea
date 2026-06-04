@@ -203,7 +203,11 @@ export function NearestOutletSection({
           color="primary"
           size="large"
           endIcon={<ArrowForwardIcon />}
-          sx={{ fontWeight: 700, minWidth: 240 }}
+          sx={{
+            fontWeight: 700,
+            width: { xs: "100%", sm: "auto" },
+            minWidth: { xs: 0, sm: 240 },
+          }}
         >
           See all outlets
         </Button>

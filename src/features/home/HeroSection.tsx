@@ -87,13 +87,15 @@ export function HeroSection() {
       transition={{ duration: reduced ? 0 : HERO_TIMING.heroEntry, ease: "easeOut" }}
       sx={{
         position: "relative",
-        minHeight: { xs: "100vh", md: "92vh" },
+        /* ~half viewport on phones so content + stats fit without scrolling the hero */
+        minHeight: { xs: "50dvh", sm: "62dvh", md: "92vh" },
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
         color: "#fff",
         mt: { xs: -8, md: -10 },
-        pt: { xs: 8, md: 10 },
+        pt: { xs: 7, md: 10 },
+        pb: { xs: 1.5, md: 0 },
         bgcolor: "#1A0E08",
         willChange: "transform, opacity",
       }}
@@ -107,8 +109,20 @@ export function HeroSection() {
       />
       <HeroAtmosphere parallaxX={parallaxX} parallaxY={parallaxY} reduced={reduced} />
 
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 3, py: 8 }}>
-        <Stack spacing={3.5} sx={{ maxWidth: { xs: "100%", md: 600 } }}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          position: "relative",
+          zIndex: 3,
+          py: { xs: 1.5, sm: 4, md: 8 },
+          px: { xs: 2, sm: 3 },
+          width: "100%",
+        }}
+      >
+        <Stack
+          spacing={{ xs: 1.25, sm: 2, md: 3.5 }}
+          sx={{ maxWidth: { xs: "100%", md: 600 } }}
+        >
           <FadeUp delay={HERO_TIMING.chip} y={14} reduced={reduced}>
             <Box
               component={motion.div}
@@ -143,8 +157,9 @@ export function HeroSection() {
                   fontWeight: 700,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  fontSize: "0.7rem",
-                  px: 1,
+                  fontSize: { xs: "0.625rem", sm: "0.7rem" },
+                  px: { xs: 0.75, sm: 1 },
+                  height: { xs: 24, sm: 32 },
                   backdropFilter: "blur(8px)",
                 }}
               />
@@ -157,7 +172,12 @@ export function HeroSection() {
               m: 0,
               color: "#fff",
               fontWeight: 700,
-              lineHeight: 1.05,
+              fontSize: {
+                xs: "clamp(1.5rem, 7.5vw, 2rem)",
+                sm: "clamp(1.75rem, 5vw, 2.5rem)",
+                md: undefined,
+              },
+              lineHeight: { xs: 1.08, md: 1.05 },
               maxWidth: 600,
               textShadow: "0 4px 24px rgba(0,0,0,0.45)",
             }}
@@ -175,13 +195,19 @@ export function HeroSection() {
           <FadeUp delay={HERO_TIMING.subhead} y={0} reduced={reduced}>
             <Typography
               variant="h5"
+              component="p"
               sx={{
                 m: 0,
                 color: "rgba(255,255,255,0.88)",
                 fontWeight: 400,
+                fontSize: { xs: "0.8125rem", sm: "0.9375rem", md: undefined },
                 maxWidth: 540,
-                lineHeight: 1.55,
+                lineHeight: { xs: 1.45, md: 1.55 },
                 textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+                display: { xs: "-webkit-box", md: "block" },
+                WebkitLineClamp: { xs: 2, sm: 3, md: "unset" },
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
               }}
             >
               From a ₹2.5L kiosk to a full Social Cafe — INKOTEA blends India&rsquo;s
@@ -190,8 +216,12 @@ export function HeroSection() {
             </Typography>
           </FadeUp>
 
-          <FadeUp delay={HERO_TIMING.ctas} y={22} reduced={reduced} sx={{ mt: 1 }}>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          <FadeUp delay={HERO_TIMING.ctas} y={22} reduced={reduced} sx={{ mt: { xs: 0.25, md: 1 } }}>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2 }}
+              sx={{ width: "100%", maxWidth: "100%" }}
+            >
               <Box
                 component={motion.div}
                 animate={
@@ -210,7 +240,11 @@ export function HeroSection() {
                     ? undefined
                     : { duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 2.4 }
                 }
-                sx={{ borderRadius: 999, display: "inline-block" }}
+                sx={{
+                  borderRadius: 999,
+                  display: "block",
+                  width: { xs: "100%", sm: "inline-block" },
+                }}
               >
                 <Button
                   component={Link}
@@ -218,9 +252,13 @@ export function HeroSection() {
                   variant="contained"
                   color="secondary"
                   size="large"
+                  fullWidth
                   endIcon={<ArrowForwardIcon />}
                   sx={{
-                    minWidth: 220,
+                    width: { xs: "100%", sm: "auto" },
+                    minWidth: { xs: 0, sm: 220 },
+                    py: { xs: 1, sm: 1.25 },
+                    fontSize: { xs: "0.875rem", sm: "1rem" },
                     fontWeight: 700,
                     boxShadow: "none",
                     transition: "transform 0.3s ease",
@@ -238,12 +276,16 @@ export function HeroSection() {
                 href="/outlets"
                 variant="outlined"
                 size="large"
+                fullWidth
                 startIcon={<StorefrontIcon />}
                 sx={{
                   color: "#fff",
                   borderColor: "rgba(255,255,255,0.55)",
                   borderWidth: 2,
-                  minWidth: 220,
+                  width: { xs: "100%", sm: "auto" },
+                  minWidth: { xs: 0, sm: 220 },
+                  py: { xs: 1, sm: 1.25 },
+                  fontSize: { xs: "0.875rem", sm: "1rem" },
                   fontWeight: 600,
                   backdropFilter: "blur(4px)",
                   transition:
@@ -262,8 +304,15 @@ export function HeroSection() {
             </Stack>
           </FadeUp>
 
-          <Box sx={{ pt: 2 }}>
-            <Stack direction="row" spacing={{ xs: 2.5, sm: 4 }} flexWrap="wrap" useFlexGap>
+          <Box sx={{ pt: { xs: 0.5, md: 2 } }}>
+            <Stack
+              direction="row"
+              spacing={{ xs: 0.5, sm: 2, md: 4 }}
+              flexWrap="nowrap"
+              useFlexGap
+              justifyContent={{ xs: "space-between", md: "flex-start" }}
+              sx={{ width: "100%" }}
+            >
               {METRICS.map((m, i) => (
                 <MetricCard
                   key={m.label}
@@ -321,14 +370,25 @@ function MetricCard({
         transition: "transform 0.25s ease",
       }}
     >
-      <Stack direction="row" spacing={1.25} alignItems="center">
-        <Icon sx={{ color: "secondary.light", fontSize: 30 }} />
-        <Stack spacing={0.2}>
+      <Stack
+        direction="row"
+        spacing={{ xs: 0.5, sm: 1.25 }}
+        alignItems="center"
+        sx={{ minWidth: 0, flex: { xs: 1, md: "none" } }}
+      >
+        <Icon
+          sx={{
+            color: "secondary.light",
+            fontSize: { xs: 22, sm: 26, md: 30 },
+            flexShrink: 0,
+          }}
+        />
+        <Stack spacing={0.1} sx={{ minWidth: 0 }}>
           <Typography
             sx={{
               color: "#fff",
               fontWeight: 700,
-              fontSize: { xs: "1rem", md: "1.05rem" },
+              fontSize: { xs: "0.8125rem", sm: "1rem", md: "1.05rem" },
               lineHeight: 1.1,
             }}
           >
@@ -347,8 +407,9 @@ function MetricCard({
           <Typography
             sx={{
               color: "rgba(255,255,255,0.7)",
-              fontSize: "0.78rem",
+              fontSize: { xs: "0.65rem", sm: "0.72rem", md: "0.78rem" },
               letterSpacing: "0.04em",
+              lineHeight: 1.2,
             }}
           >
             {label}

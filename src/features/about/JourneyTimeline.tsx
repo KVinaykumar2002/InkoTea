@@ -63,6 +63,7 @@ export function JourneyTimeline() {
           maxWidth: 1040,
           mx: "auto",
           pt: { xs: 0.5, md: 1 },
+          overflow: "hidden",
         }}
       >
         <PourSpine

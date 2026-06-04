@@ -185,15 +185,15 @@ export function ModelComparison() {
                         {SPEC_ROWS.map((row) => (
                           <Stack
                             key={row.key}
-                            direction="row"
+                            direction={{ xs: "column", sm: "row" }}
                             justifyContent="space-between"
-                            alignItems="flex-start"
-                            spacing={2}
+                            alignItems={{ xs: "flex-start", sm: "flex-start" }}
+                            spacing={{ xs: 0.5, sm: 2 }}
                           >
                             <Typography
                               variant="body2"
                               color="text.secondary"
-                              sx={{ minWidth: 100 }}
+                              sx={{ minWidth: { sm: 100 }, flexShrink: 0 }}
                             >
                               {row.label}
                             </Typography>
@@ -201,7 +201,7 @@ export function ModelComparison() {
                               variant="body2"
                               sx={{
                                 fontWeight: 600,
-                                textAlign: "right",
+                                textAlign: { xs: "left", sm: "right" },
                                 color: "text.secondary",
                               }}
                             >

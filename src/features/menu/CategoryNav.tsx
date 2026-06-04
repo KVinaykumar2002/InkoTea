@@ -56,7 +56,10 @@ export function CategoryNav() {
           spacing={1.5}
           sx={{
             overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+            scrollPaddingInline: 16,
             pb: 0.5,
+            mx: { xs: -0.5, sm: 0 },
             "&::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
           }}

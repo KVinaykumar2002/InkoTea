@@ -20,15 +20,15 @@ export function RoadmapTimeline() {
           aria-hidden
           sx={{
             position: "absolute",
-            left: { xs: 18, md: 0 },
-            right: { xs: "auto", md: 0 },
-            top: { xs: 0, md: 28 },
-            bottom: { xs: 0, md: "auto" },
-            height: { xs: "100%", md: 2 },
-            width: { xs: 2, md: "100%" },
+            left: { xs: 18, lg: 0 },
+            right: { xs: "auto", lg: 0 },
+            top: { xs: 0, lg: 28 },
+            bottom: { xs: 0, lg: "auto" },
+            height: { xs: "100%", lg: 2 },
+            width: { xs: 2, lg: "100%" },
             bgcolor: "secondary.light",
             opacity: 0.55,
-            transform: { md: "translateY(-1px)" },
+            transform: { lg: "translateY(-1px)" },
           }}
         />
         <Box
@@ -36,10 +36,10 @@ export function RoadmapTimeline() {
             display: "grid",
             gridTemplateColumns: {
               xs: "44px 1fr",
-              md: `repeat(${ROADMAP.length}, 1fr)`,
+              lg: `repeat(${ROADMAP.length}, 1fr)`,
             },
-            gap: { xs: 4, md: 4 },
-            rowGap: { xs: 5, md: 0 },
+            gap: { xs: 4, lg: 4 },
+            rowGap: { xs: 5, lg: 0 },
           }}
         >
           {ROADMAP.map((m, idx) => (
@@ -61,16 +61,16 @@ function RoadmapNode({
   return (
     <Box
       sx={{
-        display: { xs: "contents", md: "block" },
+        display: { xs: "contents", lg: "block" },
       }}
     >
       <Box
         sx={{
           display: "flex",
-          justifyContent: { xs: "center", md: "flex-start" },
-          alignItems: { md: "center" },
-          gridColumn: { xs: 1, md: "auto" },
-          mb: { md: 3 },
+          justifyContent: { xs: "center", lg: "flex-start" },
+          alignItems: { lg: "center" },
+          gridColumn: { xs: 1, lg: "auto" },
+          mb: { lg: 3 },
         }}
       >
         <Box
@@ -81,15 +81,15 @@ function RoadmapNode({
             bgcolor: "primary.main",
             border: (t) => `4px solid ${t.palette.background.paper}`,
             boxShadow: "0 0 0 2px rgba(92,58,33,0.28)",
-            mt: { md: "20px" },
+            mt: { lg: "20px" },
           }}
         />
       </Box>
       <Stack
         spacing={1}
         sx={{
-          gridColumn: { xs: 2, md: "auto" },
-          pl: { xs: 0, md: 0 },
+          gridColumn: { xs: 2, lg: "auto" },
+          pl: { xs: 0, lg: 0 },
         }}
       >
         <Typography

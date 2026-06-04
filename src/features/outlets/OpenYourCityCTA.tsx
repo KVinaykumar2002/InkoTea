@@ -60,7 +60,10 @@ export function OpenYourCityCTA() {
             color="secondary"
             size="large"
             endIcon={<ArrowForwardIcon />}
-            sx={{ minWidth: 240 }}
+            sx={{
+              width: { xs: "100%", sm: "auto" },
+              minWidth: { xs: 0, sm: 240 },
+            }}
           >
             Apply for Franchise
           </Button>

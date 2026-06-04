@@ -182,7 +182,7 @@ export function FranchiseHero() {
             transition={{ duration: 0.8, delay: 0.15 }}
             sx={{
               display: "grid",
-              gridTemplateColumns: { xs: "1fr 1fr", lg: "1fr" },
+              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", lg: "1fr" },
               gap: { xs: 2, lg: 2.5 },
               // Cap the desktop column to ~80% of its grid track so the cards
               // (and the section as a whole) read as a focused brand-strip,

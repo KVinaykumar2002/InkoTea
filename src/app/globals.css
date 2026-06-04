@@ -9,20 +9,32 @@
    wins for buttons while plain anchors still inherit color normally. */
 @layer base, mui;
 
+html {
+  overflow-x: clip;
+  /* Navbar: 64px mobile, 72px desktop — keep anchor jumps readable */
+  scroll-padding-top: 72px;
+}
+
+@media (min-width: 900px) {
+  html {
+    scroll-padding-top: 96px;
+  }
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
+  max-width: 100%;
   /* Body default — Oswald (see src/theme/fonts.ts) */
   font-family: var(--font-oswald), "Oswald", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
-html {
-  /* Keep scroll-to-anchor jumps clear of the fixed navbar (~76px on desktop)
-     so deep links like /franchise#kiosk land at a readable position. */
-  scroll-padding-top: 96px;
+body {
+  overflow-wrap: anywhere;
 }
 
 * {

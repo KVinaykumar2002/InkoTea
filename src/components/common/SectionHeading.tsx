@@ -35,8 +35,10 @@ export function SectionHeading({
       sx={{
         textAlign: align,
         mx: align === "center" ? "auto" : 0,
-        maxWidth,
-        mb: { xs: 6, md: 8 },
+        maxWidth: { xs: "100%", sm: maxWidth },
+        width: "100%",
+        px: { xs: 0.5, sm: 0 },
+        mb: { xs: 5, md: 8 },
         ...sx,
       }}
     >

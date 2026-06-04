@@ -120,6 +120,9 @@ export const buildDarkSurfaceFieldSx = (
  */
 export const darkSurfaceSubmitSx: SxProps<Theme> = {
   alignSelf: { xs: "stretch", sm: "flex-start" },
+  width: { xs: "100%", sm: "auto" },
+  minWidth: { xs: 0, sm: 220 },
+  maxWidth: { xs: "100%", sm: "none" },
   mt: 1,
   px: 4,
   py: 1.4,

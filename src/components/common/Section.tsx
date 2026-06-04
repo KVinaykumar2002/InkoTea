@@ -43,9 +43,17 @@ export const Section = forwardRef<HTMLElement, Props>(function Section(
       ref={ref}
       component="section"
       id={id}
-      sx={{ bgcolor, ...paddingSx, ...sx }}
+      sx={{
+        bgcolor,
+        maxWidth: "100%",
+        overflowX: "hidden",
+        ...paddingSx,
+        ...sx,
+      }}
     >
-      <Container maxWidth={containerMaxWidth}>{children}</Container>
+      <Container maxWidth={containerMaxWidth} sx={{ maxWidth: "100%" }}>
+        {children}
+      </Container>
     </Box>
   );
 });

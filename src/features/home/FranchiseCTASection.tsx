@@ -93,7 +93,11 @@ export function FranchiseCTASection() {
             color="secondary"
             size="large"
             endIcon={<ArrowForwardIcon />}
-            sx={{ mt: 2, minWidth: 240 }}
+            sx={{
+              mt: 2,
+              width: { xs: "100%", sm: "auto" },
+              minWidth: { xs: 0, sm: 240 },
+            }}
           >
             Apply for Franchise
           </Button>

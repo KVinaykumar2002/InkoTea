@@ -33,7 +33,7 @@ export const typography: TypographyVariantsOptions = {
   h5: {
     fontFamily: fonts.display,
     fontWeight: 700,
-    fontSize: "1.25rem",
+    fontSize: "clamp(1.0625rem, 2.5vw, 1.25rem)",
     lineHeight: 1.3,
   },
   h6: {

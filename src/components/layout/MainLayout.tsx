@@ -18,7 +18,15 @@ import { WelcomeEnquiryPopup } from "./WelcomeEnquiryPopup";
  */
 export function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        maxWidth: "100%",
+        overflowX: "hidden",
+      }}
+    >
       <a href="#main" className="skip-link">
         Skip to main content
       </a>
@@ -27,7 +35,14 @@ export function MainLayout({ children }: { children: ReactNode }) {
         component="main"
         id="main"
         tabIndex={-1}
-        sx={{ flexGrow: 1, pt: { xs: 8, md: 10 }, outline: "none" }}
+        sx={{
+          flexGrow: 1,
+          pt: { xs: 8, md: 10 },
+          pb: { xs: 2, md: 0 },
+          outline: "none",
+          maxWidth: "100%",
+          overflowX: "hidden",
+        }}
       >
         {children}
       </Box>

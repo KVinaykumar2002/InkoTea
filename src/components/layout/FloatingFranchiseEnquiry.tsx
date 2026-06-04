@@ -77,15 +77,21 @@ export function FloatingFranchiseEnquiry() {
           sx={{
             fontWeight: 700,
             textTransform: "none",
-            px: 2.25,
+            px: { xs: 1.75, sm: 2.25 },
+            maxWidth: { xs: "calc(100vw - 96px)", sm: "none" },
             boxShadow: "0 14px 36px -10px rgba(212,165,116,0.55)",
             "&:hover": {
               boxShadow: "0 18px 40px -8px rgba(212,165,116,0.7)",
             },
           }}
         >
-          <StorefrontIcon sx={{ mr: 1 }} fontSize="small" />
-          Enquire about Franchise
+          <StorefrontIcon sx={{ mr: { xs: 0.75, sm: 1 } }} fontSize="small" />
+          <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+            Enquire about Franchise
+          </Box>
+          <Box component="span" sx={{ display: { xs: "inline", sm: "none" } }}>
+            Franchise
+          </Box>
         </Fab>
       </Box>
 
@@ -99,6 +105,8 @@ export function FloatingFranchiseEnquiry() {
           paper: {
             sx: {
               borderRadius: 3,
+              m: { xs: 1, sm: 2 },
+              maxHeight: { xs: "calc(100% - 16px)", sm: "calc(100% - 48px)" },
               bgcolor: CARD_SURFACE,
               color: "#F5EFE5",
               overflow: "hidden",
