@@ -3,8 +3,6 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -12,6 +10,7 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { HoverRevealCard } from "@/components/common/HoverRevealCard";
 import {
   compactCardContentSx,
   compactSectionHeadingSx,
@@ -57,8 +56,8 @@ export function WhyFormatWorks() {
           const Icon = ICONS[reason.icon as keyof typeof ICONS];
           return (
             <ScrollReveal key={reason.title} delay={idx * 0.08}>
-              <Card sx={{ height: "100%" }}>
-                <CardContent sx={compactCardContentSx}>
+              <HoverRevealCard>
+                <Box sx={compactCardContentSx}>
                   <Stack spacing={pillarCardSpacing}>
                     <Box
                       sx={{
@@ -74,8 +73,8 @@ export function WhyFormatWorks() {
                       {reason.description}
                     </Typography>
                   </Stack>
-                </CardContent>
-              </Card>
+                </Box>
+              </HoverRevealCard>
             </ScrollReveal>
           );
         })}

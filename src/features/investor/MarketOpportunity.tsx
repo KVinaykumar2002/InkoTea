@@ -34,7 +34,12 @@ const NARRATIVE = [
 
 export function MarketOpportunity() {
   return (
-    <Section bgcolor="background.default" id="opportunity">
+    <Section
+      bgcolor="background.default"
+      id="opportunity"
+      pt={{ xs: 8, md: 12 }}
+      pb={{ xs: 4, md: 5 }}
+    >
       <SectionHeading
         eyebrow="Market Opportunity"
         title="A massive, daily-use category waiting to be organized"

@@ -11,10 +11,11 @@ import HubIcon from "@mui/icons-material/Hub";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { HoverRevealCard } from "@/components/common/HoverRevealCard";
 import {
+  compactCardContentSx,
   compactSectionHeadingSx,
   compactSectionPy,
-  pillarCardPadding,
   pillarCardSpacing,
   pillarIconSx,
 } from "@/components/common/pillarCardStyles";
@@ -51,35 +52,25 @@ export function USPGrid() {
           const Icon = ICONS[usp.icon as keyof typeof ICONS];
           return (
             <ScrollReveal key={usp.title} delay={idx * 0.08}>
-              <Stack
-                spacing={pillarCardSpacing}
-                sx={{
-                  p: pillarCardPadding,
-                  height: "100%",
-                  borderRadius: 3,
-                  bgcolor: "background.default",
-                  border: (t) => `1px solid ${t.palette.divider}`,
-                  transition: "all 0.25s ease",
-                  "&:hover": {
-                    borderColor: "primary.main",
-                    transform: "translateY(-4px)",
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    ...pillarIconSx,
-                    bgcolor: "primary.main",
-                    color: "primary.contrastText",
-                  }}
-                >
-                  {Icon ? <Icon fontSize="small" /> : null}
+              <HoverRevealCard sx={{ bgcolor: "background.default" }}>
+                <Box sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
+                    <Box
+                      sx={{
+                        ...pillarIconSx,
+                        bgcolor: "primary.main",
+                        color: "primary.contrastText",
+                      }}
+                    >
+                      {Icon ? <Icon fontSize="small" /> : null}
+                    </Box>
+                    <Typography variant="h6">{usp.title}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {usp.description}
+                    </Typography>
+                  </Stack>
                 </Box>
-                <Typography variant="h6">{usp.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {usp.description}
-                </Typography>
-              </Stack>
+              </HoverRevealCard>
             </ScrollReveal>
           );
         })}

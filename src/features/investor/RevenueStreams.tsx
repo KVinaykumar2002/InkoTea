@@ -21,7 +21,11 @@ const ICONS = {
 
 export function RevenueStreams() {
   return (
-    <Section bgcolor="background.default">
+    <Section
+      bgcolor="background.default"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 8, md: 12 }}
+    >
       <SectionHeading
         eyebrow="Revenue Streams"
         title="Multiple compounding sources of growth"

@@ -3,8 +3,6 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import SchoolIcon from "@mui/icons-material/School";
@@ -12,8 +10,14 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
+import {
+  compactCardContentSx,
+  compactSectionHeadingSx,
+  pillarCardSpacing,
+  pillarIconSx,
+} from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { HoverRevealCard } from "@/components/common/HoverRevealCard";
 import { SUPPORT_PILLARS } from "@/data/franchiseModels";
 
 const ICONS = {
@@ -52,19 +56,14 @@ export function SupportSystem() {
           const Icon = ICONS[pillar.icon as keyof typeof ICONS];
           return (
             <ScrollReveal key={pillar.title} delay={idx * 0.08}>
-              <Card sx={{ height: "100%", p: 1 }}>
-                <CardContent>
-                  <Stack spacing={2}>
+              <HoverRevealCard>
+                <Box sx={compactCardContentSx}>
+                  <Stack spacing={pillarCardSpacing}>
                     <Box
                       sx={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 2,
+                        ...pillarIconSx,
                         bgcolor: "primary.main",
                         color: "primary.contrastText",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                       }}
                     >
                       {Icon ? <Icon fontSize="small" /> : null}
@@ -74,8 +73,8 @@ export function SupportSystem() {
                       {pillar.description}
                     </Typography>
                   </Stack>
-                </CardContent>
-              </Card>
+                </Box>
+              </HoverRevealCard>
             </ScrollReveal>
           );
         })}

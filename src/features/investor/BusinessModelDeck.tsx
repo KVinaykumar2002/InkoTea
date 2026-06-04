@@ -31,7 +31,12 @@ const NODES = [
 
 export function BusinessModelDeck() {
   return (
-    <Section bgcolor="background.paper" id="deck">
+    <Section
+      bgcolor="background.paper"
+      id="deck"
+      pt={{ xs: 4, md: 5 }}
+      pb={{ xs: 4, md: 5 }}
+    >
       <SectionHeading
         eyebrow="Business Model"
         title="Two formats. One network. Compounding returns."

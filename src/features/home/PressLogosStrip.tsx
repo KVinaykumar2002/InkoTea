@@ -18,9 +18,7 @@ export function PressLogosStrip() {
       sx={{
         pt: { xs: 5, md: 6 },
         pb: { xs: 4, md: 5 },
-        bgcolor: "background.paper",
-        borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+        bgcolor: "background.default",
       }}
     >
       <Typography
@@ -40,7 +38,7 @@ export function PressLogosStrip() {
         items={FEATURED_ITEMS}
         direction="left"
         durationSeconds={38}
-        variant="press"
+        variant="accent"
         edgeless
       />
     </Box>
