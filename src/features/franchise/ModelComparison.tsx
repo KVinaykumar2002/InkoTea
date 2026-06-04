@@ -99,10 +99,11 @@ export function ModelComparison() {
                     position: "relative",
                     bgcolor: accentBg,
                     color: "primary.contrastText",
-                    px: 4,
-                    py: 4,
+                    px: { xs: 3, md: 4 },
+                    py: { xs: 3, md: 4 },
                     overflow: "hidden",
-                    minHeight: 220,
+                    aspectRatio: { xs: "5 / 4", md: "16 / 10" },
+                    minHeight: { xs: 260, md: 320 },
                   }}
                 >
                   <Box
@@ -113,7 +114,7 @@ export function ModelComparison() {
                       backgroundImage: `url(${MODEL_HEADER_IMAGES[model.key]})`,
                       backgroundSize: "cover",
                       backgroundPosition: MODEL_HEADER_FOCUS[model.key],
-                      opacity: 0.35,
+                      opacity: 0.42,
                       zIndex: 0,
                     }}
                   />

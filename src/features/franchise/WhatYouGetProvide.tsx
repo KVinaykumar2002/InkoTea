@@ -163,25 +163,45 @@ function ResponsibilityCard({
         </Typography>
       </Box>
       <CardContent sx={{ p: 4 }}>
-        <Stack spacing={1.75}>
+        <Stack
+          component="ul"
+          spacing={1.75}
+          sx={{ m: 0, p: 0, listStyle: "none" }}
+        >
           {items.map((item) => (
             <Stack
               key={item}
+              component="li"
               direction="row"
               spacing={1.5}
               alignItems="flex-start"
+              sx={{ minWidth: 0 }}
             >
               <Box
+                aria-hidden
                 sx={{
                   flexShrink: 0,
-                  mt: "8px",
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  bgcolor: accentBg,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 10,
+                  height: "1.6em",
                 }}
-              />
-              <Typography variant="body2" color="text.secondary">
+              >
+                <Box
+                  sx={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    bgcolor: accentBg,
+                  }}
+                />
+              </Box>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ flex: 1, lineHeight: 1.6, pt: 0 }}
+              >
                 {item}
               </Typography>
             </Stack>

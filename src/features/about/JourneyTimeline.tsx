@@ -1,9 +1,18 @@
 "use client";
 
+import { useRef } from "react";
 import Box from "@mui/material/Box";
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { ScrollReveal } from "@/components/common/ScrollReveal";
 import {
   compactSectionHeadingSx,
   compactSectionPy,
@@ -12,40 +21,43 @@ import { JOURNEY_MILESTONES } from "@/data/competitors";
 import { JOURNEY_META } from "./journeyMeta";
 import { JourneyGlyph } from "./JourneyGlyph";
 import { JourneyMilestone } from "./JourneyMilestone";
+import {
+  JOURNEY_EASE,
+  journeyCardVariants,
+  journeyGlyphVariants,
+  journeyRowVariants,
+} from "./journeyMotion";
 
-/**
- * Journey Timeline — "The Pour Line".
- *
- * Visual story:
- *   - A vertical amber-to-tea-brown gradient spine **draws itself** as the
- *     section scrolls into view (Framer Motion `pathLength`), like chai
- *     being poured from a kettle down through the years.
- *   - Each milestone lives at a pivot point on the spine, marked by a
- *     custom **chai-stage SVG glyph** (single glass → tray → dual format
- *     → state-shape with pins → city skyline). The glyph progression
- *     literally illustrates "from a single kiosk to a multi-city brand".
- *   - Milestone cards alternate left/right on desktop and stack on the
- *     right of the spine on mobile. Each card carries a circular
- *     "tea-ring stamp" with the year and a small cumulative-outlet pill.
- *
- * Accessibility:
- *   - All decorative SVGs are `aria-hidden`. Information is conveyed in
- *     the heading hierarchy + text of each milestone card.
- *   - `prefers-reduced-motion`: spine renders fully drawn, glyph + card
- *     entry animations are skipped.
- */
+const ROW_VIEWPORT = { once: true, amount: 0.4, margin: "0px 0px -10% 0px" } as const;
+
 export function JourneyTimeline() {
   const reduced = useReducedMotion();
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 0.82", "end 0.28"],
+  });
+
+  const pourRaw = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const pourProgress = useSpring(pourRaw, {
+    stiffness: 70,
+    damping: 22,
+    restDelta: 0.001,
+  });
 
   return (
     <Section bgcolor="background.default" py={compactSectionPy}>
-      <SectionHeading
-        eyebrow="Our Journey"
-        title="From a single kiosk to a multi-city retail brand"
-        sx={compactSectionHeadingSx}
-      />
+      <ScrollReveal y={20} duration={0.65}>
+        <SectionHeading
+          eyebrow="Our Journey"
+          title="From a single kiosk to a multi-city retail brand"
+          sx={compactSectionHeadingSx}
+        />
+      </ScrollReveal>
 
       <Box
+        ref={timelineRef}
         sx={{
           position: "relative",
           maxWidth: 1040,
@@ -53,15 +65,25 @@ export function JourneyTimeline() {
           pt: { xs: 0.5, md: 1 },
         }}
       >
-        <PourSpine reduced={Boolean(reduced)} />
+        <PourSpine
+          reduced={Boolean(reduced)}
+          pourProgress={reduced ? undefined : pourProgress}
+        />
 
         <Box sx={{ position: "relative", zIndex: 1 }}>
           {JOURNEY_MILESTONES.map((milestone, idx) => {
             const isLeft = idx % 2 === 0;
             const meta = JOURNEY_META[milestone.year];
+            const enterX = isLeft ? -28 : 28;
+
             return (
               <Box
                 key={milestone.year}
+                component={motion.div}
+                initial={reduced ? false : "hidden"}
+                whileInView={reduced ? undefined : "visible"}
+                viewport={ROW_VIEWPORT}
+                variants={journeyRowVariants}
                 sx={{
                   display: "grid",
                   gridTemplateColumns: {
@@ -73,8 +95,9 @@ export function JourneyTimeline() {
                   "&:last-of-type": { mb: 0 },
                 }}
               >
-                {/* Glyph stamp — centred on the spine */}
                 <Box
+                  component={motion.div}
+                  variants={journeyGlyphVariants}
                   sx={{
                     gridColumn: { xs: 1, md: 2 },
                     display: "flex",
@@ -82,13 +105,9 @@ export function JourneyTimeline() {
                     alignSelf: "center",
                   }}
                 >
-                  <JourneyGlyph
-                    kind={meta?.glyph ?? "single"}
-                    size={72}
-                  />
+                  <JourneyGlyph kind={meta?.glyph ?? "single"} size={72} />
                 </Box>
 
-                {/* Desktop: left-side card (visible on even indices) */}
                 <Box
                   sx={{
                     display: { xs: "none", md: "flex" },
@@ -98,12 +117,16 @@ export function JourneyTimeline() {
                     visibility: isLeft ? "visible" : "hidden",
                   }}
                 >
-                  <Box sx={{ maxWidth: 440, width: "100%" }}>
+                  <Box
+                    component={motion.div}
+                    variants={journeyCardVariants}
+                    custom={-28}
+                    sx={{ maxWidth: 440, width: "100%" }}
+                  >
                     <JourneyMilestone {...milestone} align="right" />
                   </Box>
                 </Box>
 
-                {/* Desktop: right-side card (visible on odd indices) */}
                 <Box
                   sx={{
                     display: { xs: "none", md: "flex" },
@@ -113,13 +136,20 @@ export function JourneyTimeline() {
                     visibility: isLeft ? "hidden" : "visible",
                   }}
                 >
-                  <Box sx={{ maxWidth: 440, width: "100%" }}>
+                  <Box
+                    component={motion.div}
+                    variants={journeyCardVariants}
+                    custom={28}
+                    sx={{ maxWidth: 440, width: "100%" }}
+                  >
                     <JourneyMilestone {...milestone} align="left" />
                   </Box>
                 </Box>
 
-                {/* Mobile: single right-of-spine card */}
                 <Box
+                  component={motion.div}
+                  variants={journeyCardVariants}
+                  custom={enterX}
                   sx={{
                     gridColumn: 2,
                     display: { xs: "block", md: "none" },
@@ -137,15 +167,13 @@ export function JourneyTimeline() {
   );
 }
 
-/**
- * Vertical SVG spine that draws itself on first scroll-into-view.
- *
- * Built as a single straight `<path>` with a `pathLength` animation so the
- * stroke fills top-to-bottom — the "pour" feel. The stroke uses an
- * amber → tea-brown gradient so the line warms as it descends. Subtle
- * outer glow gives the line presence without dominating.
- */
-function PourSpine({ reduced }: { reduced: boolean }) {
+function PourSpine({
+  reduced,
+  pourProgress,
+}: {
+  reduced: boolean;
+  pourProgress?: MotionValue<number>;
+}) {
   return (
     <Box
       aria-hidden
@@ -175,8 +203,6 @@ function PourSpine({ reduced }: { reduced: boolean }) {
             <stop offset="100%" stopColor="rgba(120,75,40,0)" />
           </linearGradient>
         </defs>
-        {/* Faint backing rail so the spine is still discoverable when the
-            animated line hasn't drawn yet. */}
         <line
           x1={4}
           y1={0}
@@ -185,22 +211,31 @@ function PourSpine({ reduced }: { reduced: boolean }) {
           stroke="rgba(160,107,67,0.16)"
           strokeWidth={1.2}
         />
-        <motion.line
-          x1={4}
-          y1={0}
-          x2={4}
-          y2={100}
+        <motion.path
+          d="M 4 0 L 4 100"
+          fill="none"
           stroke="url(#journey-pour-gradient)"
           strokeWidth={3}
           strokeLinecap="round"
-          initial={reduced ? false : { pathLength: 0 }}
-          whileInView={reduced ? undefined : { pathLength: 1 }}
+          vectorEffect="non-scaling-stroke"
+          initial={reduced || pourProgress ? false : { pathLength: 0 }}
+          whileInView={
+            reduced || pourProgress ? undefined : { pathLength: 1 }
+          }
           viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            filter:
-              "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
-          }}
+          transition={{ duration: 2.2, ease: JOURNEY_EASE }}
+          style={
+            pourProgress
+              ? {
+                  pathLength: pourProgress,
+                  filter:
+                    "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
+                }
+              : {
+                  filter:
+                    "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
+                }
+          }
         />
       </svg>
     </Box>

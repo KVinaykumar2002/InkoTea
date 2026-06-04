@@ -14,6 +14,7 @@ import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { HoverRevealCard } from "@/components/common/HoverRevealCard";
 import {
   compactSectionHeadingSx,
   compactSectionPy,
@@ -56,39 +57,30 @@ export function BrandPromisePillars() {
           const Icon = ICONS[pillar.icon as keyof typeof ICONS];
           return (
             <ScrollReveal key={pillar.title} delay={idx * 0.06}>
-              <Stack
-                spacing={1.5}
-                alignItems="flex-start"
+              <HoverRevealCard
                 sx={{
-                  p: pillarCardPadding,
-                  height: "100%",
-                  borderRadius: 3,
                   bgcolor: "background.default",
-                  border: (t) => `1px solid ${t.palette.divider}`,
-                  transition: "all 0.25s ease",
-                  "&:hover": {
-                    transform: "translateY(-4px)",
-                    borderColor: "primary.main",
-                    boxShadow: "0 14px 40px -16px rgba(0,0,0,0.18)",
-                  },
+                  p: pillarCardPadding,
                 }}
               >
-                <Box
-                  sx={{
-                    ...pillarIconSx,
-                    bgcolor: "secondary.light",
-                    color: "primary.dark",
-                  }}
-                >
-                  {Icon ? <Icon fontSize="small" /> : null}
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  {pillar.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {pillar.text}
-                </Typography>
-              </Stack>
+                <Stack spacing={1.5} alignItems="flex-start">
+                  <Box
+                    sx={{
+                      ...pillarIconSx,
+                      bgcolor: "secondary.light",
+                      color: "primary.dark",
+                    }}
+                  >
+                    {Icon ? <Icon fontSize="small" /> : null}
+                  </Box>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                    {pillar.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {pillar.text}
+                  </Typography>
+                </Stack>
+              </HoverRevealCard>
             </ScrollReveal>
           );
         })}

@@ -3,12 +3,11 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { HoverRevealCard } from "@/components/common/HoverRevealCard";
 import {
   compactCardContentSx,
   compactSectionHeadingSx,
@@ -39,17 +38,50 @@ const POSITIONS = [
   },
 ];
 
-const cardSx = {
-  height: "100%",
-  bgcolor: "background.paper",
-  border: 1,
-  borderColor: "divider",
-  transition: "border-color 0.25s ease, box-shadow 0.25s ease",
-  "&:hover": {
-    borderColor: "primary.main",
-    boxShadow: "0 16px 40px -24px rgba(92, 58, 33, 0.28)",
-  },
-};
+interface PositioningCardProps {
+  name: string;
+  label: string;
+  description: string;
+  featured: boolean;
+}
+
+function PositioningCard({
+  name,
+  label,
+  description,
+  featured,
+}: PositioningCardProps) {
+  return (
+    <HoverRevealCard featured={featured}>
+      <Box sx={compactCardContentSx}>
+        <Stack spacing={pillarCardSpacing}>
+          <Chip
+            label={label}
+            size="small"
+            color={featured ? "primary" : "default"}
+            variant={featured ? "filled" : "outlined"}
+            sx={{
+              alignSelf: "flex-start",
+              fontWeight: 700,
+            }}
+          />
+          <Typography
+            variant="h3"
+            sx={{
+              color: "primary.main",
+              fontSize: { xs: "1.35rem", md: "1.5rem" },
+            }}
+          >
+            {name}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            {description}
+          </Typography>
+        </Stack>
+      </Box>
+    </HoverRevealCard>
+  );
+}
 
 export function PositioningSection() {
   return (
@@ -74,44 +106,7 @@ export function PositioningSection() {
       >
         {POSITIONS.map((pos, idx) => (
           <ScrollReveal key={pos.name} delay={idx * 0.1}>
-            <Card
-              sx={{
-                ...cardSx,
-                ...(pos.featured
-                  ? {
-                      borderColor: "primary.main",
-                      borderWidth: 2,
-                    }
-                  : {}),
-              }}
-            >
-              <CardContent sx={compactCardContentSx}>
-                <Stack spacing={pillarCardSpacing}>
-                  <Chip
-                    label={pos.label}
-                    size="small"
-                    color={pos.featured ? "primary" : "default"}
-                    variant={pos.featured ? "filled" : "outlined"}
-                    sx={{
-                      alignSelf: "flex-start",
-                      fontWeight: 700,
-                    }}
-                  />
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      color: "primary.main",
-                      fontSize: { xs: "1.35rem", md: "1.5rem" },
-                    }}
-                  >
-                    {pos.name}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {pos.description}
-                  </Typography>
-                </Stack>
-              </CardContent>
-            </Card>
+            <PositioningCard {...pos} />
           </ScrollReveal>
         ))}
       </Box>
