@@ -34,12 +34,12 @@
   </g>
 
   <text x="600" y="500" text-anchor="middle"
-        font-family="'Playfair Display', serif"
+        font-family="'Oswald', sans-serif"
         font-size="68" font-weight="700" letter-spacing="14" fill="#F5EFE5" opacity="0.95">
     INKOTEA
   </text>
   <text x="600" y="544" text-anchor="middle"
-        font-family="Calibri, Segoe UI, sans-serif"
+        font-family="'Oswald', sans-serif"
         font-size="18" font-weight="500" letter-spacing="6" fill="#E6C19A" opacity="0.85">
     THE FEELING OF ONE MORE
   </text>

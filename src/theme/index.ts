@@ -82,10 +82,12 @@ export const buildTheme = (mode: PaletteMode) => {
       MuiTypography: {
         styleOverrides: {
           root: { fontFamily: fonts.body },
-          h1: { fontFamily: fonts.display },
-          h2: { fontFamily: fonts.display },
-          h3: { fontFamily: fonts.display },
-          h4: { fontFamily: fonts.display },
+          h1: { fontFamily: fonts.display, fontWeight: 700 },
+          h2: { fontFamily: fonts.display, fontWeight: 700 },
+          h3: { fontFamily: fonts.display, fontWeight: 700 },
+          h4: { fontFamily: fonts.display, fontWeight: 700 },
+          h5: { fontFamily: fonts.display, fontWeight: 700 },
+          h6: { fontFamily: fonts.display, fontWeight: 700 },
         },
       },
       MuiTextField: {

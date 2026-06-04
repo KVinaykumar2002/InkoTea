@@ -13,8 +13,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  /* Body default — Inter only (see src/theme/fonts.ts) */
-  font-family: var(--font-inter), "Inter", sans-serif;
+  /* Body default — Oswald (see src/theme/fonts.ts) */
+  font-family: var(--font-oswald), "Oswald", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,9 +37,11 @@ html {
   h1,
   h2,
   h3,
-  h4 {
-    /* Display default — Playfair Display only */
-    font-family: var(--font-playfair), "Playfair Display", serif;
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-oswald), "Oswald", sans-serif;
+    font-weight: 700;
   }
 
   button,
@@ -89,7 +91,7 @@ img {
   color: #f5efe5;
   padding: 12px 18px;
   border-radius: 0 0 12px 0;
-  font-family: var(--font-inter), "Inter", sans-serif;
+  font-family: var(--font-oswald), "Oswald", sans-serif;
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
