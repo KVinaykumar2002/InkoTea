@@ -25,11 +25,11 @@ export default function HomePage() {
       <ProductMarqueeStrips />
       <StatsStrip />
       <PositioningSection />
-      <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={{ xs: 5, md: 8 }}>
+      <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={0}>
         <ModelsPreview embedded />
         <NearestOutletSection embedded />
+        <ExperienceSection embedded />
       </Section>
-      <ExperienceSection />
       <PressLogosStrip />
       <FranchiseCTASection />
       <FloatingFranchiseEnquiry />

@@ -36,7 +36,7 @@ const ICONS = {
 
 export function BrandPromisePillars() {
   return (
-    <Section bgcolor="background.paper" py={compactSectionPy}>
+    <Section bgcolor="background.paper" pt={compactSectionPy} pb={0}>
       <SectionHeading
         eyebrow="What's in every cup"
         title="The careful the selection, the tastier the tea"

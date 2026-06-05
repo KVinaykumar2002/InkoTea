@@ -10,7 +10,7 @@ import { ROADMAP } from "@/data/competitors";
 
 export function RoadmapTimeline() {
   return (
-    <Section bgcolor="background.paper">
+    <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={{ xs: 4, md: 5 }}>
       <SectionHeading
         eyebrow="Expansion Roadmap"
         title="Where we've been. Where we're going."

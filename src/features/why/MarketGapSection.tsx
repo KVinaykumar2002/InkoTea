@@ -17,7 +17,7 @@ import { MARKET_GAP } from "@/data/competitors";
 
 export function MarketGapSection() {
   return (
-    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={{ xs: 8, md: 12 }}>
+    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={0}>
       <SectionHeading
         eyebrow="The Market Gap"
         title="Two extremes. One missing middle."

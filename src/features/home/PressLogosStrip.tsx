@@ -16,7 +16,7 @@ export function PressLogosStrip() {
       component="section"
       aria-label="As featured in"
       sx={{
-        pt: { xs: 5, md: 6 },
+        pt: { xs: 4, md: 5 },
         pb: { xs: 4, md: 5 },
         bgcolor: "background.default",
       }}

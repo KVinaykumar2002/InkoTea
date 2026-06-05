@@ -52,6 +52,22 @@ const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }
   { key: "target", label: "Best for" },
 ];
 
+/** Fixed row heights so spec lines align across both franchise cards. */
+const SPEC_ROW_MIN_HEIGHT: Partial<
+  Record<keyof (typeof FRANCHISE_MODELS)[number], number>
+> = {
+  investment: 44,
+  spaceSqFt: 44,
+  setupTime: 44,
+  staff: 44,
+  format: 44,
+  roiSpeed: 44,
+  target: 64,
+};
+
+const HIGHLIGHT_ITEM_MIN_HEIGHT = 52;
+const IDEAL_LOCATIONS_MIN_HEIGHT = 96;
+
 export function ModelComparison() {
   return (
     <Section
@@ -72,6 +88,7 @@ export function ModelComparison() {
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
           gap: 3,
+          alignItems: "stretch",
         }}
       >
         {FRANCHISE_MODELS.map((model, idx) => {
@@ -89,6 +106,8 @@ export function ModelComparison() {
                 id={model.key}
                 sx={{
                   height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                   scrollMarginTop: { xs: 80, md: 100 },
                   position: "relative",
                   overflow: "hidden",
@@ -168,11 +187,20 @@ export function ModelComparison() {
                   </Stack>
                 </Box>
 
-                <CardContent sx={{ p: 4 }}>
-                  <Stack spacing={3}>
-                    <Typography variant="body1" color="text.secondary">
-                      {model.description}
-                    </Typography>
+                <CardContent
+                  sx={{
+                    p: 4,
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Stack spacing={3} sx={{ flex: 1 }}>
+                    <Box sx={{ minHeight: { md: 132 } }}>
+                      <Typography variant="body1" color="text.secondary">
+                        {model.description}
+                      </Typography>
+                    </Box>
 
                     <Box
                       sx={{
@@ -181,27 +209,36 @@ export function ModelComparison() {
                         p: 2.5,
                       }}
                     >
-                      <Stack spacing={1.5}>
+                      <Stack spacing={0}>
                         {SPEC_ROWS.map((row) => (
                           <Stack
                             key={row.key}
-                            direction={{ xs: "column", sm: "row" }}
+                            direction="row"
                             justifyContent="space-between"
-                            alignItems={{ xs: "flex-start", sm: "flex-start" }}
-                            spacing={{ xs: 0.5, sm: 2 }}
+                            alignItems="flex-start"
+                            spacing={2}
+                            sx={{
+                              minHeight:
+                                SPEC_ROW_MIN_HEIGHT[row.key] ?? 44,
+                              py: 0.75,
+                            }}
                           >
                             <Typography
                               variant="body2"
                               color="text.secondary"
-                              sx={{ minWidth: { sm: 100 }, flexShrink: 0 }}
+                              sx={{
+                                width: { xs: "40%", md: "38%" },
+                                flexShrink: 0,
+                              }}
                             >
                               {row.label}
                             </Typography>
                             <Typography
                               variant="body2"
                               sx={{
+                                width: { xs: "60%", md: "62%" },
                                 fontWeight: 600,
-                                textAlign: { xs: "left", sm: "right" },
+                                textAlign: "right",
                                 color: "text.secondary",
                               }}
                             >
@@ -228,6 +265,7 @@ export function ModelComparison() {
                           direction="row"
                           spacing={1.5}
                           alignItems="flex-start"
+                          sx={{ minHeight: HIGHLIGHT_ITEM_MIN_HEIGHT }}
                         >
                           <CheckIcon
                             sx={{
@@ -253,7 +291,13 @@ export function ModelComparison() {
                       <Typography variant="overline" color="text.secondary">
                         Ideal Locations
                       </Typography>
-                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        flexWrap="wrap"
+                        useFlexGap
+                        sx={{ minHeight: IDEAL_LOCATIONS_MIN_HEIGHT }}
+                      >
                         {model.idealLocations.map((loc) => (
                           <Chip
                             key={loc}

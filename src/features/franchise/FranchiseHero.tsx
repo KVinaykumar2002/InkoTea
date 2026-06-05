@@ -8,41 +8,9 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { motion } from "framer-motion";
 import { FRANCHISE_USPS } from "@/data/franchiseModels";
 import { BRAND_IMAGES } from "@/lib/brandImages";
-
-/**
- * Two-image brand showcase rendered on the right side of the franchise hero
- * (or stacked below the copy on mobile). Visually anchors the "Two formats.
- * One brand." promise with real outlet photography from the brochures.
- * Will later be swapped for the Lottie/scroll animation slot.
- */
-/**
- * Per-image `background-position` so the portrait source photos crop to
- * their most distinctive subject area inside the landscape showcase cards:
- *   - Kiosk : keep the green "INKOTEA" neon header + the vendor visible.
- *   - Cafe  : keep the "INKOTEA Social Cafe — Sit. Sip. Smile." sign band
- *             visible at the top of the strip rather than the sidewalk.
- */
-const SHOWCASE_IMAGES = [
-  {
-    src: BRAND_IMAGES.franchiseKioskNight,
-    label: "Kiosk Model",
-    sub: "Starting from \u20B92.5L",
-    icon: StorefrontIcon,
-    focus: "center 38%",
-  },
-  {
-    src: BRAND_IMAGES.franchiseCafeStorefront,
-    label: "Social Cafe Model",
-    sub: "Starting from \u20B96.5L",
-    icon: LocalCafeIcon,
-    focus: "center 28%",
-  },
-] as const;
 
 // The franchise-page hero background reuses the brand kiosk shot for the
 // high-energy "Indian street culture" feel.
@@ -86,208 +54,87 @@ export function FranchiseHero() {
         }}
       />
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", lg: "1.1fr 1fr" },
-            gap: { xs: 6, lg: 8 },
-            alignItems: "center",
-          }}
+        <Stack
+          spacing={4}
+          maxWidth={760}
+          component={motion.div}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
         >
-          <Stack
-            spacing={4}
-            component={motion.div}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <Chip
-              label="Franchise Opportunity"
-              sx={{
-                alignSelf: "flex-start",
-                bgcolor: "rgba(212,165,116,0.18)",
-                color: "secondary.light",
-                border: "1px solid rgba(212,165,116,0.35)",
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                fontSize: "0.7rem",
-                textTransform: "uppercase",
-              }}
-            />
-            <Typography variant="h1" sx={{ color: "inherit" }}>
-              Start Your Own Tea or Cafe Business
-              <Box
-                component="span"
-                sx={{
-                  display: "block",
-                  color: "secondary.light",
-                  ...fontDisplayItalicSx,
-                }}
-              >
-                with INKOTEA
-              </Box>
-            </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                color: "rgba(255,255,255,0.88)",
-                fontWeight: 400,
-                maxWidth: 620,
-                lineHeight: 1.55,
-              }}
-            >
-              Two scalable formats. One proven brand. Pick the model that fits
-              your investment, your city, and your ambition.
-            </Typography>
-
-            <Stack
-              direction="row"
-              spacing={1.5}
-              flexWrap="wrap"
-              useFlexGap
-              sx={{ mt: 1 }}
-            >
-              {FRANCHISE_USPS.map((usp) => (
-                <Stack
-                  key={usp}
-                  direction="row"
-                  spacing={0.75}
-                  alignItems="center"
-                  sx={{
-                    px: 2,
-                    py: 1,
-                    borderRadius: 999,
-                    bgcolor: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                  }}
-                >
-                  <CheckCircleIcon
-                    sx={{ color: "secondary.light", fontSize: 18 }}
-                  />
-                  <Typography
-                    variant="body2"
-                    sx={{ color: "rgba(255,255,255,0.95)", fontWeight: 500 }}
-                  >
-                    {usp}
-                  </Typography>
-                </Stack>
-              ))}
-            </Stack>
-          </Stack>
-
-          <Box
-            component={motion.div}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
+          <Chip
+            label="Franchise Opportunity"
             sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", lg: "1fr" },
-              gap: { xs: 2, lg: 2.5 },
-              // Cap the desktop column to ~80% of its grid track so the cards
-              // (and the section as a whole) read as a focused brand-strip,
-              // not a wall of imagery. Anchored right to preserve the
-              // staggered offset on the second card.
-              width: { lg: "80%" },
-              justifySelf: { lg: "end" },
+              alignSelf: "flex-start",
+              bgcolor: "rgba(212,165,116,0.18)",
+              color: "secondary.light",
+              border: "1px solid rgba(212,165,116,0.35)",
+              fontWeight: 600,
+              letterSpacing: "0.12em",
+              fontSize: "0.7rem",
+              textTransform: "uppercase",
+            }}
+          />
+          <Typography variant="h1" sx={{ color: "inherit" }}>
+            Start Your Own Tea or Cafe Business
+            <Box
+              component="span"
+              sx={{
+                display: "block",
+                color: "secondary.light",
+                ...fontDisplayItalicSx,
+              }}
+            >
+              with INKOTEA
+            </Box>
+          </Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              color: "rgba(255,255,255,0.88)",
+              fontWeight: 400,
+              maxWidth: 620,
+              lineHeight: 1.55,
             }}
           >
-            {SHOWCASE_IMAGES.map(({ src, label, sub, icon: Icon, focus }, idx) => (
-              <Box
-                key={label}
+            Two scalable formats. One proven brand. Pick the model that fits
+            your investment, your city, and your ambition.
+          </Typography>
+
+          <Stack
+            direction="row"
+            spacing={1.5}
+            flexWrap="wrap"
+            useFlexGap
+            sx={{ mt: 1 }}
+          >
+            {FRANCHISE_USPS.map((usp) => (
+              <Stack
+                key={usp}
+                direction="row"
+                spacing={0.75}
+                alignItems="center"
                 sx={{
-                  position: "relative",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                  // Sources are portrait (≈ 2:3). Cards mirror that on small
-                  // screens, and stretch to a calmer 4:3 on desktop so the
-                  // signage + subject fit without being chopped.
-                  aspectRatio: { xs: "3 / 4", sm: "4 / 5", lg: "4 / 3" },
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  boxShadow: "0 24px 60px -24px rgba(0,0,0,0.6)",
-                  // Slight stagger of the second card on large screens so the
-                  // pair reads as a deliberate brand-strip, not a flat grid.
-                  transform: {
-                    lg: idx === 1 ? "translateX(20px)" : "translateX(-10px)",
-                  },
-                  transition: "transform 0.4s ease",
-                  "&:hover": {
-                    transform: { lg: "translateY(-4px)" },
-                  },
+                  px: 2,
+                  py: 1,
+                  borderRadius: 999,
+                  bgcolor: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.15)",
                 }}
               >
-                <Box
-                  aria-hidden
-                  sx={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: `url(${src})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: focus,
-                  }}
+                <CheckCircleIcon
+                  sx={{ color: "secondary.light", fontSize: 18 }}
                 />
-                <Box
-                  aria-hidden
-                  sx={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.78) 100%)",
-                  }}
-                />
-                <Stack
-                  direction="row"
-                  spacing={1.5}
-                  alignItems="center"
-                  sx={{
-                    position: "absolute",
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  }}
+                <Typography
+                  variant="body2"
+                  sx={{ color: "rgba(255,255,255,0.95)", fontWeight: 500 }}
                 >
-                  <Box
-                    sx={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 1.5,
-                      bgcolor: "rgba(212,165,116,0.92)",
-                      color: "primary.dark",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Icon fontSize="small" />
-                  </Box>
-                  <Stack spacing={0}>
-                    <Typography
-                      variant="overline"
-                      sx={{
-                        color: "secondary.light",
-                        letterSpacing: "0.16em",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {sub}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        color: "#fff",
-                        ...fontDisplayItalicSx,
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {label}
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </Box>
+                  {usp}
+                </Typography>
+              </Stack>
             ))}
-          </Box>
-        </Box>
+          </Stack>
+        </Stack>
       </Container>
     </Box>
   );

@@ -30,11 +30,7 @@ const ICONS = {
 
 export function SupportSystem() {
   return (
-    <Section
-      bgcolor="background.paper"
-      pt={{ xs: 4, md: 5 }}
-      pb={{ xs: 5, md: 8 }}
-    >
+    <Section bgcolor="background.paper" pt={{ xs: 4, md: 5 }} pb={0}>
       <SectionHeading
         eyebrow="Franchise Support"
         title="We don't hand you a brand. We launch your business."

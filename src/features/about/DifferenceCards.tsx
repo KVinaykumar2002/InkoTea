@@ -41,7 +41,11 @@ const COLUMNS = [
 
 export function DifferenceCards() {
   return (
-    <Section bgcolor="background.paper" py={compactSectionPy}>
+    <Section
+      bgcolor="background.paper"
+      pt={{ xs: 4, md: 5 }}
+      pb={compactSectionPy}
+    >
       <SectionHeading
         eyebrow="What makes us different"
         title="The middle ground tea retail was missing"

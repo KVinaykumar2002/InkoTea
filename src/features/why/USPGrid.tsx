@@ -31,7 +31,11 @@ const ICONS = {
 
 export function USPGrid() {
   return (
-    <Section bgcolor="background.paper" py={compactSectionPy}>
+    <Section
+      bgcolor="background.paper"
+      pt={{ xs: 4, md: 5 }}
+      pb={compactSectionPy}
+    >
       <SectionHeading
         eyebrow="Core USPs"
         title="Five reasons INKOTEA is built to scale"

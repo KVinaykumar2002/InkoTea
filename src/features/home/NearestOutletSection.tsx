@@ -195,7 +195,7 @@ export function NearestOutletSection({
         ))}
       </Box>
 
-      <Stack alignItems="center" sx={{ mt: { xs: 5, md: 6 } }}>
+      <Stack alignItems="center" sx={{ mt: { xs: 3, md: 4 }, mb: 0 }}>
         <Button
           component={Link}
           href="/outlets"

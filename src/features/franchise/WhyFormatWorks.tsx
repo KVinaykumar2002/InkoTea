@@ -34,7 +34,11 @@ const ICONS = {
  */
 export function WhyFormatWorks() {
   return (
-    <Section bgcolor="background.default" py={compactSectionPy}>
+    <Section
+      bgcolor="background.default"
+      pt={{ xs: 4, md: 5 }}
+      pb={compactSectionPy}
+    >
       <SectionHeading
         eyebrow="Why It Works Today"
         title="Why the INKOTEA format works in today's market"

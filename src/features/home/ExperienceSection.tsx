@@ -9,10 +9,7 @@ import NightlifeIcon from "@mui/icons-material/Nightlife";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ExperienceHoverCard } from "@/components/common/ExperienceHoverCard";
-import {
-  compactSectionHeadingSx,
-  compactSectionPy,
-} from "@/components/common/pillarCardStyles";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { EXPERIENCE_USECASES } from "@/data/competitors";
 
 const ICONS = {
@@ -22,14 +19,23 @@ const ICONS = {
   Nightlife: NightlifeIcon,
 } as const;
 
-export function ExperienceSection() {
-  return (
-    <Section bgcolor="background.default" py={compactSectionPy}>
+interface ExperienceSectionProps {
+  /** Render without the outer Section wrapper (for grouped home layout). */
+  embedded?: boolean;
+}
+
+export function ExperienceSection({ embedded = false }: ExperienceSectionProps) {
+  const content = (
+    <>
       <SectionHeading
         eyebrow="More Than Just Tea"
         title="The reasons people walk in (and stay)"
         description="INKOTEA outlets aren't just tea stops. They're the moments in your day worth pausing for."
-        sx={compactSectionHeadingSx}
+        sx={
+          embedded
+            ? { ...compactSectionHeadingSx, mt: { xs: 2, md: 3 } }
+            : compactSectionHeadingSx
+        }
       />
 
       <Box
@@ -56,6 +62,16 @@ export function ExperienceSection() {
           );
         })}
       </Box>
+    </>
+  );
+
+  if (embedded) {
+    return <Box id="experience">{content}</Box>;
+  }
+
+  return (
+    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={0}>
+      {content}
     </Section>
   );
 }

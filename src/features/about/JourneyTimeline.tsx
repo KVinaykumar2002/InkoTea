@@ -13,10 +13,7 @@ import {
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import {
-  compactSectionHeadingSx,
-  compactSectionPy,
-} from "@/components/common/pillarCardStyles";
+import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { JOURNEY_MILESTONES } from "@/data/competitors";
 import { JOURNEY_META } from "./journeyMeta";
 import { JourneyGlyph } from "./JourneyGlyph";
@@ -47,7 +44,7 @@ export function JourneyTimeline() {
   });
 
   return (
-    <Section bgcolor="background.default" py={compactSectionPy}>
+    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={0}>
       <ScrollReveal y={20} duration={0.65}>
         <SectionHeading
           eyebrow="Our Journey"

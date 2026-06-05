@@ -27,7 +27,7 @@ export function OutletsExplorer() {
   }, [activeCity]);
 
   return (
-    <Section bgcolor="background.default">
+    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={0}>
       <Stack
         direction={{ xs: "column", md: "row" }}
         justifyContent="space-between"
