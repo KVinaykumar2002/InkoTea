@@ -66,7 +66,7 @@ export function FooterEnquiryForm() {
                     <Box flex={1}>
                       <FormikTextField
                         name="name"
-                        label="Your name"
+                        label="Your Name"
                         required
                         fullWidth
                         autoComplete="name"

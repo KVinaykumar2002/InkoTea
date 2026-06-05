@@ -66,7 +66,7 @@ export function ContactFormBlock() {
                   >
                     <FormikTextField
                       name="name"
-                      label="Your name"
+                      label="Your Name"
                       required
                       autoComplete="name"
                       sx={fieldStyles}

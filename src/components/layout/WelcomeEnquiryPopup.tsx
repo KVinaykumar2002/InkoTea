@@ -182,7 +182,7 @@ export function WelcomeEnquiryPopup() {
 
                   <FormikTextField
                     name="name"
-                    label="Your name"
+                    label="Your Name"
                     required
                     fullWidth
                     autoComplete="name"
