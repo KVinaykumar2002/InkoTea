@@ -43,8 +43,7 @@ import {
  *   - Apple-style pointer parallax driving the photo, steam and leaves at
  *     different intensities. Springs damp the motion so it never feels
  *     literal.
- *   - Primary CTA gets a slow golden glow pulse after entry; outline CTA
- *     keeps the static frosted-glass look.
+ *   - Primary CTA is a solid filled pill; outline CTA keeps the frosted-glass look.
  *   - Scroll indicator has a bouncing arrow + opacity pulse.
  *
  * Every motion respects `prefers-reduced-motion`: parallax tracking, loops,
@@ -222,55 +221,38 @@ export function HeroSection() {
               spacing={{ xs: 1, sm: 2 }}
               sx={{ width: "100%", maxWidth: "100%" }}
             >
-              <Box
-                component={motion.div}
-                animate={
-                  reduced
-                    ? undefined
-                    : {
-                        boxShadow: [
-                          "0 14px 32px -10px rgba(212,165,116,0.5), 0 0 0 0 rgba(212,165,116,0)",
-                          "0 18px 38px -10px rgba(212,165,116,0.65), 0 0 28px 6px rgba(212,165,116,0.28)",
-                          "0 14px 32px -10px rgba(212,165,116,0.5), 0 0 0 0 rgba(212,165,116,0)",
-                        ],
-                      }
-                }
-                transition={
-                  reduced
-                    ? undefined
-                    : { duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 2.4 }
-                }
+              <Button
+                component={Link}
+                href="/franchise"
+                variant="contained"
+                color="secondary"
+                size="large"
+                fullWidth
+                endIcon={<ArrowForwardIcon />}
                 sx={{
-                  borderRadius: 999,
-                  display: "block",
-                  width: { xs: "100%", sm: "inline-block" },
+                  alignSelf: { xs: "stretch", sm: "flex-start" },
+                  width: { xs: "100%", sm: "auto" },
+                  minWidth: { xs: 0, sm: 240 },
+                  py: { xs: 1.25, sm: 1.5 },
+                  px: { xs: 3, sm: 4 },
+                  fontSize: { xs: "0.9375rem", sm: "1.0625rem" },
+                  fontWeight: 700,
+                  letterSpacing: "0.02em",
+                  color: "primary.dark",
+                  bgcolor: "secondary.main",
+                  boxShadow: "0 12px 32px -10px rgba(212,165,116,0.65)",
+                  transition:
+                    "transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease",
+                  "&:hover": {
+                    bgcolor: "secondary.light",
+                    color: "primary.dark",
+                    transform: "translateY(-2px)",
+                    boxShadow: "0 16px 40px -10px rgba(212,165,116,0.75)",
+                  },
                 }}
               >
-                <Button
-                  component={Link}
-                  href="/franchise"
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  fullWidth
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{
-                    width: { xs: "100%", sm: "auto" },
-                    minWidth: { xs: 0, sm: 220 },
-                    py: { xs: 1, sm: 1.25 },
-                    fontSize: { xs: "0.875rem", sm: "1rem" },
-                    fontWeight: 700,
-                    boxShadow: "none",
-                    transition: "transform 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-2px) scale(1.02)",
-                      boxShadow: "none",
-                    },
-                  }}
-                >
-                  Explore Franchise
-                </Button>
-              </Box>
+                Explore Franchise
+              </Button>
               <Button
                 component={Link}
                 href="/outlets"

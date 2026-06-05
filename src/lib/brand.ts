@@ -40,6 +40,10 @@ export const BRAND = {
   },
   whatsappLink: "https://wa.me/918919566855",
   siteUrl: "https://inkotea.com",
+  mapsUrl: "https://maps.app.goo.gl/33sznnwAdJXPDfxU8",
+  /** iframe embed for {@link mapsUrl} — InkoTea Enterprises Pvt Ltd, Hyderabad */
+  mapsEmbedSrc:
+    "https://www.google.com/maps?q=17.4414196,78.4976585&z=15&output=embed",
 } as const;
 
 export const NAV_LINKS = [
@@ -47,7 +51,7 @@ export const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Franchise", href: "/franchise" },
   { label: "Why Us", href: "/why-inkotea" },
-  { label: "Products", href: "/products" },
+  { label: "Our Menu", href: "/products" },
   { label: "Outlets", href: "/outlets" },
   { label: "Investor", href: "/investor" },
   { label: "Blog", href: "/blog" },
@@ -64,7 +68,7 @@ export const NAV_PRIMARY = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Franchise", href: "/franchise" },
-  { label: "Products", href: "/products" },
+  { label: "Our Menu", href: "/products" },
   { label: "Outlets", href: "/outlets" },
   { label: "Contact", href: "/contact" },
 ] as const;
