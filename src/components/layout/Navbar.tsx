@@ -262,8 +262,10 @@ export function Navbar() {
         slotProps={{
           paper: {
             sx: {
-              width: { xs: "85vw", sm: 360 },
-              p: 2,
+              width: { xs: 280, sm: 300 },
+              maxWidth: "78vw",
+              px: 2,
+              py: 2.5,
               display: "flex",
               flexDirection: "column",
               bgcolor: NAV_DARK_BG,
@@ -301,7 +303,9 @@ export function Navbar() {
                   aria-current={active ? "page" : undefined}
                   sx={{
                     borderRadius: 2,
-                    mb: 0.5,
+                    mb: 0.25,
+                    py: 1.125,
+                    px: 1.5,
                     color: NAV_TEXT,
                     "&.Mui-selected": {
                       bgcolor: alpha(NAV_ACCENT, 0.2),
@@ -313,7 +317,10 @@ export function Navbar() {
                 >
                   <ListItemText
                     primary={link.label}
-                    primaryTypographyProps={{ fontWeight: 600 }}
+                    primaryTypographyProps={{
+                      fontWeight: 600,
+                      fontSize: "0.95rem",
+                    }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -334,46 +341,46 @@ export function Navbar() {
           Quick contact
         </Typography>
         <Stack direction="row" spacing={1} sx={{ px: 1, mb: 2 }}>
-          <Button
+          <IconButton
             component="a"
             href={`tel:${BRAND.phoneDigits}`}
-            startIcon={<PhoneIcon />}
-            variant="outlined"
-            fullWidth
+            aria-label={`Call ${BRAND.phone}`}
             onClick={() => setDrawerOpen(false)}
             sx={{
-              justifyContent: "flex-start",
+              flex: 1,
+              borderRadius: 999,
+              py: 1.25,
               color: NAV_TEXT,
-              borderColor: alpha(NAV_TEXT, 0.28),
+              border: `1px solid ${alpha(NAV_TEXT, 0.28)}`,
               "&:hover": {
                 borderColor: NAV_ACCENT,
                 bgcolor: alpha(NAV_ACCENT, 0.1),
               },
             }}
           >
-            Call
-          </Button>
-          <Button
+            <PhoneIcon />
+          </IconButton>
+          <IconButton
             component="a"
             href={BRAND.whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            startIcon={<WhatsAppIcon />}
-            variant="outlined"
-            fullWidth
+            aria-label="Chat on WhatsApp"
             onClick={() => setDrawerOpen(false)}
             sx={{
-              justifyContent: "flex-start",
+              flex: 1,
+              borderRadius: 999,
+              py: 1.25,
               color: NAV_TEXT,
-              borderColor: alpha(NAV_TEXT, 0.28),
+              border: `1px solid ${alpha(NAV_TEXT, 0.28)}`,
               "&:hover": {
                 borderColor: NAV_ACCENT,
                 bgcolor: alpha(NAV_ACCENT, 0.1),
               },
             }}
           >
-            WhatsApp
-          </Button>
+            <WhatsAppIcon />
+          </IconButton>
         </Stack>
         <Box sx={{ px: 1, pb: 1 }}>
           <Button
