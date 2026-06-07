@@ -36,7 +36,9 @@ export const JourneyGlyph = memo(function JourneyGlyph({
         boxShadow: (t) =>
           t.palette.mode === "dark"
             ? "0 0 0 2px rgba(212,165,116,0.45), 0 0 0 6px rgba(212,165,116,0.12)"
-            : "0 0 0 2px rgba(160,107,67,0.55), 0 0 0 6px rgba(212,165,116,0.22)",
+            : size <= 64
+              ? "0 0 0 2px rgba(160,107,67,0.55), 0 0 0 4px rgba(212,165,116,0.22)"
+              : "0 0 0 2px rgba(160,107,67,0.55), 0 0 0 6px rgba(212,165,116,0.22)",
         "&::after": {
           content: '""',
           position: "absolute",

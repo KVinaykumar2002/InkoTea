@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import Box from "@mui/material/Box";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import {
   motion,
   useReducedMotion,
@@ -27,8 +29,14 @@ import {
 
 const ROW_VIEWPORT = { once: true, amount: 0.4, margin: "0px 0px -10% 0px" } as const;
 
+const MOBILE_GLYPH_SIZE = 60;
+const DESKTOP_GLYPH_SIZE = 72;
+
 export function JourneyTimeline() {
   const reduced = useReducedMotion();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const glyphSize = isMobile ? MOBILE_GLYPH_SIZE : DESKTOP_GLYPH_SIZE;
   const timelineRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -44,7 +52,12 @@ export function JourneyTimeline() {
   });
 
   return (
-    <Section bgcolor="background.default" pt={{ xs: 4, md: 5 }} pb={0}>
+    <Section
+      bgcolor="background.default"
+      pt={{ xs: 4, md: 5 }}
+      pb={0}
+      sx={{ overflowX: "visible" }}
+    >
       <ScrollReveal y={20} duration={0.65}>
         <SectionHeading
           eyebrow="Our Journey"
@@ -59,20 +72,22 @@ export function JourneyTimeline() {
           position: "relative",
           maxWidth: 1040,
           mx: "auto",
-          pt: { xs: 0.5, md: 1 },
-          overflow: "hidden",
+          pt: { xs: 1.5, md: 1 },
+          px: { xs: 0.5, sm: 0 },
+          overflow: "visible",
         }}
       >
         <PourSpine
           reduced={Boolean(reduced)}
           pourProgress={reduced ? undefined : pourProgress}
+          glyphColumnWidth={isMobile ? 76 : 88}
         />
 
         <Box sx={{ position: "relative", zIndex: 1 }}>
           {JOURNEY_MILESTONES.map((milestone, idx) => {
             const isLeft = idx % 2 === 0;
             const meta = JOURNEY_META[milestone.year];
-            const enterX = isLeft ? -28 : 28;
+            const enterX = isMobile ? (isLeft ? -14 : 14) : isLeft ? -28 : 28;
 
             return (
               <Box
@@ -85,9 +100,10 @@ export function JourneyTimeline() {
                 sx={{
                   display: "grid",
                   gridTemplateColumns: {
-                    xs: "72px 1fr",
+                    xs: "76px minmax(0, 1fr)",
                     md: "1fr 88px 1fr",
                   },
+                  columnGap: { xs: 1.5, md: 0 },
                   alignItems: "center",
                   mb: { xs: 4, md: 5 },
                   "&:last-of-type": { mb: 0 },
@@ -103,7 +119,7 @@ export function JourneyTimeline() {
                     alignSelf: "center",
                   }}
                 >
-                  <JourneyGlyph kind={meta?.glyph ?? "single"} size={72} />
+                  <JourneyGlyph kind={meta?.glyph ?? "single"} size={glyphSize} />
                 </Box>
 
                 <Box
@@ -151,7 +167,9 @@ export function JourneyTimeline() {
                   sx={{
                     gridColumn: 2,
                     display: { xs: "block", md: "none" },
-                    pl: 1,
+                    minWidth: 0,
+                    pl: { xs: 0, sm: 0.5 },
+                    pr: { xs: 0.25, sm: 0 },
                   }}
                 >
                   <JourneyMilestone {...milestone} align="left" />
@@ -168,16 +186,18 @@ export function JourneyTimeline() {
 function PourSpine({
   reduced,
   pourProgress,
+  glyphColumnWidth,
 }: {
   reduced: boolean;
   pourProgress?: MotionValue<number>;
+  glyphColumnWidth: number;
 }) {
   return (
     <Box
       aria-hidden
       sx={{
         position: "absolute",
-        left: { xs: 32, md: "50%" },
+        left: { xs: glyphColumnWidth / 2 - 4, md: "50%" },
         top: 0,
         bottom: 0,
         width: 8,

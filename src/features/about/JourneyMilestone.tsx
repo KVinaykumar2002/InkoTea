@@ -26,11 +26,17 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
       spacing={1.25}
       sx={{
         position: "relative",
+        overflow: "visible",
         p: pillarCardPadding,
-        pr: align === "right" ? { md: 4.5 } : undefined,
+        pt: { xs: 5, md: 3 },
+        pr: {
+          xs: 7,
+          md: align === "right" ? 4.5 : undefined,
+        },
         pl: align === "left" ? { md: 4.5 } : undefined,
         borderRadius: 3,
         textAlign: align,
+        minWidth: 0,
         bgcolor: "background.paper",
         border: (t) => `1px solid ${t.palette.divider}`,
         background: (t) =>
@@ -102,10 +108,10 @@ function YearStamp({ year, side }: { year: string; side: "left" | "right" }) {
       variants={journeyStampVariants}
       sx={{
         position: "absolute",
-        top: -10,
-        [side]: -10,
-        width: 48,
-        height: 48,
+        top: { xs: 10, md: -10 },
+        [side]: { xs: 10, md: -10 },
+        width: { xs: 44, md: 48 },
+        height: { xs: 44, md: 48 },
         borderRadius: "50%",
         display: "flex",
         alignItems: "center",
