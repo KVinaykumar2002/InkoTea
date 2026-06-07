@@ -113,6 +113,86 @@ export const buildDarkSurfaceFieldSx = (
   },
 });
 
+/** White-card field tokens for popup / light-surface enquiry dialogs. */
+export const buildLightSurfaceFieldSx = (
+  surface = "#FFFFFF",
+): DarkSurfaceFieldSx => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "18px",
+    backgroundColor: surface,
+    color: "text.primary",
+    fontSize: "var(--font-size-base)",
+    minHeight: "56px",
+
+    "& fieldset": {
+      borderColor: "divider",
+    },
+    "&:hover fieldset": {
+      borderColor: "text.disabled",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "primary.main",
+      borderWidth: "1.5px",
+    },
+    "&.Mui-disabled fieldset": {
+      borderColor: "action.disabledBackground",
+    },
+
+    "& input, & textarea": {
+      padding: "15px 14px",
+      color: "inherit",
+      caretColor: "primary.main",
+    },
+
+    "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & input:-webkit-autofill:active, & textarea:-webkit-autofill":
+      {
+        WebkitTextFillColor: "#1C1A12",
+        caretColor: "primary.main",
+        transition: "background-color 600000s 0s, color 600000s 0s",
+        borderRadius: "inherit",
+      },
+  },
+
+  "& .MuiInputLabel-root": {
+    color: "text.secondary",
+    fontSize: "var(--font-size-base)",
+    transform: "translate(14px, 17px) scale(1)",
+  },
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: "primary.main",
+  },
+  "& .MuiInputLabel-shrink": {
+    transform: "translate(14px, -9px) scale(0.82)",
+    backgroundColor: surface,
+    padding: "0 6px",
+    borderRadius: "6px",
+  },
+
+  "& .MuiSelect-select": {
+    color: "text.primary",
+  },
+  "& .MuiSelect-icon": {
+    color: "text.secondary",
+  },
+  "& .MuiInputBase-input::placeholder": {
+    color: "text.disabled",
+    opacity: 1,
+  },
+
+  "& .MuiInputAdornment-root, & .MuiInputAdornment-root .MuiTypography-root": {
+    color: "text.primary",
+    fontSize: "var(--font-size-base)",
+  },
+
+  "& .MuiFormHelperText-root": {
+    color: "text.secondary",
+    marginLeft: "6px",
+  },
+  "& .MuiFormHelperText-root.Mui-error": {
+    color: "error.main",
+  },
+});
+
 /**
  * Shared submit button sx for the warm tea-brown forms — amber pill, dark
  * label text, generous touch target. Each form passes its own `minWidth`

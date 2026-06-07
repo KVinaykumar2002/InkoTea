@@ -226,21 +226,26 @@ export function HeroSection() {
                 href="/franchise"
                 variant="contained"
                 color="secondary"
-                size="large"
-                fullWidth
-                endIcon={<ArrowForwardIcon />}
+                size="medium"
+                endIcon={
+                  <ArrowForwardIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />
+                }
                 sx={{
-                  alignSelf: { xs: "stretch", sm: "flex-start" },
-                  width: { xs: "100%", sm: "auto" },
+                  alignSelf: "flex-start",
+                  width: "auto",
                   minWidth: { xs: 0, sm: 240 },
-                  py: { xs: 1.25, sm: 1.5 },
-                  px: { xs: 3, sm: 4 },
-                  fontSize: { xs: "0.9375rem", sm: "1.0625rem" },
+                  minHeight: { xs: 36, sm: 44, md: 48 },
+                  py: { xs: 0.625, sm: 1.25, md: 1.5 },
+                  px: { xs: 2, sm: 3, md: 4 },
+                  fontSize: { xs: "0.8125rem", sm: "1rem", md: "1.0625rem" },
                   fontWeight: 700,
                   letterSpacing: "0.02em",
                   color: "primary.dark",
                   bgcolor: "secondary.main",
-                  boxShadow: "0 12px 32px -10px rgba(212,165,116,0.65)",
+                  boxShadow: {
+                    xs: "0 8px 20px -10px rgba(212,165,116,0.55)",
+                    sm: "0 12px 32px -10px rgba(212,165,116,0.65)",
+                  },
                   transition:
                     "transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease",
                   "&:hover": {
@@ -257,23 +262,27 @@ export function HeroSection() {
                 component={Link}
                 href="/outlets"
                 variant="outlined"
-                size="large"
-                fullWidth
-                startIcon={<StorefrontIcon />}
+                size="medium"
+                startIcon={
+                  <StorefrontIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />
+                }
                 sx={{
                   color: "#fff",
                   borderColor: "rgba(255,255,255,0.55)",
-                  borderWidth: 2,
-                  width: { xs: "100%", sm: "auto" },
+                  borderWidth: { xs: 1.5, sm: 2 },
+                  alignSelf: "flex-start",
+                  width: "auto",
                   minWidth: { xs: 0, sm: 220 },
-                  py: { xs: 1, sm: 1.25 },
-                  fontSize: { xs: "0.875rem", sm: "1rem" },
+                  minHeight: { xs: 36, sm: 42, md: 48 },
+                  py: { xs: 0.5, sm: 1.125, md: 1.25 },
+                  px: { xs: 1.75, sm: 2.5, md: 3 },
+                  fontSize: { xs: "0.8125rem", sm: "0.9375rem", md: "1rem" },
                   fontWeight: 600,
                   backdropFilter: "blur(4px)",
                   transition:
                     "transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
                   "&:hover": {
-                    borderWidth: 2,
+                    borderWidth: { xs: 1.5, sm: 2 },
                     transform: "translateY(-2px) scale(1.02)",
                     borderColor: "#fff",
                     bgcolor: "rgba(255,255,255,0.08)",

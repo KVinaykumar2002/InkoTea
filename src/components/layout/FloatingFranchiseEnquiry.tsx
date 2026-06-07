@@ -26,7 +26,7 @@ import { FormikTextField } from "@/components/forms/FormikTextField";
 import { FormikPhoneField } from "@/components/forms/FormikPhoneField";
 import { FormSuccessState } from "@/components/forms/FormSuccessState";
 import {
-  buildDarkSurfaceFieldSx,
+  buildLightSurfaceFieldSx,
   darkSurfaceSubmitSx,
 } from "@/components/forms/darkSurfaceFieldSx";
 import { useFooterEnquiryForm } from "@/hooks/useFooterEnquiryForm";
@@ -39,7 +39,7 @@ import { useFooterEnquiryForm } from "@/hooks/useFooterEnquiryForm";
  * pipeline without making the visitor leave the page.
  */
 
-const CARD_SURFACE = "#3B1D0E";
+const CARD_SURFACE = "#FFFFFF";
 
 export function FloatingFranchiseEnquiry() {
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ export function FloatingFranchiseEnquiry() {
   const { formik, snackbar, closeSnackbar, submittedName, resetSubmitted } =
     useFooterEnquiryForm();
   const isSubmitting = formik.isSubmitting;
-  const fieldStyles = buildDarkSurfaceFieldSx(CARD_SURFACE);
+  const fieldStyles = buildLightSurfaceFieldSx(CARD_SURFACE);
 
   const handleClose = () => {
     setOpen(false);
@@ -108,7 +108,9 @@ export function FloatingFranchiseEnquiry() {
               m: { xs: 1, sm: 2 },
               maxHeight: { xs: "calc(100% - 16px)", sm: "calc(100% - 48px)" },
               bgcolor: CARD_SURFACE,
-              color: "#F5EFE5",
+              color: "text.primary",
+              border: 1,
+              borderColor: "divider",
               overflow: "hidden",
             },
           },
@@ -127,18 +129,18 @@ export function FloatingFranchiseEnquiry() {
           <Stack spacing={0.5}>
             <Typography
               variant="overline"
-              sx={{ color: "secondary.light", letterSpacing: "0.18em" }}
+              sx={{ color: "secondary.dark", letterSpacing: "0.18em" }}
             >
               Franchise Enquiry
             </Typography>
-            <Typography variant="h5" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
+            <Typography variant="h5" sx={{ color: "text.primary", ...fontDisplayItalicSx }}>
               Start your INKOTEA outlet
             </Typography>
           </Stack>
           <IconButton
             onClick={handleClose}
             aria-label="Close franchise enquiry dialog"
-            sx={{ color: "#F5EFE5", mt: 0.5 }}
+            sx={{ color: "text.secondary", mt: 0.5 }}
           >
             <CloseIcon />
           </IconButton>
@@ -151,6 +153,7 @@ export function FloatingFranchiseEnquiry() {
               description="Our franchise team will reach out within 24 hours with the full investment kit."
               resetLabel="Submit another enquiry"
               onReset={resetSubmitted}
+              lightSurface
             />
           ) : (
             <FormikProvider value={formik}>
@@ -170,7 +173,7 @@ export function FloatingFranchiseEnquiry() {
                 >
                   <Typography
                     variant="body2"
-                    sx={{ color: "rgba(245,239,229,0.78)" }}
+                    sx={{ color: "text.secondary" }}
                   >
                     Tell us where you&apos;d like to open an outlet — we&apos;ll
                     share the investment kit, location guidance and a personal
@@ -179,7 +182,7 @@ export function FloatingFranchiseEnquiry() {
 
                   <FormikTextField
                     name="name"
-                    label="Your name"
+                    label="Your Name"
                     required
                     fullWidth
                     autoComplete="name"
@@ -239,7 +242,7 @@ export function FloatingFranchiseEnquiry() {
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Typography
             variant="caption"
-            sx={{ color: "rgba(245,239,229,0.6)" }}
+            sx={{ color: "text.secondary" }}
           >
             We respect your privacy and never share your details.
           </Typography>

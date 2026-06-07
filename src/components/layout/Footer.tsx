@@ -25,15 +25,6 @@ import {
   FOOTER_QUICK_LINKS,
   MODEL_LINKS,
 } from "@/lib/brand";
-import { BRAND_IMAGES } from "@/lib/brandImages";
-
-/**
- * Single full-bleed footer background — a cinematic wide-aspect INKOTEA
- * kiosk scene with the founder, guests, and the lit "One More Cup" menu
- * board. Anchors the end of every page in real brand energy. A dark
- * tea-brown gradient sits on top so the content stays high-contrast.
- */
-const FOOTER_BG_IMAGE = BRAND_IMAGES.footerKioskScene;
 
 /** Cream amber used inside the dark footer for hover/accent states. */
 const FOOTER_ACCENT = "#E6C19A"; // brand amberGoldLight
@@ -84,36 +75,7 @@ export function Footer() {
         overflow: "hidden",
       }}
     >
-      {/* Single full-bleed brand photo — cinematic kiosk scene. Sits behind
-          a warm tea-brown gradient that keeps copy readable while letting
-          the green neon menu board and crowd glow through. */}
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `url(${FOOTER_BG_IMAGE})`,
-          backgroundSize: "cover",
-          // Source is wide landscape (≈ 2.5:1). On desktop the centre frames
-          // the menu board + founder beautifully; on mobile we shift slightly
-          // right so the lit menu stays in view as the crop narrows.
-          backgroundPosition: { xs: "65% center", md: "center" },
-          backgroundRepeat: "no-repeat",
-          opacity: 0.32,
-          zIndex: 0,
-        }}
-      />
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(180deg, rgba(58,34,16,0.82) 0%, rgba(26,18,11,0.96) 100%)",
-          zIndex: 1,
-        }}
-      />
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
+      <Container maxWidth="lg">
         <Box
           sx={{
             display: "grid",
@@ -324,16 +286,41 @@ export function Footer() {
 
         <Divider sx={{ borderColor: FOOTER_DIVIDER, my: 5 }} />
 
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          spacing={1}
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: { sm: 28 },
+            py: { xs: 0.5, sm: 0 },
+          }}
         >
-          <Typography variant="caption" sx={{ color: "inherit", opacity: 0.65 }}>
+          <Typography
+            variant="caption"
+            align="center"
+            sx={{
+              color: "inherit",
+              opacity: 0.65,
+              width: "100%",
+              px: { sm: 14 },
+            }}
+          >
             © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
           </Typography>
-          <Stack direction="row" spacing={3}>
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{
+              position: { xs: "static", sm: "absolute" },
+              right: { sm: 0 },
+              top: { sm: "50%" },
+              transform: { sm: "translateY(-50%)" },
+              alignSelf: { xs: "flex-end" },
+              mt: { xs: 1.5, sm: 0 },
+            }}
+          >
             <Box
               component={Link}
               href="/privacy"
@@ -361,7 +348,7 @@ export function Footer() {
               Terms
             </Box>
           </Stack>
-        </Stack>
+        </Box>
       </Container>
     </Box>
   );

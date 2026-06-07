@@ -23,12 +23,12 @@ import { FormikTextField } from "@/components/forms/FormikTextField";
 import { FormikPhoneField } from "@/components/forms/FormikPhoneField";
 import { FormSuccessState } from "@/components/forms/FormSuccessState";
 import {
-  buildDarkSurfaceFieldSx,
+  buildLightSurfaceFieldSx,
   darkSurfaceSubmitSx,
 } from "@/components/forms/darkSurfaceFieldSx";
 import { useFooterEnquiryForm } from "@/hooks/useFooterEnquiryForm";
 
-const CARD_SURFACE = "#3B1D0E";
+const CARD_SURFACE = "#FFFFFF";
 const AUTO_CLOSE_MS = 3000;
 
 /**
@@ -56,7 +56,7 @@ export function WelcomeEnquiryPopup() {
   const { formik, snackbar, closeSnackbar, submittedName, resetSubmitted } =
     useFooterEnquiryForm({ source: "popup" });
   const isSubmitting = formik.isSubmitting;
-  const fieldStyles = buildDarkSurfaceFieldSx(CARD_SURFACE);
+  const fieldStyles = buildLightSurfaceFieldSx(CARD_SURFACE);
 
   const clearCloseTimer = useCallback(() => {
     if (closeTimerRef.current) {
@@ -111,7 +111,9 @@ export function WelcomeEnquiryPopup() {
             sx: {
               borderRadius: 3,
               bgcolor: CARD_SURFACE,
-              color: "#F5EFE5",
+              color: "text.primary",
+              border: 1,
+              borderColor: "divider",
               overflow: "hidden",
             },
           },
@@ -130,18 +132,18 @@ export function WelcomeEnquiryPopup() {
           <Stack spacing={0.5}>
             <Typography
               variant="overline"
-              sx={{ color: "secondary.light", letterSpacing: "0.18em" }}
+              sx={{ color: "secondary.dark", letterSpacing: "0.18em" }}
             >
               Welcome to INKOTEA
             </Typography>
-            <Typography variant="h5" sx={{ color: "inherit", ...fontDisplayItalicSx }}>
+            <Typography variant="h5" sx={{ color: "text.primary", ...fontDisplayItalicSx }}>
               Start your franchise journey
             </Typography>
           </Stack>
           <IconButton
             onClick={handleClose}
             aria-label="Close welcome enquiry dialog"
-            sx={{ color: "#F5EFE5", mt: 0.5 }}
+            sx={{ color: "text.secondary", mt: 0.5 }}
           >
             <CloseIcon />
           </IconButton>
@@ -154,6 +156,7 @@ export function WelcomeEnquiryPopup() {
               description="Our franchise team will reach out within 24 hours with the full investment kit."
               resetLabel="Submit another enquiry"
               onReset={resetSubmitted}
+              lightSurface
             />
           ) : (
             <FormikProvider value={formik}>
@@ -174,7 +177,7 @@ export function WelcomeEnquiryPopup() {
                 >
                   <Typography
                     variant="body2"
-                    sx={{ color: "rgba(245,239,229,0.78)" }}
+                    sx={{ color: "text.secondary" }}
                   >
                     Share your details and we&apos;ll send the investment kit,
                     location guidance and a personal walkthrough.
@@ -241,7 +244,7 @@ export function WelcomeEnquiryPopup() {
 
         {!submittedName && (
           <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Typography variant="caption" sx={{ color: "rgba(245,239,229,0.6)" }}>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
               {autoClosePaused
                 ? "Take your time — close when you're done."
                 : "Closes automatically in a few seconds if you don't start filling in."}

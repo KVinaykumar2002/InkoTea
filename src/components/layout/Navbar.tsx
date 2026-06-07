@@ -26,6 +26,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { BrandLogo } from "@/components/common/BrandLogo";
+import { FranchiseNavButton } from "@/components/layout/FranchiseNavButton";
 import { BRAND, NAV_LINKS, NAV_MORE, NAV_PRIMARY } from "@/lib/brand";
 import { brandColors } from "@/theme/palette";
 
@@ -221,20 +222,7 @@ export function Navbar() {
 
           <Stack direction="row" spacing={1} alignItems="center" sx={{ flexShrink: 0 }}>
             {isDesktop ? (
-              <Button
-                component={Link}
-                href="/franchise"
-                variant="contained"
-                color="secondary"
-                size="medium"
-                sx={{
-                  whiteSpace: "nowrap",
-                  fontWeight: 700,
-                  display: "inline-flex",
-                }}
-              >
-                Apply for Franchise
-              </Button>
+              <FranchiseNavButton />
             ) : (
               <IconButton
                 aria-label="Open navigation menu"
@@ -383,18 +371,10 @@ export function Navbar() {
           </IconButton>
         </Stack>
         <Box sx={{ px: 1, pb: 1 }}>
-          <Button
-            component={Link}
-            href="/franchise"
-            onClick={() => setDrawerOpen(false)}
-            variant="contained"
-            color="secondary"
+          <FranchiseNavButton
             fullWidth
-            size="large"
-            sx={{ fontWeight: 700 }}
-          >
-            Apply for Franchise
-          </Button>
+            onClick={() => setDrawerOpen(false)}
+          />
         </Box>
       </Drawer>
     </>

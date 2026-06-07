@@ -17,6 +17,8 @@ interface Props {
   resetLabel?: string;
   /** Reset handler — typically clears the inline success flag in the hook. */
   onReset: () => void;
+  /** Use dark text on white popup cards (default is cream-on-tea-brown). */
+  lightSurface?: boolean;
 }
 
 /**
@@ -31,6 +33,7 @@ export function FormSuccessState({
   description,
   resetLabel = "Send another",
   onReset,
+  lightSurface = false,
 }: Props) {
   const displayTitle =
     title ??
@@ -68,13 +71,20 @@ export function FormSuccessState({
       <Stack spacing={1} alignItems="center" sx={{ maxWidth: 380 }}>
         <Typography
           variant="h5"
-          sx={{ color: "#F5EFE5", fontWeight: 700, lineHeight: 1.25 }}
+          sx={{
+            color: lightSurface ? "text.primary" : "#F5EFE5",
+            fontWeight: 700,
+            lineHeight: 1.25,
+          }}
         >
           {displayTitle}
         </Typography>
         <Typography
           variant="body1"
-          sx={{ color: "rgba(245,239,229,0.75)", lineHeight: 1.55 }}
+          sx={{
+            color: lightSurface ? "text.secondary" : "rgba(245,239,229,0.75)",
+            lineHeight: 1.55,
+          }}
         >
           {displayDescription}
         </Typography>
@@ -84,10 +94,13 @@ export function FormSuccessState({
         onClick={onReset}
         variant="text"
         sx={{
-          color: "#D8A56A",
+          color: lightSurface ? "primary.main" : "#D8A56A",
           textTransform: "none",
           fontWeight: 600,
-          "&:hover": { color: "#E2B37C", bgcolor: "transparent" },
+          "&:hover": {
+            color: lightSurface ? "primary.dark" : "#E2B37C",
+            bgcolor: "transparent",
+          },
         }}
       >
         {resetLabel}
