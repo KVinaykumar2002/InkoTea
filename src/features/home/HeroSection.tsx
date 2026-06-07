@@ -124,46 +124,23 @@ export function HeroSection() {
           sx={{ maxWidth: { xs: "100%", md: 600 } }}
         >
           <FadeUp delay={HERO_TIMING.chip} y={14} reduced={reduced}>
-            <Box
-              component={motion.div}
-              animate={
-                reduced
-                  ? undefined
-                  : {
-                      boxShadow: [
-                        "0 0 0 1px rgba(212,165,116,0.3), 0 0 0 0 rgba(212,165,116,0)",
-                        "0 0 0 1px rgba(212,165,116,0.55), 0 0 22px 4px rgba(212,165,116,0.22)",
-                        "0 0 0 1px rgba(212,165,116,0.3), 0 0 0 0 rgba(212,165,116,0)",
-                      ],
-                    }
-              }
-              transition={
-                reduced
-                  ? undefined
-                  : { duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.0 }
-              }
+            <Chip
+              label="The Feeling of One More"
               sx={{
                 alignSelf: "flex-start",
-                borderRadius: 999,
-                display: "inline-block",
+                bgcolor: "rgba(212, 165, 116, 0.18)",
+                color: "secondary.light",
+                border: "1px solid rgba(212, 165, 116, 0.45)",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontSize: { xs: "0.625rem", sm: "0.7rem" },
+                px: { xs: 0.75, sm: 1 },
+                height: { xs: 24, sm: 32 },
+                backdropFilter: "blur(8px)",
+                boxShadow: "none",
               }}
-            >
-              <Chip
-                label="The Feeling of One More"
-                sx={{
-                  bgcolor: "rgba(212, 165, 116, 0.18)",
-                  color: "secondary.light",
-                  border: "1px solid rgba(212, 165, 116, 0.45)",
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  fontSize: { xs: "0.625rem", sm: "0.7rem" },
-                  px: { xs: 0.75, sm: 1 },
-                  height: { xs: 24, sm: 32 },
-                  backdropFilter: "blur(8px)",
-                }}
-              />
-            </Box>
+            />
           </FadeUp>
 
           <Typography

@@ -33,7 +33,7 @@ import { useFooterEnquiryForm } from "@/hooks/useFooterEnquiryForm";
 
 /**
  * Floating "Enquire about franchise" FAB shown only on the Home page.
- * Anchors bottom-left so it never crowds the right-side WhatsApp FAB.
+ * Anchors bottom-left (same baseline as the WhatsApp FAB on the right).
  * Tapping the pill opens a dialog with a compact 3-field enquiry form
  * (re-uses `useFooterEnquiryForm`), routing the lead to the franchise
  * pipeline without making the visitor leave the page.
@@ -65,7 +65,10 @@ export function FloatingFranchiseEnquiry() {
         sx={{
           position: "fixed",
           left: { xs: 16, md: 24 },
-          bottom: { xs: 88, md: 24 },
+          bottom: {
+            xs: "calc(16px + env(safe-area-inset-bottom, 0px))",
+            md: 24,
+          },
           zIndex: 1200,
         }}
       >
