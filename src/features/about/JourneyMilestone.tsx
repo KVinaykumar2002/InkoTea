@@ -5,10 +5,9 @@ import { fontDisplayItalicSx } from "@/theme/fonts";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { motion } from "framer-motion";
+import { motion, type MotionStyle } from "framer-motion";
 import { pillarCardPadding } from "@/components/common/pillarCardStyles";
 import { JOURNEY_META } from "./journeyMeta";
-import { journeyStampVariants } from "./journeyMotion";
 
 interface Props {
   year: string;
@@ -16,9 +15,16 @@ interface Props {
   text: string;
   /** Which side the card pushes toward (affects text alignment + stamp anchor). */
   align: "left" | "right";
+  stampMotionStyle?: MotionStyle;
 }
 
-export function JourneyMilestone({ year, title, text, align }: Props) {
+export function JourneyMilestone({
+  year,
+  title,
+  text,
+  align,
+  stampMotionStyle,
+}: Props) {
   const meta = JOURNEY_META[year];
 
   return (
@@ -46,7 +52,11 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
         boxShadow: "0 8px 28px -16px rgba(58,34,16,0.18)",
       }}
     >
-      <YearStamp year={year} side={align === "right" ? "left" : "right"} />
+      <YearStamp
+        year={year}
+        side={align === "right" ? "left" : "right"}
+        motionStyle={stampMotionStyle}
+      />
 
       <Typography
         variant="h5"
@@ -101,11 +111,19 @@ export function JourneyMilestone({ year, title, text, align }: Props) {
   );
 }
 
-function YearStamp({ year, side }: { year: string; side: "left" | "right" }) {
+function YearStamp({
+  year,
+  side,
+  motionStyle,
+}: {
+  year: string;
+  side: "left" | "right";
+  motionStyle?: MotionStyle;
+}) {
   return (
     <Box
       component={motion.div}
-      variants={journeyStampVariants}
+      style={motionStyle}
       sx={{
         position: "absolute",
         top: { xs: 10, md: -10 },

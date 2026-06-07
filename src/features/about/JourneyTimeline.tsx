@@ -17,17 +17,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { JOURNEY_MILESTONES } from "@/data/competitors";
-import { JOURNEY_META } from "./journeyMeta";
-import { JourneyGlyph } from "./JourneyGlyph";
-import { JourneyMilestone } from "./JourneyMilestone";
-import {
-  JOURNEY_EASE,
-  journeyCardVariants,
-  journeyGlyphVariants,
-  journeyRowVariants,
-} from "./journeyMotion";
-
-const ROW_VIEWPORT = { once: true, amount: 0.4, margin: "0px 0px -10% 0px" } as const;
+import { JourneyMilestoneRow } from "./JourneyMilestoneRow";
 
 const MOBILE_GLYPH_SIZE = 60;
 const DESKTOP_GLYPH_SIZE = 72;
@@ -41,7 +31,7 @@ export function JourneyTimeline() {
 
   const { scrollYProgress } = useScroll({
     target: timelineRef,
-    offset: ["start 0.82", "end 0.28"],
+    offset: ["start 0.85", "end 0.25"],
   });
 
   const pourRaw = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -84,102 +74,41 @@ export function JourneyTimeline() {
         />
 
         <Box sx={{ position: "relative", zIndex: 1 }}>
-          {JOURNEY_MILESTONES.map((milestone, idx) => {
-            const isLeft = idx % 2 === 0;
-            const meta = JOURNEY_META[milestone.year];
-            const enterX = isMobile ? (isLeft ? -14 : 14) : isLeft ? -28 : 28;
-
-            return (
-              <Box
-                key={milestone.year}
-                component={motion.div}
-                initial={reduced ? false : "hidden"}
-                whileInView={reduced ? undefined : "visible"}
-                viewport={ROW_VIEWPORT}
-                variants={journeyRowVariants}
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: {
-                    xs: "76px minmax(0, 1fr)",
-                    md: "1fr 88px 1fr",
-                  },
-                  columnGap: { xs: 1.5, md: 0 },
-                  alignItems: "center",
-                  mb: { xs: 4, md: 5 },
-                  "&:last-of-type": { mb: 0 },
-                }}
-              >
-                <Box
-                  component={motion.div}
-                  variants={journeyGlyphVariants}
-                  sx={{
-                    gridColumn: { xs: 1, md: 2 },
-                    display: "flex",
-                    justifyContent: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  <JourneyGlyph kind={meta?.glyph ?? "single"} size={glyphSize} />
-                </Box>
-
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "flex" },
-                    justifyContent: "flex-end",
-                    gridColumn: 1,
-                    pr: 2.5,
-                    visibility: isLeft ? "visible" : "hidden",
-                  }}
-                >
-                  <Box
-                    component={motion.div}
-                    variants={journeyCardVariants}
-                    custom={-28}
-                    sx={{ maxWidth: 440, width: "100%" }}
-                  >
-                    <JourneyMilestone {...milestone} align="right" />
-                  </Box>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "flex" },
-                    justifyContent: "flex-start",
-                    gridColumn: 3,
-                    pl: 2.5,
-                    visibility: isLeft ? "hidden" : "visible",
-                  }}
-                >
-                  <Box
-                    component={motion.div}
-                    variants={journeyCardVariants}
-                    custom={28}
-                    sx={{ maxWidth: 440, width: "100%" }}
-                  >
-                    <JourneyMilestone {...milestone} align="left" />
-                  </Box>
-                </Box>
-
-                <Box
-                  component={motion.div}
-                  variants={journeyCardVariants}
-                  custom={enterX}
-                  sx={{
-                    gridColumn: 2,
-                    display: { xs: "block", md: "none" },
-                    minWidth: 0,
-                    pl: { xs: 0, sm: 0.5 },
-                    pr: { xs: 0.25, sm: 0 },
-                  }}
-                >
-                  <JourneyMilestone {...milestone} align="left" />
-                </Box>
-              </Box>
-            );
-          })}
+          {JOURNEY_MILESTONES.map((milestone, idx) => (
+            <JourneyMilestoneRow
+              key={milestone.year}
+              milestone={milestone}
+              index={idx}
+              isMobile={isMobile}
+              glyphSize={glyphSize}
+              reduced={Boolean(reduced)}
+            />
+          ))}
         </Box>
       </Box>
     </Section>
+  );
+}
+
+function ScrollPourDot({ pourProgress }: { pourProgress: MotionValue<number> }) {
+  const pourTop = useTransform(pourProgress, [0, 1], ["0%", "100%"]);
+
+  return (
+    <Box
+      component={motion.div}
+      style={{ top: pourTop }}
+      sx={{
+        position: "absolute",
+        left: "50%",
+        width: 14,
+        height: 14,
+        borderRadius: "50%",
+        transform: "translate(-50%, -50%)",
+        bgcolor: "secondary.main",
+        boxShadow:
+          "0 0 0 3px rgba(212,165,116,0.25), 0 0 14px rgba(212,165,116,0.55)",
+      }}
+    />
   );
 }
 
@@ -236,12 +165,6 @@ function PourSpine({
           strokeWidth={3}
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
-          initial={reduced || pourProgress ? false : { pathLength: 0 }}
-          whileInView={
-            reduced || pourProgress ? undefined : { pathLength: 1 }
-          }
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 2.2, ease: JOURNEY_EASE }}
           style={
             pourProgress
               ? {
@@ -250,12 +173,17 @@ function PourSpine({
                     "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
                 }
               : {
+                  pathLength: reduced ? 1 : 0,
                   filter:
                     "drop-shadow(0 0 6px rgba(212,165,116,0.45)) drop-shadow(0 0 1px rgba(160,107,67,0.6))",
                 }
           }
         />
       </svg>
+
+      {pourProgress && !reduced ? (
+        <ScrollPourDot pourProgress={pourProgress} />
+      ) : null}
     </Box>
   );
 }

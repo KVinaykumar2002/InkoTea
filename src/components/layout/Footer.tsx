@@ -290,11 +290,13 @@ export function Footer() {
           sx={{
             position: "relative",
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            gap: { xs: 1.25, sm: 0 },
             minHeight: { sm: 28 },
             py: { xs: 0.5, sm: 0 },
+            pb: { xs: 10, sm: 0 },
           }}
         >
           <Typography
@@ -303,7 +305,6 @@ export function Footer() {
             sx={{
               color: "inherit",
               opacity: 0.65,
-              width: "100%",
               px: { sm: 14 },
             }}
           >
@@ -312,13 +313,12 @@ export function Footer() {
           <Stack
             direction="row"
             spacing={3}
+            justifyContent="center"
             sx={{
               position: { xs: "static", sm: "absolute" },
               right: { sm: 0 },
               top: { sm: "50%" },
               transform: { sm: "translateY(-50%)" },
-              alignSelf: { xs: "flex-end" },
-              mt: { xs: 1.5, sm: 0 },
             }}
           >
             <Box
