@@ -1,6 +1,6 @@
 "use client";
 
-import { fontDisplayItalicSx } from "@/theme/fonts";
+import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -74,6 +74,7 @@ export function InvestorHero() {
           <Typography
             variant="h5"
             sx={{
+              ...fontDescriptionSx,
               color: "rgba(245,239,229,0.85)",
               fontWeight: 400,
               lineHeight: 1.55,

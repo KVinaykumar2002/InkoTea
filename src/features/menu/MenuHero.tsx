@@ -8,6 +8,7 @@ import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
 
 import { SafeImage } from "@/components/common/SafeImage";
+import { fontDescriptionSx } from "@/theme/fonts";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
 /** Beverages + bakes spread from the Social Cafe brochure. */
@@ -96,6 +97,7 @@ export function MenuHero() {
           <Typography
             variant="h5"
             sx={{
+              ...fontDescriptionSx,
               color: "rgba(255,255,255,0.88)",
               fontWeight: 400,
               lineHeight: 1.55,

@@ -57,13 +57,13 @@ export const typography: TypographyVariantsOptions = {
     letterSpacing: "0.02em",
   },
   body1: {
-    fontFamily: fonts.body,
+    fontFamily: fonts.description,
     fontWeight: 400,
     fontSize: "1.0625rem",
     lineHeight: 1.65,
   },
   body2: {
-    fontFamily: fonts.body,
+    fontFamily: fonts.description,
     fontWeight: 400,
     fontSize: "0.9375rem",
     lineHeight: 1.6,

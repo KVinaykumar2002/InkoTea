@@ -26,7 +26,7 @@ body {
   margin: 0;
   padding: 0;
   max-width: 100%;
-  /* Body default — Oswald (see src/theme/fonts.ts) */
+  /* UI default — Oswald; descriptions use Open Sans via MUI body1/body2 */
   font-family: var(--font-oswald), "Oswald", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

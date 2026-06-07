@@ -10,6 +10,7 @@ import { ContactFormBlock } from "@/features/contact/ContactFormBlock";
 import { OfficeMap } from "@/features/contact/OfficeMap";
 import { OfficeAddressCard } from "@/features/contact/OfficeAddressCard";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
+import { fontDescriptionSx } from "@/theme/fonts";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
 export const metadata = buildPageMetadata({
@@ -92,6 +93,7 @@ export default function ContactPage() {
             <Typography
               variant="h5"
               sx={{
+                ...fontDescriptionSx,
                 color: "rgba(255,255,255,0.88)",
                 fontWeight: 400,
                 lineHeight: 1.55,

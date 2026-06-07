@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { FranchiseNavButton } from "@/components/layout/FranchiseNavButton";
 
 const SESSION_KEY = "inkotea-cta-dismissed";
 // The home page ships its own always-visible floating franchise enquiry FAB
@@ -128,17 +126,7 @@ export function StickyFranchiseCTA() {
             >
               Open your INKOTEA outlet
             </Typography>
-            <Button
-              component={Link}
-              href="/franchise"
-              variant="contained"
-              color="secondary"
-              size="small"
-              endIcon={<ArrowForwardIcon />}
-              sx={{ flexShrink: 0 }}
-            >
-              Apply
-            </Button>
+            <FranchiseNavButton label="Apply" compact />
             <IconButton
               size="small"
               aria-label="Dismiss franchise CTA"

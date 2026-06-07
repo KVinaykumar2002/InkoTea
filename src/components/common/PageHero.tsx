@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { motion } from "framer-motion";
-import { fontDisplayItalicSx } from "@/theme/fonts";
+import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
 
 interface Props {
   eyebrow: string;
@@ -86,6 +86,7 @@ export function PageHero({
             <Typography
               variant="h5"
               sx={{
+                ...fontDescriptionSx,
                 color: isDark ? "rgba(255,255,255,0.85)" : "text.secondary",
                 fontWeight: 400,
                 lineHeight: 1.55,

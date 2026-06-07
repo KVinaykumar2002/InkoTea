@@ -12,14 +12,20 @@ const FILL_COLOR = brandColors.amberGold;
 interface FranchiseNavButtonProps {
   fullWidth?: boolean;
   onClick?: () => void;
+  /** Defaults to "Apply for Franchise". */
+  label?: string;
+  /** Smaller pill for sticky bars and inline CTAs. */
+  compact?: boolean;
 }
 
 /**
- * Navbar CTA — white pill with arrow disc; hover fills amber left → right.
+ * Franchise CTA — white pill with arrow disc; hover fills amber left → right.
  */
 export function FranchiseNavButton({
   fullWidth = false,
   onClick,
+  label = "Apply for Franchise",
+  compact = false,
 }: FranchiseNavButtonProps) {
   return (
     <Button
@@ -32,18 +38,19 @@ export function FranchiseNavButton({
         position: "relative",
         overflow: "hidden",
         borderRadius: 999,
-        pl: { xs: 2.75, md: 3 },
-        pr: 0.75,
-        py: 0.875,
-        minHeight: 48,
+        pl: compact ? 2 : { xs: 2.75, md: 3 },
+        pr: compact ? 0.5 : 0.75,
+        py: compact ? 0.5 : 0.875,
+        minHeight: compact ? 36 : 48,
         bgcolor: "#FFFFFF",
         color: brandColors.charcoal,
         fontWeight: 700,
         textTransform: "none",
         whiteSpace: "nowrap",
         boxShadow: "0 4px 16px -6px rgba(0,0,0,0.28)",
-        gap: 1.25,
+        gap: compact ? 0.75 : 1.25,
         justifyContent: "space-between",
+        flexShrink: 0,
         transition: "box-shadow 0.4s ease",
         "&::before": {
           content: '""',
@@ -79,12 +86,12 @@ export function FranchiseNavButton({
         sx={{
           position: "relative",
           zIndex: 1,
-          fontSize: { xs: "1rem", md: "1.0625rem" },
+          fontSize: compact ? "0.875rem" : { xs: "1rem", md: "1.0625rem" },
           lineHeight: 1.2,
           transition: "color 0.35s ease 0.08s",
         }}
       >
-        Apply for Franchise
+        {label}
       </Box>
       <Box
         className="franchise-nav-btn-icon"
@@ -92,8 +99,8 @@ export function FranchiseNavButton({
           position: "relative",
           zIndex: 1,
           flexShrink: 0,
-          width: 36,
-          height: 36,
+          width: compact ? 28 : 36,
+          height: compact ? 28 : 36,
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
@@ -104,7 +111,7 @@ export function FranchiseNavButton({
           transition: "background-color 0.35s ease 0.12s",
         }}
       >
-        <ArrowForwardIcon sx={{ fontSize: 20 }} />
+        <ArrowForwardIcon sx={{ fontSize: compact ? 16 : 20 }} />
       </Box>
     </Button>
   );

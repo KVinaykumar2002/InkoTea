@@ -161,18 +161,22 @@ export function FounderSection() {
               sx={{
                 position: "relative",
                 width: "100%",
-                height: { xs: 300, md: 400 },
+                aspectRatio: "3 / 4",
+                height: "auto",
+                maxHeight: { xs: 420, md: 480 },
                 borderRadius: 4,
                 zIndex: 1,
                 boxShadow: "0 20px 60px -20px rgba(0,0,0,0.3)",
-                bgcolor: "primary.main",
+                bgcolor: "grey.900",
                 color: "primary.contrastText",
                 ...fontDisplaySx,
                 fontSize: { xs: "5rem", md: "6.5rem" },
                 fontWeight: 700,
                 "& img": {
+                  width: "100%",
+                  height: "100%",
                   objectFit: "cover",
-                  objectPosition: "center 20%",
+                  objectPosition: "center top",
                 },
               }}
             >

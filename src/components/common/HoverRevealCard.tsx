@@ -49,8 +49,8 @@ export function HoverRevealCard({
             "border-color 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease",
           "&:hover": {
             borderColor: "primary.main",
-            bgcolor: alpha(brandColors.oliveGreen, 0.04),
-            boxShadow: `0 16px 40px -24px ${alpha(brandColors.teaBrown, 0.28)}`,
+            bgcolor: alpha(brandColors.oliveGreen, 0.05),
+            boxShadow: `0 16px 40px -24px ${alpha(brandColors.oliveGreenDark, 0.28)}`,
             [`& .${HOVER_REVEAL_ACCENT_CLASS}`]: {
               height: "100%",
             },
@@ -68,7 +68,7 @@ export function HoverRevealCard({
           left: 0,
           width: 3,
           height: 0,
-          bgcolor: "secondary.main",
+          bgcolor: brandColors.oliveGreenDark,
           borderBottomLeftRadius: 2,
           borderBottomRightRadius: 2,
           transition: "height 0.35s ease-in-out",

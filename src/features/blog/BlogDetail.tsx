@@ -12,7 +12,12 @@ import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ReactMarkdown from "react-markdown";
-import { fontDisplayItalicSx, fontDisplaySx, fontBodySx } from "@/theme/fonts";
+import {
+  fontDescriptionSx,
+  fontDisplayItalicSx,
+  fontDisplaySx,
+  fontBodySx,
+} from "@/theme/fonts";
 import { BLOG_CATEGORIES } from "@/data/blogPosts";
 import type { BlogPost } from "@/types";
 
@@ -75,7 +80,11 @@ export function BlogDetail({ post }: Props) {
             <Typography variant="h1" sx={{ fontSize: { xs: "2.25rem", md: "3rem" } }}>
               {post.title}
             </Typography>
-            <Typography variant="h5" color="text.secondary" sx={{ fontWeight: 400 }}>
+            <Typography
+              variant="h5"
+              color="text.secondary"
+              sx={{ ...fontDescriptionSx, fontWeight: 400 }}
+            >
               {post.excerpt}
             </Typography>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -141,6 +150,7 @@ export function BlogDetail({ post }: Props) {
             "& h2": { fontSize: "1.75rem" },
             "& h3": { fontSize: "1.4rem" },
             "& p": {
+              ...fontDescriptionSx,
               fontSize: "1.0625rem",
               lineHeight: 1.75,
               color: "text.secondary",
@@ -158,6 +168,7 @@ export function BlogDetail({ post }: Props) {
             },
             "& ul, & ol": { pl: 3, mb: 3 },
             "& li": {
+              ...fontDescriptionSx,
               fontSize: "1.0625rem",
               color: "text.secondary",
               mb: 1,

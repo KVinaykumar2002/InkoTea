@@ -1,6 +1,6 @@
 "use client";
 
-import { fontDisplayItalicSx } from "@/theme/fonts";
+import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
 
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -90,6 +90,7 @@ export function StorySection() {
           <Typography
             variant="h5"
             sx={{
+              ...fontDescriptionSx,
               color: "rgba(255,255,255,0.88)",
               fontWeight: 400,
               lineHeight: 1.6,

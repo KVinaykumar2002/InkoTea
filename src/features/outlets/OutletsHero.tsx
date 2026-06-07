@@ -1,6 +1,6 @@
 "use client";
 
-import { fontDisplayItalicSx } from "@/theme/fonts";
+import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -86,6 +86,7 @@ export function OutletsHero() {
           <Typography
             variant="h5"
             sx={{
+              ...fontDescriptionSx,
               color: "rgba(255,255,255,0.88)",
               fontWeight: 400,
               lineHeight: 1.55,

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Oswald } from "next/font/google";
+import { Open_Sans, Oswald } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { BRAND } from "@/lib/brand";
@@ -8,6 +8,13 @@ const oswald = Oswald({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-oswald",
+  weight: ["400", "500", "600", "700"],
+});
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-open-sans",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -49,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={oswald.variable}
+      className={`${oswald.variable} ${openSans.variable}`}
       suppressHydrationWarning
     >
       <body>

@@ -16,6 +16,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
+import { fontDescriptionSx } from "@/theme/fonts";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroAtmosphere } from "./HeroAtmosphere";
 import {
@@ -196,6 +197,7 @@ export function HeroSection() {
               variant="h5"
               component="p"
               sx={{
+                ...fontDescriptionSx,
                 m: 0,
                 color: "rgba(255,255,255,0.88)",
                 fontWeight: 400,
