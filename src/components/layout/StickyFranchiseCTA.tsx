@@ -22,8 +22,7 @@ const HIDDEN_ROUTES_EXACT = ["/"];
  * Dismissed state is remembered for the session so it doesn't nag the user.
  *
  * On md+ the pill is anchored to the left so it never visually crowds
- * the right-anchored WhatsApp FAB. On xs/sm it stretches across the
- * viewport above the FAB.
+ * the right-anchored phone + WhatsApp FAB stack.
  */
 export function StickyFranchiseCTA() {
   const pathname = usePathname();
@@ -83,16 +82,14 @@ export function StickyFranchiseCTA() {
           role="region"
           aria-label="Franchise call to action"
           sx={{
+            display: { xs: "none", md: "block" },
             position: "fixed",
-            bottom: { xs: 80, md: 24 },
-            // On xs/sm the pill spans most of the viewport (above the FAB).
-            // On md+ it docks bottom-left, leaving the right gutter clear
-            // for the WhatsApp FAB so the two never visually crowd.
-            left: { xs: 16, md: 24 },
-            right: { xs: 16, md: "auto" },
+            bottom: 24,
+            left: 24,
+            right: "auto",
             transform: "none",
             zIndex: 1100,
-            maxWidth: { xs: "none", md: 520 },
+            maxWidth: 520,
             bgcolor: "primary.main",
             color: "primary.contrastText",
             borderRadius: 999,
