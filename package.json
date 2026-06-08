@@ -1,38 +1,16 @@
 {
-  "name": "inkotea-web",
+  "name": "inkotea",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "favicons": "node scripts/generate-favicons.mjs"
-  },
-  "dependencies": {
-    "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/server": "^11.11.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^6.5.0",
-    "@mui/material": "^6.5.0",
-    "@mui/material-nextjs": "^6.5.0",
-    "formik": "^2.4.9",
-    "framer-motion": "^12.38.0",
-    "next": "14.2.35",
-    "react": "^18",
-    "react-countup": "^6.5.3",
-    "react-dom": "^18",
-    "react-intersection-observer": "^10.0.3",
-    "react-markdown": "^10.1.0",
-    "yup": "^1.7.1"
+    "dev": "concurrently -n frontend,backend -c cyan,magenta \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "seed": "npm run seed --prefix backend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.35",
-    "typescript": "^5"
+    "concurrently": "^9.1.2"
   }
 }

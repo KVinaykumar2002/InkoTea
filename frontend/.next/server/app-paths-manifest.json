@@ -1,0 +1,6 @@
+{
+  "/icon.png/route": "app/icon.png/route.js",
+  "/admin/outlets/page": "app/admin/outlets/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/menu/page": "app/admin/menu/page.js"
+}

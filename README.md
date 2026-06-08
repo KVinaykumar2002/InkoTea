@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# INKOTEA
 
-## Getting Started
+Marketing website and admin dashboard for the INKOTEA franchise brand.
 
-First, run the development server:
+## Project structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+InkoTea/
+├── frontend/     # Next.js marketing site + admin dashboard
+├── backend/      # Express API (SQLite, JWT auth)
+└── package.json  # Root scripts to run both
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quick start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm run install:all
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Seed the database (first time)
+npm run seed
 
-## Learn More
+# Run frontend + backend together
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+- **Marketing site:** http://localhost:3000
+- **Admin dashboard:** http://localhost:3000/admin
+- **API:** http://localhost:4000/api
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Default admin credentials
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Email: `admin@inkotea.com`
+- Password: `admin123`
 
-## Deploy on Vercel
+Change these in `backend/.env` before deploying to production.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Admin features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Dashboard overview (leads, content counts)
+- Lead management (view, filter, update status, delete)
+- CRUD for outlets, menu items, blog posts, FAQs, testimonials
+
+## Environment
+
+Copy `backend/.env.example` → `backend/.env` and `frontend/.env.local.example` → `frontend/.env.local`.
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start frontend + backend |
+| `npm run dev:frontend` | Next.js only |
+| `npm run dev:backend` | API only |
+| `npm run seed` | Reset & seed database |
+| `npm run build` | Build both projects |

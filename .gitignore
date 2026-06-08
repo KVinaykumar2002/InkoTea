@@ -2,6 +2,13 @@
 
 # dependencies
 /node_modules
+frontend/node_modules
+backend/node_modules
+backend/data/*.db
+backend/data/*.db-*
+backend/dist
+frontend/public/uploads/*
+!frontend/public/uploads/.gitkeep
 /.pnp
 .pnp.js
 .yarn/install-state.gz

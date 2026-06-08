@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://inkotea.com
+Sitemap: https://inkotea.com/sitemap.xml
