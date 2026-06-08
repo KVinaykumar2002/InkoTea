@@ -163,9 +163,18 @@ export function HeroSection() {
               India&rsquo;s Chai Culture.
             </LineReveal>
             <BlurReveal delay={HERO_TIMING.line2} duration={1.1} blur={10} reduced={reduced}>
-              <ShimmerSpan delay={HERO_TIMING.shimmer} reduced={reduced}>
-                Reimagined for Today.
-              </ShimmerSpan>
+              <Box
+                component="span"
+                sx={{
+                  display: "block",
+                  fontSize: { xs: "0.8em", sm: "0.76em", md: "0.68em" },
+                  lineHeight: 1.2,
+                }}
+              >
+                <ShimmerSpan delay={HERO_TIMING.shimmer} reduced={reduced}>
+                  Reimagined for Today.
+                </ShimmerSpan>
+              </Box>
             </BlurReveal>
           </Typography>
 

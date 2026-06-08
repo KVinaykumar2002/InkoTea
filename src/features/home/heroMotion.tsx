@@ -117,7 +117,7 @@ export function BlurReveal({
   reduced,
 }: BlurRevealProps) {
   return (
-    <Box sx={{ display: "block", overflow: "hidden", pb: "0.12em" }}>
+    <Box sx={{ display: "block", overflow: "hidden", pb: "0.28em" }}>
       <Box
         component={motion.span}
         initial={reduced ? false : { y: "110%", opacity: 0, filter: `blur(${blur}px)` }}
@@ -127,7 +127,11 @@ export function BlurReveal({
           duration: reduced ? 0 : duration,
           ease: EASE_OUT_QUART,
         }}
-        sx={{ display: "inline-block", willChange: "transform, filter, opacity" }}
+        sx={{
+          display: "inline-block",
+          lineHeight: 1.2,
+          willChange: "transform, filter, opacity",
+        }}
       >
         {children}
       </Box>
@@ -156,6 +160,8 @@ export function ShimmerSpan({ children, delay = 0, duration = 2.2, reduced }: Sh
           display: "inline-block",
           color: "secondary.light",
           ...fontDisplayItalicSx,
+          lineHeight: 1.2,
+          pb: "0.1em",
         }}
       >
         {children}
@@ -172,6 +178,8 @@ export function ShimmerSpan({ children, delay = 0, duration = 2.2, reduced }: Sh
       sx={{
         display: "inline-block",
         ...fontDisplayItalicSx,
+        lineHeight: 1.2,
+        pb: "0.1em",
         backgroundImage:
           "linear-gradient(110deg, #E6C19A 0%, #E6C19A 42%, #FFF6DA 50%, #E6C19A 58%, #E6C19A 100%)",
         backgroundSize: "200% 100%",
