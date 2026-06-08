@@ -6,8 +6,6 @@ import { ModelComparison } from "@/features/franchise/ModelComparison";
 import { WhatYouGetProvide } from "@/features/franchise/WhatYouGetProvide";
 import { SupportSystem } from "@/features/franchise/SupportSystem";
 import { WhyFormatWorks } from "@/features/franchise/WhyFormatWorks";
-import { FranchiseForm } from "@/features/franchise/FranchiseForm";
-
 export const metadata = buildPageMetadata({
   title: "Franchise Opportunity",
   description:

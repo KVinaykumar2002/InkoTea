@@ -5,7 +5,7 @@ const API_BASE =
 
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
   const res = await fetch(`${API_BASE}/blog`, {
-    next: { revalidate: 60 },
+    cache: "force-cache",
   });
   if (!res.ok) {
     throw new Error("Failed to fetch blog posts");
@@ -16,7 +16,7 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
   const res = await fetch(`${API_BASE}/blog/${slug}`, {
-    next: { revalidate: 60 },
+    cache: "force-cache",
   });
   if (res.status === 404) return null;
   if (!res.ok) {

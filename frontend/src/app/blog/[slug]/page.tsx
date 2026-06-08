@@ -3,8 +3,6 @@ import { buildPageMetadata } from "@/lib/seo";
 import { BlogDetail } from "@/features/blog/BlogDetail";
 import { fetchBlogPost, fetchBlogPosts } from "@/lib/serverApi";
 
-export const dynamic = "force-dynamic";
-
 interface Params {
   slug: string;
 }
