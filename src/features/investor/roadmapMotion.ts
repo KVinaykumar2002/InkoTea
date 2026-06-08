@@ -6,8 +6,8 @@ export const roadmapRowVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.04,
+      staggerChildren: 0.06,
+      delayChildren: 0.02,
     },
   },
 };
@@ -26,6 +26,16 @@ export const roadmapContentVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: ROADMAP_EASE },
+    transition: { duration: 0.35, ease: ROADMAP_EASE },
+  },
+};
+
+export const roadmapYearPopupVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.35, y: 8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 420, damping: 26 },
   },
 };
