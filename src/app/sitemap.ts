@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "franchise",
     "why-inkotea",
     "products",
+    "testimonials",
     "outlets",
     "investor",
     "blog",

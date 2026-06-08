@@ -7,6 +7,7 @@ import { PositioningSection } from "@/features/home/PositioningSection";
 import { ModelsPreview } from "@/features/home/ModelsPreview";
 import { NearestOutletSection } from "@/features/home/NearestOutletSection";
 import { ExperienceSection } from "@/features/home/ExperienceSection";
+import { TestimonialsSection } from "@/features/home/TestimonialsSection";
 import { PressLogosStrip } from "@/features/home/PressLogosStrip";
 import { FranchiseCTASection } from "@/features/home/FranchiseCTASection";
 import { FloatingFranchiseEnquiry } from "@/components/layout/FloatingFranchiseEnquiry";
@@ -29,6 +30,7 @@ export default function HomePage() {
         <ModelsPreview embedded />
         <NearestOutletSection embedded />
         <ExperienceSection embedded />
+        <TestimonialsSection embedded />
       </Section>
       <PressLogosStrip />
       <FranchiseCTASection />

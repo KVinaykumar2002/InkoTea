@@ -52,6 +52,7 @@ export const NAV_LINKS = [
   { label: "Franchise", href: "/franchise" },
   { label: "Why Us", href: "/why-inkotea" },
   { label: "Our Menu", href: "/products" },
+  { label: "Testimonials", href: "/testimonials" },
   { label: "Outlets", href: "/outlets" },
   { label: "Investor", href: "/investor" },
   { label: "Blog", href: "/blog" },
@@ -69,6 +70,7 @@ export const NAV_PRIMARY = [
   { label: "About", href: "/about" },
   { label: "Franchise", href: "/franchise" },
   { label: "Our Menu", href: "/products" },
+  { label: "Testimonials", href: "/testimonials" },
   { label: "Outlets", href: "/outlets" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -85,6 +87,7 @@ export const FOOTER_QUICK_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "Franchise", href: "/franchise" },
   { label: "Products", href: "/products" },
+  { label: "Testimonials", href: "/testimonials" },
   { label: "Outlets", href: "/outlets" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },

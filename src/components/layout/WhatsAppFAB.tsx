@@ -167,28 +167,107 @@ export function WhatsAppFAB() {
         </Box>
       </Box>
 
-      <Fab
-        component="a"
-        href={whatsappHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat with INKOTEA on WhatsApp"
+      <Box
         sx={{
-          bgcolor: "#25D366",
-          color: "#fff",
-          boxShadow: "0 8px 24px -6px rgba(37, 211, 102, 0.6)",
-          transition:
-            "box-shadow 0.35s ease, background-color 0.25s ease, transform 0.25s ease",
-          "&:hover": {
-            bgcolor: "#1ebe5a",
-            transform: "scale(1.05)",
-            boxShadow: "0 12px 28px -8px rgba(37, 211, 102, 0.7)",
+          position: "relative",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          "@keyframes whatsapp-pulse": {
+            "0%": {
+              transform: "translate(-50%, -50%) scale(1)",
+              opacity: 0.55,
+            },
+            "70%": {
+              opacity: 0.12,
+            },
+            "100%": {
+              transform: "translate(-50%, -50%) scale(2.5)",
+              opacity: 0,
+            },
           },
         }}
       >
-        <WhatsAppIcon />
-      </Fab>
+        {!reducedMotion ? <WhatsAppPulseRings /> : null}
+        <Fab
+          component="a"
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with INKOTEA on WhatsApp"
+          sx={{
+            position: "relative",
+            zIndex: 1,
+            bgcolor: "#25D366",
+            color: "#fff",
+            boxShadow: "0 8px 24px -6px rgba(37, 211, 102, 0.6)",
+            transition:
+              "box-shadow 0.35s ease, background-color 0.25s ease, transform 0.25s ease",
+            "&:hover": {
+              bgcolor: "#1ebe5a",
+              transform: "scale(1.05)",
+              boxShadow: "0 12px 28px -8px rgba(37, 211, 102, 0.7)",
+            },
+          }}
+        >
+          <WhatsAppIcon />
+          <Box
+            aria-hidden
+            sx={{
+              position: "absolute",
+              top: 2,
+              right: 2,
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              bgcolor: "#E53935",
+              border: "2px solid #fff",
+              boxShadow: "0 1px 4px rgba(0, 0, 0, 0.2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "&::after": {
+                content: '""',
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                bgcolor: "#fff",
+              },
+            }}
+          />
+        </Fab>
+      </Box>
     </Box>
+  );
+}
+
+const PULSE_DURATION_S = 2.8;
+const PULSE_RING_COUNT = 3;
+
+function WhatsAppPulseRings() {
+  return (
+    <>
+      {Array.from({ length: PULSE_RING_COUNT }, (_, index) => (
+        <Box
+          key={index}
+          aria-hidden
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            width: 56,
+            height: 56,
+            borderRadius: "50%",
+            border: "2px solid rgba(0, 0, 0, 0.14)",
+            pointerEvents: "none",
+            transform: "translate(-50%, -50%) scale(1)",
+            opacity: 0,
+            animation: `whatsapp-pulse ${PULSE_DURATION_S}s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite`,
+            animationDelay: `${(index * PULSE_DURATION_S) / PULSE_RING_COUNT}s`,
+          }}
+        />
+      ))}
+    </>
   );
 }
 
