@@ -14,7 +14,6 @@ const PHONE_LABEL = "Talk to expert";
 const LABEL_EASE = [0.22, 1, 0.36, 1] as const;
 const POPOVER_BG = brandColors.charcoal;
 const AUTO_SHOW_DELAY_MS = 5000;
-const AUTO_SHOW_DURATION_MS = 5000;
 
 /**
  * Floating contact stack — phone above WhatsApp, anchored bottom-right.
@@ -35,16 +34,6 @@ export function WhatsAppFAB() {
 
     return () => window.clearTimeout(showTimer);
   }, [reducedMotion]);
-
-  useEffect(() => {
-    if (!autoShowPhone || phoneHovered) return;
-
-    const hideTimer = window.setTimeout(() => {
-      setAutoShowPhone(false);
-    }, AUTO_SHOW_DURATION_MS);
-
-    return () => window.clearTimeout(hideTimer);
-  }, [autoShowPhone, phoneHovered]);
 
   const message = encodeURIComponent(
     "Hi INKOTEA team, I'd like to know more about the franchise opportunity.",
@@ -222,7 +211,7 @@ export function WhatsAppFAB() {
           sx={{
             position: "relative",
             zIndex: 1,
-            bgcolor: "#25D366",
+            bgcolor: WHATSAPP_GREEN,
             color: "#fff",
             boxShadow: "0 8px 24px -6px rgba(37, 211, 102, 0.6)",
             transition:
@@ -267,6 +256,8 @@ export function WhatsAppFAB() {
 
 const PULSE_DURATION_S = 2.8;
 const PULSE_RING_COUNT = 3;
+const WHATSAPP_GREEN = "#25D366";
+const WHATSAPP_PULSE_GREEN = "rgba(37, 211, 102, 0.45)";
 
 function WhatsAppPulseRings() {
   return (
@@ -282,7 +273,7 @@ function WhatsAppPulseRings() {
             width: 56,
             height: 56,
             borderRadius: "50%",
-            border: "2px solid rgba(0, 0, 0, 0.14)",
+            border: `2px solid ${WHATSAPP_PULSE_GREEN}`,
             pointerEvents: "none",
             transform: "translate(-50%, -50%) scale(1)",
             opacity: 0,
@@ -373,7 +364,13 @@ function TeaExpertMascot({
         transition={
           reduced
             ? undefined
-            : { duration: 0.9, ease: "easeInOut", delay: 0.15 }
+            : {
+                duration: 0.9,
+                ease: "easeInOut",
+                delay: 0.15,
+                repeat: Infinity,
+                repeatDelay: 1.4,
+              }
         }
         sx={{
           position: "absolute",
