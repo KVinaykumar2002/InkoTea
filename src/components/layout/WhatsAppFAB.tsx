@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -13,6 +13,8 @@ import { brandColors } from "@/theme/palette";
 const PHONE_LABEL = "Talk to expert";
 const LABEL_EASE = [0.22, 1, 0.36, 1] as const;
 const POPOVER_BG = brandColors.charcoal;
+const AUTO_SHOW_DELAY_MS = 5000;
+const AUTO_SHOW_DURATION_MS = 5000;
 
 /**
  * Floating contact stack — phone above WhatsApp, anchored bottom-right.
@@ -21,6 +23,28 @@ const POPOVER_BG = brandColors.charcoal;
 export function WhatsAppFAB() {
   const reducedMotion = useReducedMotion();
   const [phoneHovered, setPhoneHovered] = useState(false);
+  const [autoShowPhone, setAutoShowPhone] = useState(false);
+  const phonePopoverVisible = phoneHovered || autoShowPhone;
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const showTimer = window.setTimeout(() => {
+      setAutoShowPhone(true);
+    }, AUTO_SHOW_DELAY_MS);
+
+    return () => window.clearTimeout(showTimer);
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    if (!autoShowPhone || phoneHovered) return;
+
+    const hideTimer = window.setTimeout(() => {
+      setAutoShowPhone(false);
+    }, AUTO_SHOW_DURATION_MS);
+
+    return () => window.clearTimeout(hideTimer);
+  }, [autoShowPhone, phoneHovered]);
 
   const message = encodeURIComponent(
     "Hi INKOTEA team, I'd like to know more about the franchise opportunity.",
@@ -61,7 +85,7 @@ export function WhatsAppFAB() {
         }}
       >
         <AnimatePresence>
-          {phoneHovered ? (
+          {phonePopoverVisible ? (
             <Box
               component={motion.div}
               initial={
@@ -92,7 +116,7 @@ export function WhatsAppFAB() {
               }}
             >
               <TeaExpertMascot
-                active={phoneHovered}
+                active={phonePopoverVisible}
                 reduced={Boolean(reducedMotion)}
               />
 
@@ -133,7 +157,7 @@ export function WhatsAppFAB() {
         <Box
           component={motion.div}
           animate={
-            reducedMotion || !phoneHovered
+            reducedMotion || !phonePopoverVisible
               ? { scale: 1 }
               : { scale: [1, 1.1, 1.04] }
           }
@@ -147,7 +171,7 @@ export function WhatsAppFAB() {
             sx={{
               bgcolor: POPOVER_BG,
               color: "#FFFFFF",
-              boxShadow: phoneHovered
+              boxShadow: phonePopoverVisible
                 ? `0 14px 36px -8px ${alpha(POPOVER_BG, 0.75)}`
                 : `0 8px 24px -6px ${alpha(POPOVER_BG, 0.55)}`,
               transition:
