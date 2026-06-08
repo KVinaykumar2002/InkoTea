@@ -19,6 +19,8 @@ frontend/public/uploads/*
 # next.js
 /.next/
 /out/
+frontend/.next/
+frontend/out/
 
 # production
 /build

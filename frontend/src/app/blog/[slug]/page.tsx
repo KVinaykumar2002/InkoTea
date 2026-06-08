@@ -1,19 +1,26 @@
 import { notFound } from "next/navigation";
 import { buildPageMetadata } from "@/lib/seo";
 import { BlogDetail } from "@/features/blog/BlogDetail";
+import { FALLBACK_BLOG_SLUGS } from "@/lib/blogSlugs";
 import { fetchBlogPost, fetchBlogPosts } from "@/lib/serverApi";
 
 interface Params {
   slug: string;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<Params[]> {
   try {
     const posts = await fetchBlogPosts();
-    return posts.map((p) => ({ slug: p.slug }));
+    if (posts.length > 0) {
+      return posts.map((p) => ({ slug: p.slug }));
+    }
   } catch {
-    return [];
+    // Fall back to known slugs when the API is cold or unreachable at build time.
   }
+
+  return FALLBACK_BLOG_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Params }) {

@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-
   images: {
     // Static export ships images as-is; no remote optimisation needed.
     // All product imagery now lives under `/public/brand` so we no longer
