@@ -1,91 +1,27 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ROADMAP } from "@/data/competitors";
 import {
-  ROADMAP_EASE,
-  roadmapContentVariants,
-  roadmapDotVariants,
-  roadmapRowVariants,
+  roadmapDotHoverVariants,
+  roadmapRowHoverVariants,
   roadmapYearPopupVariants,
 } from "./roadmapMotion";
-
-const ROW_VIEWPORT = {
-  once: true,
-  amount: 0.35,
-  margin: "0px 0px -8% 0px",
-} as const;
 
 const MOBILE_SPINE_LEFT = 26;
 const DESKTOP_SPINE_TOP = 36;
 
 type Milestone = (typeof ROADMAP)[number];
 
-function getMilestoneScrollRanges(idx: number, total: number) {
-  if (total <= 1) {
-    return { showStart: 0, showEnd: 0.04, hideStart: 1, hideEnd: 1, isLast: true };
-  }
-
-  const enterBand = 0.04;
-  const activateAt = idx / (total - 1);
-  const deactivateAt = (idx + 1) / (total - 1);
-  const isLast = idx === total - 1;
-
-  if (idx === 0) {
-    return {
-      showStart: 0,
-      showEnd: enterBand,
-      hideStart: deactivateAt - enterBand,
-      hideEnd: deactivateAt,
-      isLast: false,
-    };
-  }
-
-  if (isLast) {
-    return {
-      showStart: activateAt - enterBand,
-      showEnd: activateAt,
-      hideStart: 1.01,
-      hideEnd: 1.01,
-      isLast: true,
-    };
-  }
-
-  return {
-    showStart: activateAt,
-    showEnd: activateAt + enterBand,
-    hideStart: deactivateAt - enterBand,
-    hideEnd: deactivateAt,
-    isLast: false,
-  };
-}
-
 export function RoadmapTimeline() {
-  const reduced = useReducedMotion();
-  const timelineRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start 0.92", "end 0.48"],
-  });
-
-  const pourProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   return (
     <Section
       bgcolor="background.paper"
@@ -102,7 +38,6 @@ export function RoadmapTimeline() {
       </ScrollReveal>
 
       <Box
-        ref={timelineRef}
         sx={{
           position: "relative",
           maxWidth: 1120,
@@ -112,10 +47,7 @@ export function RoadmapTimeline() {
           overflow: "visible",
         }}
       >
-        <RoadmapSpine
-          reduced={Boolean(reduced)}
-          pourProgress={reduced ? undefined : pourProgress}
-        />
+        <RoadmapSpine />
 
         <Box
           sx={{
@@ -135,9 +67,6 @@ export function RoadmapTimeline() {
               key={milestone.year}
               milestone={milestone}
               idx={idx}
-              total={ROADMAP.length}
-              reduced={Boolean(reduced)}
-              pourProgress={reduced ? undefined : pourProgress}
             />
           ))}
         </Box>
@@ -149,54 +78,25 @@ export function RoadmapTimeline() {
 function RoadmapMilestoneRow({
   milestone,
   idx,
-  total,
-  reduced,
-  pourProgress,
 }: {
   milestone: Milestone;
   idx: number;
-  total: number;
-  reduced: boolean;
-  pourProgress?: MotionValue<number>;
 }) {
-  const idleProgress = useMotionValue(0);
-  const progress = pourProgress ?? idleProgress;
-
-  const { showStart, showEnd, hideStart, hideEnd, isLast } = getMilestoneScrollRanges(
-    idx,
-    total,
-  );
-
-  const popupOpacityInput = isLast
-    ? [showStart, showEnd]
-    : [showStart, showEnd, hideStart, hideEnd];
-  const popupOpacityOutput = isLast
-    ? [0, 1]
-    : idx === 0
-      ? [1, 1, 1, 0]
-      : [0, 1, 1, 0];
-
-  const dotScaleInput = isLast
-    ? [showStart, showEnd]
-    : [showStart, showEnd, hideStart, hideEnd];
-  const dotScaleOutput = isLast
-    ? [1, 1.22]
-    : idx === 0
-      ? [1.22, 1.22, 1.22, 1]
-      : [1, 1.22, 1.22, 1];
-
-  const popupOpacity = useTransform(progress, popupOpacityInput, popupOpacityOutput);
-  const popupScale = useTransform(progress, [showStart, showEnd], [0.3, 1]);
-  const popupLift = useTransform(progress, [showStart, showEnd], [8, 0]);
-  const dotScale = useTransform(progress, dotScaleInput, dotScaleOutput);
+  const reduced = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
+  const showPopup = reduced ? false : hovered;
 
   return (
     <Box
       component={motion.div}
-      initial={reduced ? false : "hidden"}
-      whileInView={reduced ? undefined : "visible"}
-      viewport={ROW_VIEWPORT}
-      variants={roadmapRowVariants}
+      initial="rest"
+      animate={hovered && !reduced ? "hover" : "rest"}
+      variants={roadmapRowHoverVariants}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      tabIndex={0}
       sx={{
         display: "grid",
         gridTemplateColumns: {
@@ -209,11 +109,11 @@ function RoadmapMilestoneRow({
         alignItems: { xs: "start", lg: "stretch" },
         gridColumn: { lg: idx + 1 },
         minWidth: 0,
+        outline: "none",
+        borderRadius: 2,
       }}
     >
       <Box
-        component={motion.div}
-        variants={roadmapDotVariants}
         sx={{
           gridColumn: { xs: 1, lg: 1 },
           gridRow: { xs: 1, lg: 1 },
@@ -230,7 +130,7 @@ function RoadmapMilestoneRow({
             justifyContent: "center",
           }}
         >
-          {reduced ? (
+          {!reduced && (
             <Box
               sx={{
                 position: "absolute",
@@ -247,10 +147,14 @@ function RoadmapMilestoneRow({
             >
               <Box
                 component={motion.div}
-                initial="hidden"
-                whileInView="visible"
-                viewport={ROW_VIEWPORT}
                 variants={roadmapYearPopupVariants}
+                animate={showPopup ? "visible" : "hidden"}
+                sx={{
+                  transformOrigin: {
+                    xs: "left center",
+                    lg: "bottom center",
+                  },
+                }}
               >
                 <YearPopupBubble
                   year={milestone.year}
@@ -258,62 +162,21 @@ function RoadmapMilestoneRow({
                 />
               </Box>
             </Box>
-          ) : (
-            <>
-              <Box
-                sx={{
-                  position: "absolute",
-                  bottom: { xs: "auto", lg: "calc(100% + 10px)" },
-                  top: { xs: "50%", lg: "auto" },
-                  left: { xs: "calc(100% + 12px)", lg: "50%" },
-                  transform: {
-                    xs: "translateY(-50%)",
-                    lg: "translateX(-50%)",
-                  },
-                  zIndex: 2,
-                  pointerEvents: "none",
-                }}
-              >
-                <Box
-                  component={motion.div}
-                  aria-hidden
-                  style={{
-                    opacity: popupOpacity,
-                    scale: popupScale,
-                    y: popupLift,
-                  }}
-                  sx={{
-                    transformOrigin: {
-                      xs: "left center",
-                      lg: "bottom center",
-                    },
-                  }}
-                >
-                  <YearPopupBubble
-                    year={milestone.year}
-                    tail={{ xs: "right", lg: "bottom" }}
-                  />
-                </Box>
-              </Box>
-              <Box component={motion.div} style={{ scale: dotScale }}>
-                <RoadmapDot />
-              </Box>
-            </>
           )}
-          {reduced ? <RoadmapDot /> : null}
+          <Box component={motion.div} variants={roadmapDotHoverVariants}>
+            <RoadmapDot active={hovered && !reduced} />
+          </Box>
         </Box>
       </Box>
 
       <Box
-        component={motion.div}
-        variants={roadmapContentVariants}
         sx={{
           gridColumn: { xs: 2, lg: 1 },
           gridRow: { xs: 1, lg: 2 },
           minWidth: 0,
         }}
       >
-        <RoadmapCard milestone={milestone} />
+        <RoadmapCard milestone={milestone} active={hovered && !reduced} />
       </Box>
     </Box>
   );
@@ -326,8 +189,7 @@ function YearPopupBubble({
   year: string;
   tail?: "bottom" | "right" | { xs: "right"; lg: "bottom" };
 }) {
-  const tailPosition =
-    typeof tail === "string" ? tail : undefined;
+  const tailPosition = typeof tail === "string" ? tail : undefined;
 
   return (
     <Box
@@ -417,7 +279,7 @@ function YearPopupBubble({
   );
 }
 
-function RoadmapDot() {
+function RoadmapDot({ active }: { active?: boolean }) {
   return (
     <Box
       sx={{
@@ -427,13 +289,22 @@ function RoadmapDot() {
         flexShrink: 0,
         bgcolor: "primary.main",
         border: (t) => `4px solid ${t.palette.background.paper}`,
-        boxShadow: "0 0 0 2px rgba(92,58,33,0.28)",
+        boxShadow: active
+          ? "0 0 0 4px rgba(212,165,116,0.45)"
+          : "0 0 0 2px rgba(92,58,33,0.28)",
+        transition: "box-shadow 0.25s ease",
       }}
     />
   );
 }
 
-function RoadmapCard({ milestone }: { milestone: Milestone }) {
+function RoadmapCard({
+  milestone,
+  active,
+}: {
+  milestone: Milestone;
+  active?: boolean;
+}) {
   return (
     <Stack
       spacing={1}
@@ -442,11 +313,15 @@ function RoadmapCard({ milestone }: { milestone: Milestone }) {
         borderRadius: 3,
         bgcolor: "background.default",
         border: (t) => `1px solid ${t.palette.divider}`,
-        boxShadow: "0 8px 28px -16px rgba(58,34,16,0.16)",
+        boxShadow: active
+          ? "0 12px 32px -14px rgba(58,34,16,0.22)"
+          : "0 8px 28px -16px rgba(58,34,16,0.16)",
         textAlign: { xs: "left", lg: "center" },
         alignItems: { xs: "flex-start", lg: "center" },
         minWidth: 0,
         height: { lg: "100%" },
+        transform: active ? "translateY(-4px)" : "none",
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
       }}
     >
       <Typography
@@ -469,19 +344,7 @@ function RoadmapCard({ milestone }: { milestone: Milestone }) {
   );
 }
 
-function RoadmapSpine({
-  reduced,
-  pourProgress,
-}: {
-  reduced: boolean;
-  pourProgress?: MotionValue<number>;
-}) {
-  const fillStyle = pourProgress
-    ? undefined
-    : reduced
-      ? { scaleX: 1, scaleY: 1 }
-      : undefined;
-
+function RoadmapSpine() {
   return (
     <>
       <Box
@@ -507,7 +370,6 @@ function RoadmapSpine({
           }}
         />
         <Box
-          component={motion.div}
           sx={{
             position: "absolute",
             left: 0,
@@ -516,14 +378,8 @@ function RoadmapSpine({
             width: "100%",
             bgcolor: "secondary.main",
             borderRadius: 1,
-            transformOrigin: "left center",
             boxShadow: "0 0 8px rgba(212,165,116,0.35)",
           }}
-          initial={reduced || pourProgress ? false : { scaleX: 0 }}
-          whileInView={reduced || pourProgress ? undefined : { scaleX: 1 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 1.1, ease: ROADMAP_EASE }}
-          style={pourProgress ? { scaleX: pourProgress } : fillStyle}
         />
       </Box>
 
@@ -550,7 +406,6 @@ function RoadmapSpine({
           }}
         />
         <Box
-          component={motion.div}
           sx={{
             position: "absolute",
             left: 0,
@@ -559,14 +414,8 @@ function RoadmapSpine({
             height: "100%",
             bgcolor: "secondary.main",
             borderRadius: 1,
-            transformOrigin: "top center",
             boxShadow: "0 0 8px rgba(212,165,116,0.35)",
           }}
-          initial={reduced || pourProgress ? false : { scaleY: 0 }}
-          whileInView={reduced || pourProgress ? undefined : { scaleY: 1 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 1.1, ease: ROADMAP_EASE }}
-          style={pourProgress ? { scaleY: pourProgress } : fillStyle}
         />
       </Box>
     </>

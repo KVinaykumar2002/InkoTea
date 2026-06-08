@@ -38,10 +38,16 @@ export function TestimonialsCarousel({
       if (!track || count === 0) return;
       const normalized = ((index % count) + count) % count;
       const child = track.children[normalized] as HTMLElement | undefined;
-      child?.scrollIntoView({
+      if (!child) return;
+
+      // Scroll the carousel track only — scrollIntoView would jump the whole page.
+      const targetLeft =
+        track.scrollLeft +
+        (child.getBoundingClientRect().left - track.getBoundingClientRect().left);
+
+      track.scrollTo({
+        left: targetLeft,
         behavior: prefersReducedMotion ? "auto" : "smooth",
-        inline: "start",
-        block: "nearest",
       });
       setActiveIndex(normalized);
     },

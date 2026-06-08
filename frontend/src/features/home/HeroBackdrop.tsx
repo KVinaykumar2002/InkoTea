@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { AnimatePresence, motion, useTransform, type MotionValue } from "framer-motion";
 
 import {
@@ -44,12 +41,6 @@ export function HeroBackdrop({
     }, HERO_CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(id);
   }, [reduced, paused, activeIndex, onSelectSlide]);
-
-  const go = (delta: number) => {
-    const next =
-      (activeIndex + delta + HERO_SLIDES.length) % HERO_SLIDES.length;
-    onSelectSlide(next);
-  };
 
   return (
     <>
@@ -141,36 +132,6 @@ export function HeroBackdrop({
       />
 
       {HERO_SLIDES.length > 1 ? (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{
-              position: "absolute",
-              bottom: { xs: 20, md: 28 },
-              right: { xs: 16, md: 32 },
-              zIndex: 4,
-              display: { xs: "none", sm: "flex" },
-            }}
-          >
-            <IconButton
-              aria-label="Previous hero slide"
-              onClick={() => go(-1)}
-              size="small"
-              sx={carouselControlSx}
-            >
-              <ChevronLeftIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              aria-label="Next hero slide"
-              onClick={() => go(1)}
-              size="small"
-              sx={carouselControlSx}
-            >
-              <ChevronRightIcon fontSize="small" />
-            </IconButton>
-          </Stack>
-
           <Stack
             direction="row"
             spacing={1}
@@ -209,7 +170,6 @@ export function HeroBackdrop({
               />
             ))}
           </Stack>
-        </>
       ) : null}
     </>
   );
@@ -258,11 +218,3 @@ function HeroSlideLayer({
     </Box>
   );
 }
-
-const carouselControlSx = {
-  color: "#fff",
-  bgcolor: "rgba(0,0,0,0.35)",
-  border: "1px solid rgba(255,255,255,0.25)",
-  backdropFilter: "blur(8px)",
-  "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
-} as const;
