@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
+import { ContentState } from "@/components/common/ContentState";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { TestimonialsCarousel } from "@/components/common/TestimonialsCarousel";
-import { TESTIMONIALS } from "@/data/testimonials";
 import { useTestimonials } from "@/hooks/useApiContent";
 import { brandColors } from "@/theme/palette";
 
 export function TestimonialsGrid() {
-  const { data } = useTestimonials({ testimonials: TESTIMONIALS });
+  const { data, loading, error } = useTestimonials();
 
   useEffect(() => {
     if (window.location.hash !== "#reviews") return;
@@ -28,12 +28,16 @@ export function TestimonialsGrid() {
       py={{ xs: 6, md: 9 }}
       sx={{ scrollMarginTop: { xs: 88, md: 96 } }}
     >
-      <SectionHeading
-        eyebrow="Reviews"
-        title="Real stories from our customers"
-        sx={{ mb: { xs: 4, md: 5 } }}
-      />
-      <TestimonialsCarousel testimonials={data.testimonials} variant="full" />
+      <SectionHeading eyebrow="Reviews" title="Real stories from our guests" />
+      <ContentState
+        loading={loading}
+        error={error}
+        empty={!data?.testimonials?.length}
+      >
+        {() => (
+          <TestimonialsCarousel testimonials={data!.testimonials} variant="full" />
+        )}
+      </ContentState>
     </Section>
   );
 }

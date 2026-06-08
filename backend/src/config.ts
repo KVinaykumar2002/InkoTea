@@ -1,10 +1,16 @@
 import dotenv from "dotenv";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+function requireEnv(name: string): string {
+  const value = process.env[name]?.trim();
+  if (!value) {
+    throw new Error(
+      `Missing required environment variable ${name}. Set it in backend/.env (MongoDB Atlas cluster URL).`,
+    );
+  }
+  return value;
+}
 
 export const config = {
   port: Number(process.env.PORT) || 4000,
@@ -12,7 +18,6 @@ export const config = {
   adminEmail: process.env.ADMIN_EMAIL || "admin@inkotea.com",
   adminPassword: process.env.ADMIN_PASSWORD || "admin123",
   corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3000",
-  databasePath:
-    process.env.DATABASE_PATH ||
-    path.join(__dirname, "..", "data", "inkotea.db"),
+  mongodbUri: requireEnv("MONGODB_URI"),
+  mongodbDbName: process.env.MONGODB_DB_NAME || "inkotea",
 };

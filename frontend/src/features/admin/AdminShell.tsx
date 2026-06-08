@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Drawer,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -100,13 +101,28 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     </Box>
   );
 
+  const pageTitle =
+    NAV.find((n) =>
+      n.href === "/admin"
+        ? pathname === "/admin"
+        : pathname.startsWith(n.href),
+    )?.label || "Admin";
+
   return (
-    <Box className="admin-shell" sx={{ display: "flex", minHeight: "100vh", bgcolor: "grey.50" }}>
+    <Box
+      className="admin-shell"
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        bgcolor: "grey.50",
+        overflow: "hidden",
+      }}
+    >
       <AppBar
         position="fixed"
         elevation={0}
         sx={{
-          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
+          width: { xs: "100%", md: `calc(100% - ${DRAWER_WIDTH}px)` },
           ml: { md: `${DRAWER_WIDTH}px` },
           bgcolor: "background.paper",
           color: "text.primary",
@@ -114,26 +130,52 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           borderColor: "divider",
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ minHeight: { xs: 56, sm: 64 }, px: { xs: 1.5, sm: 2 } }}>
           {isMobile && (
-            <Button onClick={() => setMobileOpen(true)} sx={{ mr: 1, minWidth: 0 }}>
+            <IconButton
+              onClick={() => setMobileOpen(true)}
+              edge="start"
+              aria-label="Open navigation menu"
+              sx={{ mr: 0.5 }}
+            >
               <MenuIcon />
-            </Button>
+            </IconButton>
           )}
-          <Typography variant="h6" fontWeight={600} sx={{ flex: 1 }}>
-            {NAV.find((n) =>
-              n.href === "/admin"
-                ? pathname === "/admin"
-                : pathname.startsWith(n.href),
-            )?.label || "Admin"}
+          <Typography
+            variant="h6"
+            fontWeight={600}
+            noWrap
+            sx={{
+              flex: 1,
+              fontSize: { xs: "1rem", sm: "1.25rem" },
+            }}
+          >
+            {pageTitle}
           </Typography>
-          <Button component={Link} href="/" size="small" color="primary">
-            View site
+          <Button
+            component={Link}
+            href="/"
+            size="small"
+            color="primary"
+            sx={{ flexShrink: 0, px: { xs: 1, sm: 1.5 } }}
+          >
+            <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+              View site
+            </Box>
+            <Box component="span" sx={{ display: { xs: "inline", sm: "none" } }}>
+              Site
+            </Box>
           </Button>
         </Toolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ width: { md: DRAWER_WIDTH }, flexShrink: { md: 0 } }}>
+      <Box
+        component="nav"
+        sx={{
+          width: { xs: 0, md: DRAWER_WIDTH },
+          flexShrink: { md: 0 },
+        }}
+      >
         {isMobile ? (
           <Drawer
             open={mobileOpen}
@@ -164,9 +206,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: { xs: 2, md: 3 },
-          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
-          mt: 8,
+          minWidth: 0,
+          p: { xs: 1.5, sm: 2, md: 3 },
+          width: { xs: "100%", md: `calc(100% - ${DRAWER_WIDTH}px)` },
+          mt: { xs: 7, sm: 8 },
+          overflowX: "auto",
         }}
       >
         {children}

@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
-import { MENU_CATEGORIES } from "@/data/menu";
 import type { MenuCategoryMeta } from "@/types";
 
 /**
@@ -13,11 +12,17 @@ import type { MenuCategoryMeta } from "@/types";
  * via IntersectionObserver and scrolls the target section into view on click.
  */
 export function CategoryNav({
-  categories = MENU_CATEGORIES,
+  categories = [],
 }: {
   categories?: MenuCategoryMeta[];
 }) {
   const [active, setActive] = useState<string>(categories[0]?.key ?? "");
+
+  useEffect(() => {
+    if (categories.length && !categories.some((c) => c.key === active)) {
+      setActive(categories[0].key);
+    }
+  }, [categories, active]);
 
   useEffect(() => {
     const sections = categories.map((c) =>

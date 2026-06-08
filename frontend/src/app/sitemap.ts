@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/brand";
-import { BLOG_POSTS } from "@/data/blogPosts";
+import { fetchBlogPosts } from "@/lib/serverApi";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const staticPages = [
     "",
@@ -23,12 +23,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: slug === "" ? 1 : 0.8,
   }));
 
-  const blogPages = BLOG_POSTS.map((p) => ({
-    url: `${BRAND.siteUrl}/blog/${p.slug}`,
-    lastModified: new Date(p.publishedAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+  let blogPages: MetadataRoute.Sitemap = [];
+  try {
+    const posts = await fetchBlogPosts();
+    blogPages = posts.map((p) => ({
+      url: `${BRAND.siteUrl}/blog/${p.slug}`,
+      lastModified: new Date(p.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+  } catch {
+    blogPages = [];
+  }
 
   return [...staticPages, ...blogPages];
 }

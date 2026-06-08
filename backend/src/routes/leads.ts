@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { v4 as uuid } from "uuid";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import type { LeadRow, LeadStatus } from "../types.js";
 
@@ -23,7 +23,7 @@ function mapLead(row: LeadRow) {
   };
 }
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { name, phone, city, email, investmentRange, model, message, source } =
     req.body as Record<string, string | undefined>;
 
@@ -33,22 +33,22 @@ router.post("/", (req, res) => {
   }
 
   const id = `LEAD-${uuid().slice(0, 8).toUpperCase()}`;
-  const db = getDb();
+  const now = new Date().toISOString();
 
-  db.prepare(
-    `INSERT INTO leads (id, name, phone, city, email, investment_range, model, message, source)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  ).run(
+  await getCollection<LeadRow>("leads").insertOne({
     id,
-    name.trim(),
-    phone.trim(),
-    city.trim(),
-    email?.trim() || null,
-    investmentRange?.trim() || null,
-    model?.trim() || null,
-    message?.trim() || null,
-    source.trim(),
-  );
+    name: name.trim(),
+    phone: phone.trim(),
+    city: city.trim(),
+    email: email?.trim() || null,
+    investment_range: investmentRange?.trim() || null,
+    model: model?.trim() || null,
+    message: message?.trim() || null,
+    source: source.trim(),
+    status: "new",
+    created_at: now,
+    updated_at: now,
+  });
 
   res.status(201).json({
     ok: true,
@@ -58,40 +58,38 @@ router.post("/", (req, res) => {
   });
 });
 
-router.get("/", requireAuth, (req, res) => {
+router.get("/", requireAuth, async (req, res) => {
   const { status, source, search } = req.query;
-  const db = getDb();
-  const conditions: string[] = [];
-  const params: string[] = [];
+  const filter: Record<string, unknown> = {};
 
   if (typeof status === "string" && status) {
-    conditions.push("status = ?");
-    params.push(status);
+    filter.status = status;
   }
   if (typeof source === "string" && source) {
-    conditions.push("source = ?");
-    params.push(source);
+    filter.source = source;
   }
   if (typeof search === "string" && search) {
-    conditions.push(
-      "(name LIKE ? OR phone LIKE ? OR city LIKE ? OR email LIKE ?)",
-    );
-    const term = `%${search}%`;
-    params.push(term, term, term, term);
+    const regex = new RegExp(search, "i");
+    filter.$or = [
+      { name: regex },
+      { phone: regex },
+      { city: regex },
+      { email: regex },
+    ];
   }
 
-  const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
-  const rows = db
-    .prepare(`SELECT * FROM leads ${where} ORDER BY created_at DESC`)
-    .all(...params) as LeadRow[];
+  const rows = await getCollection<LeadRow>("leads")
+    .find(filter)
+    .sort({ created_at: -1 })
+    .toArray();
 
   res.json({ leads: rows.map(mapLead) });
 });
 
-router.get("/:id", requireAuth, (req, res) => {
-  const row = getDb()
-    .prepare("SELECT * FROM leads WHERE id = ?")
-    .get(req.params.id) as LeadRow | undefined;
+router.get("/:id", requireAuth, async (req, res) => {
+  const row = await getCollection<LeadRow>("leads").findOne({
+    id: req.params.id,
+  });
 
   if (!row) {
     res.status(404).json({ error: "Lead not found" });
@@ -100,7 +98,7 @@ router.get("/:id", requireAuth, (req, res) => {
   res.json({ lead: mapLead(row) });
 });
 
-router.patch("/:id", requireAuth, (req, res) => {
+router.patch("/:id", requireAuth, async (req, res) => {
   const { status } = req.body as { status?: LeadStatus };
   const valid: LeadStatus[] = ["new", "contacted", "qualified", "closed"];
 
@@ -109,30 +107,28 @@ router.patch("/:id", requireAuth, (req, res) => {
     return;
   }
 
-  const db = getDb();
-  const result = db
-    .prepare(
-      "UPDATE leads SET status = ?, updated_at = datetime('now') WHERE id = ?",
-    )
-    .run(status, req.params.id);
+  const result = await getCollection<LeadRow>("leads").updateOne(
+    { id: req.params.id },
+    { $set: { status, updated_at: new Date().toISOString() } },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "Lead not found" });
     return;
   }
 
-  const row = db
-    .prepare("SELECT * FROM leads WHERE id = ?")
-    .get(req.params.id) as LeadRow;
-  res.json({ lead: mapLead(row) });
+  const row = await getCollection<LeadRow>("leads").findOne({
+    id: req.params.id,
+  });
+  res.json({ lead: mapLead(row!) });
 });
 
-router.delete("/:id", requireAuth, (req, res) => {
-  const result = getDb()
-    .prepare("DELETE FROM leads WHERE id = ?")
-    .run(req.params.id);
+router.delete("/:id", requireAuth, async (req, res) => {
+  const result = await getCollection<LeadRow>("leads").deleteOne({
+    id: req.params.id,
+  });
 
-  if (result.changes === 0) {
+  if (result.deletedCount === 0) {
     res.status(404).json({ error: "Lead not found" });
     return;
   }

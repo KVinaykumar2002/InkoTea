@@ -1,4 +1,6 @@
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
+import { AdminDeleteConfirmProvider } from "@/features/admin/AdminDeleteConfirmProvider";
+import { AdminToastProvider } from "@/features/admin/AdminToastProvider";
 
 export const metadata = {
   title: "Admin | INKOTEA",
@@ -10,5 +12,11 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <AdminAuthProvider>{children}</AdminAuthProvider>;
+  return (
+    <AdminAuthProvider>
+      <AdminToastProvider>
+        <AdminDeleteConfirmProvider>{children}</AdminDeleteConfirmProvider>
+      </AdminToastProvider>
+    </AdminAuthProvider>
+  );
 }

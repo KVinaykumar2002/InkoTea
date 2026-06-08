@@ -10,6 +10,8 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 interface AdminFormModalProps {
@@ -35,6 +37,9 @@ export function AdminFormModal({
   saving,
   children,
 }: AdminFormModalProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Dialog
       className="admin-form-modal"
@@ -42,11 +47,12 @@ export function AdminFormModal({
       onClose={onClose}
       maxWidth="sm"
       fullWidth
+      fullScreen={isMobile}
       scroll="paper"
     >
       <Box
         sx={{
-          px: 3,
+          px: { xs: 2, sm: 3 },
           pt: 2.5,
           pb: 2,
           display: "flex",
@@ -72,17 +78,20 @@ export function AdminFormModal({
         </IconButton>
       </Box>
 
-      <DialogContent sx={{ px: 3, py: 3 }}>
+      <DialogContent sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 } }}>
         <Stack spacing={3}>{children}</Stack>
       </DialogContent>
 
       <DialogActions
         sx={{
-          px: 3,
+          px: { xs: 2, sm: 3 },
           py: 2,
           gap: 1.5,
           borderTop: 1,
           borderColor: "divider",
+          flexDirection: { xs: "column-reverse", sm: "row" },
+          alignItems: "stretch",
+          "& .MuiButton-root": { width: { xs: "100%", sm: "auto" }, m: 0 },
         }}
       >
         <Button onClick={onClose} variant="outlined" color="inherit">

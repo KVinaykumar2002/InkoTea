@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import type { BlogPostRow } from "../types.js";
 
@@ -19,17 +19,18 @@ function mapPost(row: BlogPostRow) {
   };
 }
 
-router.get("/", (_req, res) => {
-  const rows = getDb()
-    .prepare("SELECT * FROM blog_posts ORDER BY published_at DESC")
-    .all() as BlogPostRow[];
+router.get("/", async (_req, res) => {
+  const rows = await getCollection<BlogPostRow>("blog_posts")
+    .find({})
+    .sort({ published_at: -1 })
+    .toArray();
   res.json({ posts: rows.map(mapPost) });
 });
 
-router.get("/:slug", (req, res) => {
-  const row = getDb()
-    .prepare("SELECT * FROM blog_posts WHERE slug = ?")
-    .get(req.params.slug) as BlogPostRow | undefined;
+router.get("/:slug", async (req, res) => {
+  const row = await getCollection<BlogPostRow>("blog_posts").findOne({
+    slug: req.params.slug,
+  });
 
   if (!row) {
     res.status(404).json({ error: "Post not found" });
@@ -38,7 +39,7 @@ router.get("/:slug", (req, res) => {
   res.json({ post: mapPost(row) });
 });
 
-router.post("/", requireAuth, (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const body = req.body as Record<string, unknown>;
   const required = [
     "slug",
@@ -58,63 +59,56 @@ router.post("/", requireAuth, (req, res) => {
     }
   }
 
-  getDb()
-    .prepare(
-      `INSERT INTO blog_posts (slug, title, excerpt, category, author, published_at, reading_minutes, cover, body)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    )
-    .run(
-      body.slug,
-      body.title,
-      body.excerpt,
-      body.category,
-      body.author,
-      body.publishedAt,
-      Number(body.readingMinutes),
-      body.cover,
-      body.body,
-    );
+  const post: BlogPostRow = {
+    slug: String(body.slug),
+    title: String(body.title),
+    excerpt: String(body.excerpt),
+    category: String(body.category),
+    author: String(body.author),
+    published_at: String(body.publishedAt),
+    reading_minutes: Number(body.readingMinutes),
+    cover: String(body.cover),
+    body: String(body.body),
+  };
 
-  const row = getDb()
-    .prepare("SELECT * FROM blog_posts WHERE slug = ?")
-    .get(body.slug) as BlogPostRow;
-  res.status(201).json({ post: mapPost(row) });
+  await getCollection<BlogPostRow>("blog_posts").insertOne(post);
+  res.status(201).json({ post: mapPost(post) });
 });
 
-router.put("/:slug", requireAuth, (req, res) => {
+router.put("/:slug", requireAuth, async (req, res) => {
   const body = req.body as Record<string, unknown>;
-  const result = getDb()
-    .prepare(
-      `UPDATE blog_posts SET title=?, excerpt=?, category=?, author=?, published_at=?, reading_minutes=?, cover=?, body=? WHERE slug=?`,
-    )
-    .run(
-      body.title,
-      body.excerpt,
-      body.category,
-      body.author,
-      body.publishedAt,
-      Number(body.readingMinutes),
-      body.cover,
-      body.body,
-      req.params.slug,
-    );
+  const result = await getCollection<BlogPostRow>("blog_posts").updateOne(
+    { slug: req.params.slug },
+    {
+      $set: {
+        title: String(body.title),
+        excerpt: String(body.excerpt),
+        category: String(body.category),
+        author: String(body.author),
+        published_at: String(body.publishedAt),
+        reading_minutes: Number(body.readingMinutes),
+        cover: String(body.cover),
+        body: String(body.body),
+      },
+    },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "Post not found" });
     return;
   }
 
-  const row = getDb()
-    .prepare("SELECT * FROM blog_posts WHERE slug = ?")
-    .get(req.params.slug) as BlogPostRow;
-  res.json({ post: mapPost(row) });
+  const row = await getCollection<BlogPostRow>("blog_posts").findOne({
+    slug: req.params.slug,
+  });
+  res.json({ post: mapPost(row!) });
 });
 
-router.delete("/:slug", requireAuth, (req, res) => {
-  const result = getDb()
-    .prepare("DELETE FROM blog_posts WHERE slug = ?")
-    .run(req.params.slug);
-  if (result.changes === 0) {
+router.delete("/:slug", requireAuth, async (req, res) => {
+  const result = await getCollection<BlogPostRow>("blog_posts").deleteOne({
+    slug: req.params.slug,
+  });
+  if (result.deletedCount === 0) {
     res.status(404).json({ error: "Post not found" });
     return;
   }

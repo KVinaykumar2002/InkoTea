@@ -18,7 +18,7 @@ import {
   fontDisplaySx,
   fontBodySx,
 } from "@/theme/fonts";
-import { BLOG_CATEGORIES } from "@/data/blogPosts";
+import { BLOG_CATEGORIES } from "@/features/blog/blogCategories";
 import type { BlogPost } from "@/types";
 
 interface Props {

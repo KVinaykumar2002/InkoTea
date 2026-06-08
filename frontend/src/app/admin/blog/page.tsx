@@ -18,7 +18,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
+import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
+import { useTablePagination } from "@/features/admin/useTablePagination";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type BlogPost } from "@/lib/api";
 import type { BlogCategory } from "@/types";
@@ -37,6 +46,8 @@ const empty: BlogPost = {
 
 function BlogContent() {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [form, setForm] = useState<BlogPost>(empty);
   const [open, setOpen] = useState(false);
@@ -67,31 +78,66 @@ function BlogContent() {
 
   const save = async () => {
     if (!token) return;
-    if (editing) await api.updateBlogPost(token, originalSlug, form);
-    else await api.createBlogPost(token, form);
-    setOpen(false);
-    load();
+    try {
+      if (editing) await api.updateBlogPost(token, originalSlug, form);
+      else await api.createBlogPost(token, form);
+      setOpen(false);
+      load();
+      showSuccess(editing ? "Blog post updated" : "Blog post created");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to save blog post"));
+    }
   };
 
-  const remove = async (slug: string) => {
-    if (!token || !confirm("Delete this post?")) return;
-    await api.deleteBlogPost(token, slug);
-    load();
+  const remove = async (post: BlogPost) => {
+    if (!token) return;
+    const confirmed = await confirmDelete({
+      title: "Delete blog post",
+      message: "This will permanently remove the post from the blog.",
+      itemName: post.title,
+    });
+    if (!confirmed) return;
+    try {
+      await api.deleteBlogPost(token, post.slug);
+      load();
+      showSuccess("Blog post deleted");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to delete blog post"));
+    }
   };
+
+  const {
+    page,
+    setPage,
+    pageSize,
+    totalPages,
+    showPagination,
+    paginatedItems,
+    totalItems,
+  } = useTablePagination(posts);
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Typography variant="h5" fontWeight={700}>
-          Blog posts
-        </Typography>
-        <Button startIcon={<AddIcon />} variant="contained" onClick={openCreate}>
-          Add post
-        </Button>
-      </Box>
+      <AdminPageHeader
+        title="Blog posts"
+        action={
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={openCreate}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
+            Add post
+          </Button>
+        }
+      />
+      <AdminTableContainer minWidth={720}>
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell sx={{ width: 88, minWidth: 88, whiteSpace: "nowrap" }}>
+              Image
+            </TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Category</TableCell>
             <TableCell>Published</TableCell>
@@ -99,8 +145,41 @@ function BlogContent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {posts.map((post) => (
+          {paginatedItems.map((post) => (
             <TableRow key={post.slug}>
+              <TableCell sx={{ width: 88, minWidth: 88 }}>
+                {post.cover ? (
+                  <Box
+                    component="img"
+                    src={post.cover}
+                    alt={post.title}
+                    sx={{
+                      width: 56,
+                      height: 40,
+                      borderRadius: 1,
+                      objectFit: "cover",
+                      display: "block",
+                      bgcolor: "grey.100",
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      width: 56,
+                      height: 40,
+                      borderRadius: 1,
+                      bgcolor: "grey.100",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      —
+                    </Typography>
+                  </Box>
+                )}
+              </TableCell>
               <TableCell>{post.title}</TableCell>
               <TableCell>{post.category}</TableCell>
               <TableCell>{post.publishedAt}</TableCell>
@@ -108,7 +187,7 @@ function BlogContent() {
                 <IconButton size="small" onClick={() => openEdit(post)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={() => remove(post.slug)}>
+                <IconButton size="small" onClick={() => remove(post)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -116,6 +195,16 @@ function BlogContent() {
           ))}
         </TableBody>
       </Table>
+      </AdminTableContainer>
+      {showPagination && (
+        <AdminTablePagination
+          page={page}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      )}
       <AdminFormModal
         open={open}
         title={editing ? "Edit blog post" : "New blog post"}

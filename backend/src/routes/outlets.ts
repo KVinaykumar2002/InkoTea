@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import type { OutletRow } from "../types.js";
 
@@ -19,15 +19,16 @@ function mapOutlet(row: OutletRow) {
   };
 }
 
-router.get("/", (_req, res) => {
-  const rows = getDb()
-    .prepare("SELECT * FROM outlets ORDER BY city, name")
-    .all() as OutletRow[];
+router.get("/", async (_req, res) => {
+  const rows = await getCollection<OutletRow>("outlets")
+    .find({})
+    .sort({ city: 1, name: 1 })
+    .toArray();
   const cities = [...new Set(rows.map((r) => r.city))].sort();
   res.json({ outlets: rows.map(mapOutlet), cities });
 });
 
-router.post("/", requireAuth, (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const body = req.body as Record<string, unknown>;
   const required = [
     "id",
@@ -47,64 +48,56 @@ router.post("/", requireAuth, (req, res) => {
     }
   }
 
-  getDb()
-    .prepare(
-      `INSERT INTO outlets (id, name, city, area, address, type, image, maps_query, opening_year)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    )
-    .run(
-      body.id,
-      body.name,
-      body.city,
-      body.area,
-      body.address,
-      body.type,
-      body.image,
-      body.mapsQuery,
-      Number(body.openingYear),
-    );
+  const outlet: OutletRow = {
+    id: String(body.id),
+    name: String(body.name),
+    city: String(body.city),
+    area: String(body.area),
+    address: String(body.address),
+    type: String(body.type),
+    image: String(body.image),
+    maps_query: String(body.mapsQuery),
+    opening_year: Number(body.openingYear),
+  };
 
-  const row = getDb()
-    .prepare("SELECT * FROM outlets WHERE id = ?")
-    .get(body.id) as OutletRow;
-  res.status(201).json({ outlet: mapOutlet(row) });
+  await getCollection<OutletRow>("outlets").insertOne(outlet);
+  res.status(201).json({ outlet: mapOutlet(outlet) });
 });
 
-router.put("/:id", requireAuth, (req, res) => {
+router.put("/:id", requireAuth, async (req, res) => {
   const body = req.body as Record<string, unknown>;
-  const result = getDb()
-    .prepare(
-      `UPDATE outlets SET name=?, city=?, area=?, address=?, type=?, image=?, maps_query=?, opening_year=?
-       WHERE id=?`,
-    )
-    .run(
-      body.name,
-      body.city,
-      body.area,
-      body.address,
-      body.type,
-      body.image,
-      body.mapsQuery,
-      Number(body.openingYear),
-      req.params.id,
-    );
+  const result = await getCollection<OutletRow>("outlets").updateOne(
+    { id: req.params.id },
+    {
+      $set: {
+        name: String(body.name),
+        city: String(body.city),
+        area: String(body.area),
+        address: String(body.address),
+        type: String(body.type),
+        image: String(body.image),
+        maps_query: String(body.mapsQuery),
+        opening_year: Number(body.openingYear),
+      },
+    },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "Outlet not found" });
     return;
   }
 
-  const row = getDb()
-    .prepare("SELECT * FROM outlets WHERE id = ?")
-    .get(req.params.id) as OutletRow;
-  res.json({ outlet: mapOutlet(row) });
+  const row = await getCollection<OutletRow>("outlets").findOne({
+    id: req.params.id,
+  });
+  res.json({ outlet: mapOutlet(row!) });
 });
 
-router.delete("/:id", requireAuth, (req, res) => {
-  const result = getDb()
-    .prepare("DELETE FROM outlets WHERE id = ?")
-    .run(req.params.id);
-  if (result.changes === 0) {
+router.delete("/:id", requireAuth, async (req, res) => {
+  const result = await getCollection<OutletRow>("outlets").deleteOne({
+    id: req.params.id,
+  });
+  if (result.deletedCount === 0) {
     res.status(404).json({ error: "Outlet not found" });
     return;
   }

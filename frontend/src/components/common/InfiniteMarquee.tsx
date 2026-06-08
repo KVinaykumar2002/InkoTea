@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useReducedMotion } from "framer-motion";
 import { fontBodySx, fontDisplayItalicSx } from "@/theme/fonts";
+import { brandColors } from "@/theme/palette";
 
 export interface MarqueeItem {
   label: string;
@@ -43,7 +44,7 @@ export function InfiniteMarquee({
       sx={{
         overflow: "hidden",
         py: { xs: 1.75, md: 2.25 },
-        bgcolor: isAccent ? "primary.main" : "background.paper",
+        bgcolor: isAccent ? brandColors.stripOlive : "#FFFFFF",
         ...(!edgeless && {
           borderTop: (t) =>
             isAccent ? "none" : `1px solid ${t.palette.divider}`,
@@ -84,10 +85,10 @@ export function InfiniteMarquee({
                   : { xs: "1.05rem", md: "1.35rem" },
                 lineHeight: isPress ? 1.35 : undefined,
                 color: isAccent
-                  ? "secondary.light"
+                  ? brandColors.stripCream
                   : isPress
                     ? "text.secondary"
-                    : "primary.main",
+                    : brandColors.stripOlive,
                 opacity: isPress ? 0.55 : 1,
                 whiteSpace: "nowrap",
               }}
@@ -103,10 +104,9 @@ export function InfiniteMarquee({
                   fontWeight: 500,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color:
-                    isAccent
-                      ? "rgba(255,255,255,0.72)"
-                      : "text.secondary",
+                  color: isAccent
+                    ? brandColors.stripCream
+                    : brandColors.stripMuted,
                   whiteSpace: "nowrap",
                 }}
               >
@@ -120,11 +120,11 @@ export function InfiniteMarquee({
                 height: 6,
                 borderRadius: "50%",
                 bgcolor: isAccent
-                  ? "secondary.main"
+                  ? brandColors.stripCream
                   : isPress
                     ? "text.secondary"
-                    : "primary.main",
-                opacity: isPress ? 0.35 : 0.45,
+                    : brandColors.stripMuted,
+                opacity: isPress ? 0.35 : isAccent ? 0.65 : 0.55,
                 flexShrink: 0,
               }}
             />

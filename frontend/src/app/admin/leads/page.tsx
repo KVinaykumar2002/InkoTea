@@ -19,6 +19,15 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormField } from "@/features/admin/AdminFormField";
+import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
+import { useTablePagination } from "@/features/admin/useTablePagination";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type Lead } from "@/lib/api";
 
@@ -26,6 +35,8 @@ const STATUSES = ["new", "contacted", "qualified", "closed"] as const;
 
 function LeadsContent() {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -44,30 +55,65 @@ function LeadsContent() {
 
   const updateStatus = async (id: string, status: string) => {
     if (!token) return;
-    await api.updateLeadStatus(token, id, status);
-    load();
+    try {
+      await api.updateLeadStatus(token, id, status);
+      load();
+      showSuccess(`Lead status updated to ${status}`);
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to update lead status"));
+    }
   };
 
-  const remove = async (id: string) => {
-    if (!token || !confirm("Delete this lead?")) return;
-    await api.deleteLead(token, id);
-    load();
+  const remove = async (lead: Lead) => {
+    if (!token) return;
+    const confirmed = await confirmDelete({
+      title: "Delete lead",
+      message: "This will permanently remove the lead from your dashboard.",
+      itemName: lead.name,
+    });
+    if (!confirmed) return;
+    try {
+      await api.deleteLead(token, lead.id);
+      load();
+      showSuccess("Lead deleted");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to delete lead"));
+    }
   };
+
+  const {
+    page,
+    setPage,
+    pageSize,
+    totalPages,
+    showPagination,
+    paginatedItems,
+    totalItems,
+  } = useTablePagination(leads, { resetKey: `${search}-${statusFilter}` });
 
   return (
     <Box>
-      <Typography variant="h5" fontWeight={700} gutterBottom>
-        Leads
-      </Typography>
-      <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
+      <AdminPageHeader title="Leads" />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mb: 2,
+          flexDirection: { xs: "column", sm: "row" },
+          flexWrap: "wrap",
+        }}
+      >
         <AdminFormField
           label="Search"
           placeholder="Name, phone, city…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ minWidth: 260 }}
+          sx={{ minWidth: { xs: "100%", sm: 260 }, flex: { sm: 1 } }}
         />
-        <FormControl variant="filled" sx={{ minWidth: 160 }}>
+        <FormControl
+          variant="filled"
+          sx={{ minWidth: { xs: "100%", sm: 160 }, width: { xs: "100%", sm: "auto" } }}
+        >
           <InputLabel>Status</InputLabel>
           <Select
             label="Status"
@@ -83,6 +129,7 @@ function LeadsContent() {
           </Select>
         </FormControl>
       </Box>
+      <AdminTableContainer minWidth={880}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -96,7 +143,7 @@ function LeadsContent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leads.map((lead) => (
+          {paginatedItems.map((lead) => (
             <TableRow key={lead.id}>
               <TableCell>
                 <Typography variant="body2" fontWeight={600}>
@@ -130,7 +177,7 @@ function LeadsContent() {
                 {new Date(lead.createdAt).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                <IconButton size="small" onClick={() => remove(lead.id)}>
+                <IconButton size="small" onClick={() => remove(lead)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -138,6 +185,16 @@ function LeadsContent() {
           ))}
         </TableBody>
       </Table>
+      </AdminTableContainer>
+      {showPagination && (
+        <AdminTablePagination
+          page={page}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      )}
     </Box>
   );
 }

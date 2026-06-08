@@ -9,7 +9,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { alpha, useTheme } from "@mui/material/styles";
 
 import { TestimonialCard } from "@/components/common/TestimonialCard";
-import type { Testimonial } from "@/data/testimonials";
+import type { Testimonial } from "@/types";
 import { brandColors } from "@/theme/palette";
 
 const AUTO_INTERVAL_MS = 5000;

@@ -6,6 +6,10 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { api } from "@/lib/api";
 
 interface ImageDropzoneProps {
@@ -20,6 +24,7 @@ export function ImageDropzone({
   onChange,
 }: ImageDropzoneProps) {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -28,11 +33,15 @@ export function ImageDropzone({
   const upload = useCallback(
     async (file: File) => {
       if (!file.type.startsWith("image/")) {
-        setError("Please upload an image file (JPEG, PNG, WebP, GIF).");
+        const message = "Please upload an image file (JPEG, PNG, WebP, GIF).";
+        setError(message);
+        showError(message);
         return;
       }
       if (!token) {
-        setError("You must be signed in to upload images.");
+        const message = "You must be signed in to upload images.";
+        setError(message);
+        showError(message);
         return;
       }
       setError("");
@@ -40,13 +49,16 @@ export function ImageDropzone({
       try {
         const { url } = await api.uploadImage(token, file);
         onChange(url);
-      } catch {
-        setError("Upload failed. Please try again.");
+        showSuccess("Image uploaded");
+      } catch (err) {
+        const message = getAdminErrorMessage(err, "Failed to upload image");
+        setError(message);
+        showError(message);
       } finally {
         setUploading(false);
       }
     },
-    [token, onChange],
+    [token, onChange, showSuccess, showError],
   );
 
   const onDrop = useCallback(

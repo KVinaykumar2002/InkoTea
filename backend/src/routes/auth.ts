@@ -1,13 +1,12 @@
 import { Router } from "express";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config.js";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body as {
     email?: string;
     password?: string;
@@ -18,14 +17,14 @@ router.post("/login", (req, res) => {
     return;
   }
 
-  const db = getDb();
-  const admin = db
-    .prepare("SELECT id, email, name, password_hash FROM admins WHERE email = ?")
-    .get(email) as
-    | { id: string; email: string; name: string; password_hash: string }
-    | undefined;
+  const admin = await getCollection<{
+    id: string;
+    email: string;
+    name: string;
+    password: string;
+  }>("admins").findOne({ email });
 
-  if (!admin || !bcrypt.compareSync(password, admin.password_hash)) {
+  if (!admin || admin.password !== password) {
     res.status(401).json({ error: "Invalid credentials" });
     return;
   }

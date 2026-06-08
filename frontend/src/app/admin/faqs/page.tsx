@@ -10,7 +10,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,6 +17,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
+import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
+import { useTablePagination } from "@/features/admin/useTablePagination";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type FAQ } from "@/lib/api";
 import type { FAQ as FaqType } from "@/types";
@@ -26,6 +34,8 @@ const empty: FAQ = { id: "", question: "", answer: "", audience: "franchise" };
 
 function FaqsContent() {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [form, setForm] = useState<FAQ>(empty);
   const [open, setOpen] = useState(false);
@@ -53,28 +63,60 @@ function FaqsContent() {
 
   const save = async () => {
     if (!token) return;
-    if (editing) await api.updateFaq(token, form.id, form);
-    else await api.createFaq(token, form);
-    setOpen(false);
-    load();
+    try {
+      if (editing) await api.updateFaq(token, form.id, form);
+      else await api.createFaq(token, form);
+      setOpen(false);
+      load();
+      showSuccess(editing ? "FAQ updated" : "FAQ created");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to save FAQ"));
+    }
   };
 
-  const remove = async (id: string) => {
-    if (!token || !confirm("Delete this FAQ?")) return;
-    await api.deleteFaq(token, id);
-    load();
+  const remove = async (faq: FAQ) => {
+    if (!token) return;
+    const confirmed = await confirmDelete({
+      title: "Delete FAQ",
+      message: "This will permanently remove the question from the FAQ page.",
+      itemName: faq.question,
+    });
+    if (!confirmed) return;
+    try {
+      await api.deleteFaq(token, faq.id);
+      load();
+      showSuccess("FAQ deleted");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to delete FAQ"));
+    }
   };
+
+  const {
+    page,
+    setPage,
+    pageSize,
+    totalPages,
+    showPagination,
+    paginatedItems,
+    totalItems,
+  } = useTablePagination(faqs);
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Typography variant="h5" fontWeight={700}>
-          FAQs
-        </Typography>
-        <Button startIcon={<AddIcon />} variant="contained" onClick={openCreate}>
-          Add FAQ
-        </Button>
-      </Box>
+      <AdminPageHeader
+        title="FAQs"
+        action={
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={openCreate}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
+            Add FAQ
+          </Button>
+        }
+      />
+      <AdminTableContainer>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -84,7 +126,7 @@ function FaqsContent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {faqs.map((faq) => (
+          {paginatedItems.map((faq) => (
             <TableRow key={faq.id}>
               <TableCell>{faq.question}</TableCell>
               <TableCell>{faq.audience}</TableCell>
@@ -92,7 +134,7 @@ function FaqsContent() {
                 <IconButton size="small" onClick={() => openEdit(faq)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={() => remove(faq.id)}>
+                <IconButton size="small" onClick={() => remove(faq)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -100,6 +142,16 @@ function FaqsContent() {
           ))}
         </TableBody>
       </Table>
+      </AdminTableContainer>
+      {showPagination && (
+        <AdminTablePagination
+          page={page}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      )}
       <AdminFormModal
         open={open}
         title={editing ? "Edit FAQ" : "New FAQ"}

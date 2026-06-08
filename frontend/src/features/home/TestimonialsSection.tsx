@@ -4,11 +4,11 @@ import Link from "next/link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
+import { ContentState } from "@/components/common/ContentState";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { TestimonialsCarousel } from "@/components/common/TestimonialsCarousel";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
-import { TESTIMONIALS } from "@/data/testimonials";
 import { useTestimonials } from "@/hooks/useApiContent";
 import { brandColors } from "@/theme/palette";
 
@@ -23,7 +23,7 @@ export function TestimonialsSection({
   embedded = false,
   showMoreLink = true,
 }: TestimonialsSectionProps) {
-  const { data } = useTestimonials({ testimonials: TESTIMONIALS });
+  const { data, loading, error } = useTestimonials();
 
   const content = (
     <>
@@ -33,7 +33,18 @@ export function TestimonialsSection({
         sx={embedded ? { ...compactSectionHeadingSx, mt: 0 } : compactSectionHeadingSx}
       />
 
-      <TestimonialsCarousel testimonials={data.testimonials} variant="carousel" />
+      <ContentState
+        loading={loading}
+        error={error}
+        empty={!data?.testimonials?.length}
+      >
+        {() => (
+          <TestimonialsCarousel
+            testimonials={data!.testimonials}
+            variant="carousel"
+          />
+        )}
+      </ContentState>
 
       {showMoreLink ? (
         <Box sx={{ display: "flex", justifyContent: "center", mt: { xs: 4, md: 5 } }}>

@@ -11,11 +11,11 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
+import { ContentState } from "@/components/common/ContentState";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { SafeImage } from "@/components/common/SafeImage";
-import { OUTLETS, OUTLET_CITIES } from "@/data/outlets";
 import { useOutlets } from "@/hooks/useApiContent";
 import type { Outlet } from "@/types";
 
@@ -35,19 +35,18 @@ interface NearestOutletSectionProps {
 export function NearestOutletSection({
   embedded = false,
 }: NearestOutletSectionProps) {
-  const { data } = useOutlets({ outlets: OUTLETS, cities: [...OUTLET_CITIES] });
-  const cities = data.cities;
-  const [activeCity, setActiveCity] = useState<(typeof cities)[number] | "All">(
-    "All",
-  );
+  const { data, loading, error } = useOutlets();
+  const cities = data?.cities ?? [];
+  const [activeCity, setActiveCity] = useState<string>("All");
 
   const filtered = useMemo<Outlet[]>(() => {
+    if (!data?.outlets) return [];
     const pool =
       activeCity === "All"
         ? data.outlets
         : data.outlets.filter((o) => o.city === activeCity);
     return pool.slice(0, PREVIEW_COUNT);
-  }, [activeCity, data.outlets]);
+  }, [activeCity, data?.outlets]);
 
   const content = (
     <>
@@ -57,6 +56,8 @@ export function NearestOutletSection({
         description="Pick a city to see live outlets nearby, or browse the full network for directions, hours and contact details."
         sx={embedded ? { mt: { xs: 3, md: 4 }, mb: { xs: 4, md: 5 } } : undefined}
       />
+
+      <ContentState loading={loading} error={error} empty={!data?.outlets?.length}>
 
       <Stack
         direction="row"
@@ -215,6 +216,7 @@ export function NearestOutletSection({
           See all outlets
         </Button>
       </Stack>
+      </ContentState>
     </>
   );
 

@@ -12,7 +12,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -20,7 +19,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
+import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
+import { useTablePagination } from "@/features/admin/useTablePagination";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type Testimonial } from "@/lib/api";
 
@@ -38,6 +46,8 @@ const empty: Testimonial = {
 
 function TestimonialsContent() {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [items, setItems] = useState<Testimonial[]>([]);
   const [form, setForm] = useState<Testimonial>(empty);
   const [open, setOpen] = useState(false);
@@ -65,28 +75,60 @@ function TestimonialsContent() {
 
   const save = async () => {
     if (!token) return;
-    if (editing) await api.updateTestimonial(token, form.id, form);
-    else await api.createTestimonial(token, form);
-    setOpen(false);
-    load();
+    try {
+      if (editing) await api.updateTestimonial(token, form.id, form);
+      else await api.createTestimonial(token, form);
+      setOpen(false);
+      load();
+      showSuccess(editing ? "Testimonial updated" : "Testimonial created");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to save testimonial"));
+    }
   };
 
-  const remove = async (id: string) => {
-    if (!token || !confirm("Delete this testimonial?")) return;
-    await api.deleteTestimonial(token, id);
-    load();
+  const remove = async (testimonial: Testimonial) => {
+    if (!token) return;
+    const confirmed = await confirmDelete({
+      title: "Delete testimonial",
+      message: "This will permanently remove the review from the website.",
+      itemName: testimonial.name,
+    });
+    if (!confirmed) return;
+    try {
+      await api.deleteTestimonial(token, testimonial.id);
+      load();
+      showSuccess("Testimonial deleted");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to delete testimonial"));
+    }
   };
+
+  const {
+    page,
+    setPage,
+    pageSize,
+    totalPages,
+    showPagination,
+    paginatedItems,
+    totalItems,
+  } = useTablePagination(items);
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Typography variant="h5" fontWeight={700}>
-          Testimonials
-        </Typography>
-        <Button startIcon={<AddIcon />} variant="contained" onClick={openCreate}>
-          Add testimonial
-        </Button>
-      </Box>
+      <AdminPageHeader
+        title="Testimonials"
+        action={
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={openCreate}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
+            Add testimonial
+          </Button>
+        }
+      />
+      <AdminTableContainer>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -97,7 +139,7 @@ function TestimonialsContent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((t) => (
+          {paginatedItems.map((t) => (
             <TableRow key={t.id}>
               <TableCell>{t.name}</TableCell>
               <TableCell>{t.city}</TableCell>
@@ -106,7 +148,7 @@ function TestimonialsContent() {
                 <IconButton size="small" onClick={() => openEdit(t)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={() => remove(t.id)}>
+                <IconButton size="small" onClick={() => remove(t)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -114,6 +156,16 @@ function TestimonialsContent() {
           ))}
         </TableBody>
       </Table>
+      </AdminTableContainer>
+      {showPagination && (
+        <AdminTablePagination
+          page={page}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      )}
       <AdminFormModal
         open={open}
         title={editing ? "Edit testimonial" : "New testimonial"}

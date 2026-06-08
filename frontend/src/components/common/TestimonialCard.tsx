@@ -8,7 +8,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { alpha } from "@mui/material/styles";
 
 import { SafeImage } from "@/components/common/SafeImage";
-import type { Testimonial } from "@/data/testimonials";
+import type { Testimonial } from "@/types";
 import { brandColors } from "@/theme/palette";
 import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
 

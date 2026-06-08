@@ -9,21 +9,21 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { ContentState } from "@/components/common/ContentState";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { FAQS } from "@/data/faqs";
 import { useFaqs } from "@/hooks/useApiContent";
 import type { FAQ } from "@/types";
 
 type Audience = "franchise" | "customer";
 
 export function FAQAccordion() {
-  const { data } = useFaqs({ faqs: FAQS });
+  const { data, loading, error } = useFaqs();
   const [audience, setAudience] = useState<Audience>("franchise");
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const filtered = useMemo<FAQ[]>(
-    () => data.faqs.filter((f) => f.audience === audience),
-    [audience, data.faqs],
+    () => data?.faqs.filter((f) => f.audience === audience) ?? [],
+    [audience, data?.faqs],
   );
 
   return (
@@ -41,64 +41,45 @@ export function FAQAccordion() {
             setAudience(value);
             setExpanded(false);
           }}
-          textColor="primary"
-          indicatorColor="primary"
+          centered
           sx={{
-            "& .MuiTab-root": {
-              fontWeight: 600,
-              fontSize: "var(--font-size-base)",
-              textTransform: "none",
-              px: 3,
-            },
+            "& .MuiTab-root": { fontWeight: 600, textTransform: "none" },
           }}
         >
-          <Tab label="Franchise Questions" value="franchise" />
-          <Tab label="Customer Questions" value="customer" />
+          <Tab label="Franchise Partners" value="franchise" />
+          <Tab label="Customers" value="customer" />
         </Tabs>
       </Box>
 
-      <Box sx={{ maxWidth: 880, mx: "auto" }}>
+      <ContentState loading={loading} error={error} empty={!filtered.length}>
         {filtered.map((faq, idx) => (
-          <ScrollReveal key={faq.id} delay={Math.min(idx * 0.04, 0.3)}>
+          <ScrollReveal key={faq.id} y={12} delay={idx * 0.04}>
             <Accordion
               expanded={expanded === faq.id}
-              onChange={(_, isOpen) => setExpanded(isOpen ? faq.id : false)}
+              onChange={(_, isExpanded) =>
+                setExpanded(isExpanded ? faq.id : false)
+              }
+              disableGutters
+              elevation={0}
               sx={{
                 mb: 1.5,
-                borderRadius: 2,
-                bgcolor: "background.paper",
+                borderRadius: "12px !important",
                 border: (t) => `1px solid ${t.palette.divider}`,
-                boxShadow: "none",
-                "&::before": { display: "none" },
-                "&.Mui-expanded": {
-                  borderColor: "primary.main",
-                  boxShadow: "0 14px 40px -16px rgba(0,0,0,0.12)",
-                },
+                "&:before": { display: "none" },
               }}
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                sx={{
-                  py: 1,
-                  px: 3,
-                  "& .MuiAccordionSummary-content": {
-                    my: 2,
-                  },
-                }}
-              >
-                <Typography variant="h6" sx={{ pr: 2 }}>
-                  {faq.question}
-                </Typography>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography fontWeight={600}>{faq.question}</Typography>
               </AccordionSummary>
-              <AccordionDetails sx={{ px: 3, pb: 3, pt: 0 }}>
-                <Typography variant="body1" color="text.secondary">
+              <AccordionDetails>
+                <Typography color="text.secondary" sx={{ lineHeight: 1.8 }}>
                   {faq.answer}
                 </Typography>
               </AccordionDetails>
             </Accordion>
           </ScrollReveal>
         ))}
-      </Box>
+      </ContentState>
     </Box>
   );
 }

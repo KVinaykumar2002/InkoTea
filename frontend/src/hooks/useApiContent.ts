@@ -3,17 +3,14 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 
-/**
- * Fetches public content from the backend with a static fallback.
- * Keeps the marketing site usable when the API is offline.
- */
-export function useApiContent<T>(
-  fetcher: () => Promise<T>,
-  fallback: T,
-): { data: T; loading: boolean; fromApi: boolean } {
-  const [data, setData] = useState<T>(fallback);
+export function useApiContent<T>(fetcher: () => Promise<T>): {
+  data: T | null;
+  loading: boolean;
+  error: string | null;
+} {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
-  const [fromApi, setFromApi] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -21,11 +18,14 @@ export function useApiContent<T>(
       .then((result) => {
         if (!cancelled) {
           setData(result);
-          setFromApi(true);
+          setError(null);
         }
       })
-      .catch(() => {
-        if (!cancelled) setData(fallback);
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setData(null);
+          setError(err instanceof Error ? err.message : "Failed to load content");
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -36,31 +36,25 @@ export function useApiContent<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- fetch once on mount
   }, []);
 
-  return { data, loading, fromApi };
+  return { data, loading, error };
 }
 
-export function useOutlets(fallback: { outlets: import("@/lib/api").Outlet[]; cities: string[] }) {
-  return useApiContent(
-    () => api.getOutlets(),
-    fallback,
-  );
+export function useOutlets() {
+  return useApiContent(() => api.getOutlets());
 }
 
-export function useMenu(fallback: {
-  categories: import("@/types").MenuCategoryMeta[];
-  items: import("@/types").MenuItem[];
-}) {
-  return useApiContent(() => api.getMenu(), fallback);
+export function useMenu() {
+  return useApiContent(() => api.getMenu());
 }
 
-export function useBlogPosts(fallback: { posts: import("@/lib/api").BlogPost[] }) {
-  return useApiContent(() => api.getBlogPosts(), fallback);
+export function useBlogPosts() {
+  return useApiContent(() => api.getBlogPosts());
 }
 
-export function useFaqs(fallback: { faqs: import("@/lib/api").FAQ[] }) {
-  return useApiContent(() => api.getFaqs(), fallback);
+export function useFaqs() {
+  return useApiContent(() => api.getFaqs());
 }
 
-export function useTestimonials(fallback: { testimonials: import("@/lib/api").Testimonial[] }) {
-  return useApiContent(() => api.getTestimonials(), fallback);
+export function useTestimonials() {
+  return useApiContent(() => api.getTestimonials());
 }

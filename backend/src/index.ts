@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { config } from "./config.js";
-import { getDb } from "./db/index.js";
+import { connectDb } from "./db/index.js";
 import authRoutes from "./routes/auth.js";
 import blogRoutes from "./routes/blog.js";
 import dashboardRoutes from "./routes/dashboard.js";
@@ -36,8 +36,14 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/uploads", uploadRoutes);
 
-getDb();
+async function start() {
+  await connectDb();
+  app.listen(config.port, () => {
+    console.log(`INKOTEA API running on http://localhost:${config.port}`);
+  });
+}
 
-app.listen(config.port, () => {
-  console.log(`INKOTEA API running on http://localhost:${config.port}`);
+start().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
 });

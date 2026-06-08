@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import type { MenuCategoryRow, MenuItemRow } from "../types.js";
 
@@ -27,14 +27,15 @@ function mapItem(row: MenuItemRow) {
   };
 }
 
-router.get("/", (_req, res) => {
-  const db = getDb();
-  const categories = db
-    .prepare("SELECT * FROM menu_categories ORDER BY key")
-    .all() as MenuCategoryRow[];
-  const items = db
-    .prepare("SELECT * FROM menu_items ORDER BY category, name")
-    .all() as MenuItemRow[];
+router.get("/", async (_req, res) => {
+  const categories = await getCollection<MenuCategoryRow>("menu_categories")
+    .find({})
+    .sort({ key: 1 })
+    .toArray();
+  const items = await getCollection<MenuItemRow>("menu_items")
+    .find({})
+    .sort({ category: 1, name: 1 })
+    .toArray();
 
   res.json({
     categories: categories.map(mapCategory),
@@ -42,25 +43,33 @@ router.get("/", (_req, res) => {
   });
 });
 
-router.put("/categories/:key", requireAuth, (req, res) => {
+router.put("/categories/:key", requireAuth, async (req, res) => {
   const { label, shortLabel, description, priceRange } = req.body as Record<
     string,
     string
   >;
-  const result = getDb()
-    .prepare(
-      `UPDATE menu_categories SET label=?, short_label=?, description=?, price_range=? WHERE key=?`,
-    )
-    .run(label, shortLabel, description, priceRange, req.params.key);
+  const result = await getCollection<MenuCategoryRow>(
+    "menu_categories",
+  ).updateOne(
+    { key: req.params.key },
+    {
+      $set: {
+        label,
+        short_label: shortLabel,
+        description,
+        price_range: priceRange,
+      },
+    },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "Category not found" });
     return;
   }
   res.json({ ok: true });
 });
 
-router.post("/items", requireAuth, (req, res) => {
+router.post("/items", requireAuth, async (req, res) => {
   const { id, name, category, description, priceRange, image, isBestSeller } =
     req.body as Record<string, unknown>;
 
@@ -69,61 +78,54 @@ router.post("/items", requireAuth, (req, res) => {
     return;
   }
 
-  getDb()
-    .prepare(
-      `INSERT INTO menu_items (id, name, category, description, price_range, image, is_best_seller)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    )
-    .run(
-      id,
-      name,
-      category,
-      description || "",
-      priceRange || "",
-      image || "",
-      isBestSeller ? 1 : 0,
-    );
+  const item: MenuItemRow = {
+    id: String(id),
+    name: String(name),
+    category: String(category),
+    description: String(description || ""),
+    price_range: String(priceRange || ""),
+    image: String(image || ""),
+    is_best_seller: isBestSeller ? 1 : 0,
+  };
 
-  const row = getDb()
-    .prepare("SELECT * FROM menu_items WHERE id = ?")
-    .get(id) as MenuItemRow;
-  res.status(201).json({ item: mapItem(row) });
+  await getCollection<MenuItemRow>("menu_items").insertOne(item);
+  res.status(201).json({ item: mapItem(item) });
 });
 
-router.put("/items/:id", requireAuth, (req, res) => {
+router.put("/items/:id", requireAuth, async (req, res) => {
   const { name, category, description, priceRange, image, isBestSeller } =
     req.body as Record<string, unknown>;
 
-  const result = getDb()
-    .prepare(
-      `UPDATE menu_items SET name=?, category=?, description=?, price_range=?, image=?, is_best_seller=? WHERE id=?`,
-    )
-    .run(
-      name,
-      category,
-      description,
-      priceRange,
-      image,
-      isBestSeller ? 1 : 0,
-      req.params.id,
-    );
+  const result = await getCollection<MenuItemRow>("menu_items").updateOne(
+    { id: req.params.id },
+    {
+      $set: {
+        name: String(name),
+        category: String(category),
+        description: String(description),
+        price_range: String(priceRange),
+        image: String(image),
+        is_best_seller: isBestSeller ? 1 : 0,
+      },
+    },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "Item not found" });
     return;
   }
 
-  const row = getDb()
-    .prepare("SELECT * FROM menu_items WHERE id = ?")
-    .get(req.params.id) as MenuItemRow;
-  res.json({ item: mapItem(row) });
+  const row = await getCollection<MenuItemRow>("menu_items").findOne({
+    id: req.params.id,
+  });
+  res.json({ item: mapItem(row!) });
 });
 
-router.delete("/items/:id", requireAuth, (req, res) => {
-  const result = getDb()
-    .prepare("DELETE FROM menu_items WHERE id = ?")
-    .run(req.params.id);
-  if (result.changes === 0) {
+router.delete("/items/:id", requireAuth, async (req, res) => {
+  const result = await getCollection<MenuItemRow>("menu_items").deleteOne({
+    id: req.params.id,
+  });
+  if (result.deletedCount === 0) {
     res.status(404).json({ error: "Item not found" });
     return;
   }

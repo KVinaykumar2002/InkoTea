@@ -5,8 +5,8 @@ import type {
   MenuCategoryMeta,
   MenuItem,
   Outlet,
+  Testimonial,
 } from "@/types";
-import type { Testimonial } from "@/data/testimonials";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";

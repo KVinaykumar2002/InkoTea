@@ -109,6 +109,18 @@ export interface FAQ {
   audience: "franchise" | "customer";
 }
 
+export interface Testimonial {
+  id: string;
+  name: string;
+  initials: string;
+  city: string;
+  quote: string;
+  image: string;
+  imageAlt: string;
+  rating: number;
+  isVideo?: boolean;
+}
+
 export interface LeadPayload {
   name: string;
   phone: string;

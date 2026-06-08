@@ -20,7 +20,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
+import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
+import { useTablePagination } from "@/features/admin/useTablePagination";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
+import {
+  getAdminErrorMessage,
+  useAdminToast,
+} from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type MenuItem } from "@/lib/api";
 import type { MenuCategory } from "@/types";
@@ -37,6 +46,8 @@ const empty: MenuItem = {
 
 function MenuContent() {
   const { token } = useAdminAuth();
+  const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [items, setItems] = useState<MenuItem[]>([]);
   const [form, setForm] = useState<MenuItem>(empty);
   const [open, setOpen] = useState(false);
@@ -64,31 +75,66 @@ function MenuContent() {
 
   const save = async () => {
     if (!token) return;
-    if (editing) await api.updateMenuItem(token, form.id, form);
-    else await api.createMenuItem(token, form);
-    setOpen(false);
-    load();
+    try {
+      if (editing) await api.updateMenuItem(token, form.id, form);
+      else await api.createMenuItem(token, form);
+      setOpen(false);
+      load();
+      showSuccess(editing ? "Menu item updated" : "Menu item created");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to save menu item"));
+    }
   };
 
-  const remove = async (id: string) => {
-    if (!token || !confirm("Delete this item?")) return;
-    await api.deleteMenuItem(token, id);
-    load();
+  const remove = async (item: MenuItem) => {
+    if (!token) return;
+    const confirmed = await confirmDelete({
+      title: "Delete menu item",
+      message: "This will permanently remove the item from the menu.",
+      itemName: item.name,
+    });
+    if (!confirmed) return;
+    try {
+      await api.deleteMenuItem(token, item.id);
+      load();
+      showSuccess("Menu item deleted");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to delete menu item"));
+    }
   };
+
+  const {
+    page,
+    setPage,
+    pageSize,
+    totalPages,
+    showPagination,
+    paginatedItems,
+    totalItems,
+  } = useTablePagination(items);
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Typography variant="h5" fontWeight={700}>
-          Menu items
-        </Typography>
-        <Button startIcon={<AddIcon />} variant="contained" onClick={openCreate}>
-          Add item
-        </Button>
-      </Box>
+      <AdminPageHeader
+        title="Menu items"
+        action={
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            onClick={openCreate}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
+            Add item
+          </Button>
+        }
+      />
+      <AdminTableContainer minWidth={720}>
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell sx={{ width: 88, minWidth: 88, whiteSpace: "nowrap" }}>
+              Image
+            </TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Category</TableCell>
             <TableCell>Price</TableCell>
@@ -97,8 +143,41 @@ function MenuContent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {paginatedItems.map((item) => (
             <TableRow key={item.id}>
+              <TableCell sx={{ width: 88, minWidth: 88 }}>
+                {item.image ? (
+                  <Box
+                    component="img"
+                    src={item.image}
+                    alt={item.name}
+                    sx={{
+                      width: 56,
+                      height: 40,
+                      borderRadius: 1,
+                      objectFit: "cover",
+                      display: "block",
+                      bgcolor: "grey.100",
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      width: 56,
+                      height: 40,
+                      borderRadius: 1,
+                      bgcolor: "grey.100",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="caption" color="text.secondary">
+                      —
+                    </Typography>
+                  </Box>
+                )}
+              </TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.category}</TableCell>
               <TableCell>{item.priceRange}</TableCell>
@@ -107,7 +186,7 @@ function MenuContent() {
                 <IconButton size="small" onClick={() => openEdit(item)}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-                <IconButton size="small" onClick={() => remove(item.id)}>
+                <IconButton size="small" onClick={() => remove(item)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -115,6 +194,16 @@ function MenuContent() {
           ))}
         </TableBody>
       </Table>
+      </AdminTableContainer>
+      {showPagination && (
+        <AdminTablePagination
+          page={page}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      )}
       <AdminFormModal
         open={open}
         title={editing ? "Edit menu item" : "New menu item"}

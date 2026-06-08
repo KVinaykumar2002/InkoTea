@@ -10,7 +10,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Chip from "@mui/material/Chip";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import type { BlogPost } from "@/types";
-import { BLOG_CATEGORIES } from "@/data/blogPosts";
+import { BLOG_CATEGORIES } from "@/features/blog/blogCategories";
 
 interface Props {
   post: BlogPost;

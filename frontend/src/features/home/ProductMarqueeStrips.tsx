@@ -2,13 +2,8 @@
 
 import Box from "@mui/material/Box";
 import { InfiniteMarquee, type MarqueeItem } from "@/components/common/InfiniteMarquee";
-import { MENU_CATEGORIES } from "@/data/menu";
+import { useMenu } from "@/hooks/useApiContent";
 import { BRAND } from "@/lib/brand";
-
-const PRODUCT_ROW: MarqueeItem[] = MENU_CATEGORIES.map((c) => ({
-  label: c.label,
-  detail: c.priceRange,
-}));
 
 const BRAND_ROW: MarqueeItem[] = [
   { label: BRAND.tagline },
@@ -21,19 +16,25 @@ const BRAND_ROW: MarqueeItem[] = [
   { label: "Sit. Sip. Smile." },
 ];
 
-/**
- * Dual infinite-scroll strips (furniture-site pattern): product categories
- * scroll one way, brand moments scroll the other.
- */
 export function ProductMarqueeStrips() {
+  const { data } = useMenu();
+  const productRow: MarqueeItem[] =
+    data?.categories.map((c) => ({
+      label: c.label,
+      detail: c.priceRange,
+    })) ?? [];
+
+  if (!productRow.length) return null;
+
   return (
     <Box component="section" aria-label="Product highlights">
-      <InfiniteMarquee items={PRODUCT_ROW} direction="left" durationSeconds={36} />
+      <InfiniteMarquee items={productRow} direction="left" durationSeconds={28} edgeless />
       <InfiniteMarquee
         items={BRAND_ROW}
         direction="right"
-        durationSeconds={42}
+        durationSeconds={32}
         variant="accent"
+        edgeless
       />
     </Box>
   );

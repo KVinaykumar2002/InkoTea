@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDb } from "../db/index.js";
+import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import type { FaqRow } from "../types.js";
 
@@ -14,54 +14,49 @@ function mapFaq(row: FaqRow) {
   };
 }
 
-router.get("/", (_req, res) => {
-  const rows = getDb()
-    .prepare("SELECT * FROM faqs ORDER BY id")
-    .all() as FaqRow[];
+router.get("/", async (_req, res) => {
+  const rows = await getCollection<FaqRow>("faqs")
+    .find({})
+    .sort({ id: 1 })
+    .toArray();
   res.json({ faqs: rows.map(mapFaq) });
 });
 
-router.post("/", requireAuth, (req, res) => {
+router.post("/", requireAuth, async (req, res) => {
   const { id, question, answer, audience } = req.body as Record<string, string>;
   if (!id || !question || !answer || !audience) {
     res.status(400).json({ error: "id, question, answer, and audience are required" });
     return;
   }
 
-  getDb()
-    .prepare(
-      "INSERT INTO faqs (id, question, answer, audience) VALUES (?, ?, ?, ?)",
-    )
-    .run(id, question, answer, audience);
-
-  const row = getDb()
-    .prepare("SELECT * FROM faqs WHERE id = ?")
-    .get(id) as FaqRow;
-  res.status(201).json({ faq: mapFaq(row) });
+  const faq: FaqRow = { id, question, answer, audience };
+  await getCollection<FaqRow>("faqs").insertOne(faq);
+  res.status(201).json({ faq: mapFaq(faq) });
 });
 
-router.put("/:id", requireAuth, (req, res) => {
+router.put("/:id", requireAuth, async (req, res) => {
   const { question, answer, audience } = req.body as Record<string, string>;
-  const result = getDb()
-    .prepare("UPDATE faqs SET question=?, answer=?, audience=? WHERE id=?")
-    .run(question, answer, audience, req.params.id);
+  const result = await getCollection<FaqRow>("faqs").updateOne(
+    { id: req.params.id },
+    { $set: { question, answer, audience } },
+  );
 
-  if (result.changes === 0) {
+  if (result.matchedCount === 0) {
     res.status(404).json({ error: "FAQ not found" });
     return;
   }
 
-  const row = getDb()
-    .prepare("SELECT * FROM faqs WHERE id = ?")
-    .get(req.params.id) as FaqRow;
-  res.json({ faq: mapFaq(row) });
+  const row = await getCollection<FaqRow>("faqs").findOne({
+    id: req.params.id,
+  });
+  res.json({ faq: mapFaq(row!) });
 });
 
-router.delete("/:id", requireAuth, (req, res) => {
-  const result = getDb()
-    .prepare("DELETE FROM faqs WHERE id = ?")
-    .run(req.params.id);
-  if (result.changes === 0) {
+router.delete("/:id", requireAuth, async (req, res) => {
+  const result = await getCollection<FaqRow>("faqs").deleteOne({
+    id: req.params.id,
+  });
+  if (result.deletedCount === 0) {
     res.status(404).json({ error: "FAQ not found" });
     return;
   }

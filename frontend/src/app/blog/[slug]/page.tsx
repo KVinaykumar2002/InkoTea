@@ -1,18 +1,25 @@
 import { notFound } from "next/navigation";
 import { buildPageMetadata } from "@/lib/seo";
 import { BlogDetail } from "@/features/blog/BlogDetail";
-import { BLOG_POSTS } from "@/data/blogPosts";
+import { fetchBlogPost, fetchBlogPosts } from "@/lib/serverApi";
+
+export const dynamic = "force-dynamic";
 
 interface Params {
   slug: string;
 }
 
-export function generateStaticParams(): Params[] {
-  return BLOG_POSTS.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams(): Promise<Params[]> {
+  try {
+    const posts = await fetchBlogPosts();
+    return posts.map((p) => ({ slug: p.slug }));
+  } catch {
+    return [];
+  }
 }
 
-export function generateMetadata({ params }: { params: Params }) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+export async function generateMetadata({ params }: { params: Params }) {
+  const post = await fetchBlogPost(params.slug);
   if (!post) {
     return buildPageMetadata({ title: "Post not found", path: "/blog" });
   }
@@ -24,8 +31,8 @@ export function generateMetadata({ params }: { params: Params }) {
   });
 }
 
-export default function BlogPostPage({ params }: { params: Params }) {
-  const post = BLOG_POSTS.find((p) => p.slug === params.slug);
+export default async function BlogPostPage({ params }: { params: Params }) {
+  const post = await fetchBlogPost(params.slug);
   if (!post) notFound();
   return <BlogDetail post={post} />;
 }

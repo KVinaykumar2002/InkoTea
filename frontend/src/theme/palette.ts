@@ -20,6 +20,10 @@ export const brandColors = {
   teaBrownLight: "#8E5A2E",
   cream: "#FBF7F1",
   creamDark: "#F2EBDD",
+  /** Hero marquee strips — sampled from brand marketing collateral */
+  stripOlive: "#5E6634",
+  stripCream: "#D1C19B",
+  stripMuted: "#8E917A",
   charcoal: "#1C1A12",
   charcoalLight: "#2A2719",
   textOnDark: "#F5EFE5",
