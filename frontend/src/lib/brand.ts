@@ -38,7 +38,7 @@ export const BRAND = {
     youtube: "https://youtube.com/@inkotea",
     linkedin: "https://linkedin.com/company/inkotea",
   },
-  whatsappLink: "https://wa.me/918919566855",
+  whatsappLink: "https://wa.me/918464020418",
   siteUrl: "https://inkotea.com",
   mapsUrl: "https://maps.app.goo.gl/33sznnwAdJXPDfxU8",
   /** iframe embed for {@link mapsUrl} — InkoTea Enterprises Pvt Ltd, Hyderabad */

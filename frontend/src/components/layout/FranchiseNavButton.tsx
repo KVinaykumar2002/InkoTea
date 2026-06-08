@@ -8,6 +8,7 @@ import { alpha } from "@mui/material/styles";
 import { brandColors } from "@/theme/palette";
 
 const FILL_COLOR = brandColors.amberGold;
+const FILL_CYCLE = "2.8s";
 
 interface FranchiseNavButtonProps {
   fullWidth?: boolean;
@@ -19,7 +20,8 @@ interface FranchiseNavButtonProps {
 }
 
 /**
- * Franchise CTA — white pill with arrow disc; hover fills amber left → right.
+ * Franchise CTA — white pill with arrow disc; amber fill sweeps left → right
+ * on a continuous loop (not hover-only).
  */
 export function FranchiseNavButton({
   fullWidth = false,
@@ -52,6 +54,18 @@ export function FranchiseNavButton({
         justifyContent: "space-between",
         flexShrink: 0,
         transition: "box-shadow 0.4s ease",
+        "@keyframes franchise-btn-fill": {
+          "0%, 100%": { transform: "scaleX(0)" },
+          "42%, 58%": { transform: "scaleX(1)" },
+        },
+        "@keyframes franchise-btn-label-color": {
+          "0%, 32%, 68%, 100%": { color: brandColors.charcoal },
+          "45%, 55%": { color: "#FFFFFF" },
+        },
+        "@keyframes franchise-btn-icon-bg": {
+          "0%, 32%, 68%, 100%": { bgcolor: FILL_COLOR },
+          "45%, 55%": { bgcolor: "rgba(255,255,255,0.28)" },
+        },
         "&::before": {
           content: '""',
           position: "absolute",
@@ -59,24 +73,20 @@ export function FranchiseNavButton({
           bgcolor: FILL_COLOR,
           transform: "scaleX(0)",
           transformOrigin: "left center",
-          transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+          animation: `franchise-btn-fill ${FILL_CYCLE} cubic-bezier(0.4, 0, 0.2, 1) infinite`,
           zIndex: 0,
         },
         "&:hover": {
           bgcolor: "#FFFFFF",
           boxShadow: `0 10px 28px -8px ${alpha(FILL_COLOR, 0.55)}`,
-          "&::before": {
-            transform: "scaleX(1)",
-          },
-          "& .franchise-nav-btn-label": {
-            color: "#FFFFFF",
-          },
-          "& .franchise-nav-btn-icon": {
-            bgcolor: "rgba(255,255,255,0.28)",
-          },
         },
         "@media (prefers-reduced-motion: reduce)": {
-          "&::before": { transition: "none" },
+          "&::before": { animation: "none", transform: "scaleX(0)" },
+          "& .franchise-nav-btn-label": { animation: "none" },
+          "& .franchise-nav-btn-icon": { animation: "none" },
+          "&:hover::before": { transform: "scaleX(1)" },
+          "&:hover .franchise-nav-btn-label": { color: "#FFFFFF" },
+          "&:hover .franchise-nav-btn-icon": { bgcolor: "rgba(255,255,255,0.28)" },
         },
       }}
     >
@@ -88,7 +98,7 @@ export function FranchiseNavButton({
           zIndex: 1,
           fontSize: compact ? "0.875rem" : { xs: "1rem", md: "1.0625rem" },
           lineHeight: 1.2,
-          transition: "color 0.35s ease 0.08s",
+          animation: `franchise-btn-label-color ${FILL_CYCLE} ease infinite`,
         }}
       >
         {label}
@@ -108,7 +118,7 @@ export function FranchiseNavButton({
           bgcolor: FILL_COLOR,
           color: "#FFFFFF",
           boxShadow: `0 4px 12px -4px ${alpha(brandColors.amberGoldDark, 0.45)}`,
-          transition: "background-color 0.35s ease 0.12s",
+          animation: `franchise-btn-icon-bg ${FILL_CYCLE} ease infinite`,
         }}
       >
         <ArrowForwardIcon sx={{ fontSize: compact ? 16 : 20 }} />
