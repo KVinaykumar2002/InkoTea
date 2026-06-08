@@ -9,7 +9,7 @@ import type {
 } from "@/types";
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+  process.env.NEXT_PUBLIC_API_URL || "https://inkotea.onrender.com/api";
 
 export type { BlogPost, FAQ, MenuCategoryMeta, MenuItem, Outlet, Testimonial };
 
