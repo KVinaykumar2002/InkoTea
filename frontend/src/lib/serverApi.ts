@@ -4,52 +4,41 @@ import { API_BASE } from "@/lib/apiBase";
 async function fetchWithRetry(
   url: string,
   init?: RequestInit,
-  retries = 3,
-): Promise<Response> {
-  let lastError: unknown;
-
+  retries = 2,
+): Promise<Response | null> {
   for (let attempt = 0; attempt < retries; attempt += 1) {
     try {
-      const res = await fetch(url, init);
+      const res = await fetch(url, {
+        ...init,
+        signal: AbortSignal.timeout(8_000),
+      });
       if (res.ok || res.status === 404) return res;
-      lastError = new Error(`Request failed with status ${res.status}`);
-    } catch (error) {
-      lastError = error;
+    } catch {
+      // API may be cold or unreachable during build; callers handle null.
     }
 
     if (attempt < retries - 1) {
-      await new Promise((resolve) => setTimeout(resolve, 3000 * (attempt + 1)));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
     }
   }
 
-  throw lastError instanceof Error
-    ? lastError
-    : new Error("Failed to fetch from API");
+  return null;
 }
 
 export async function fetchBlogPosts(): Promise<BlogPost[]> {
   const res = await fetchWithRetry(`${API_BASE}/blog`, {
     next: { revalidate: 60 },
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch blog posts");
-  }
+  if (!res?.ok) return [];
   const data = (await res.json()) as { posts: BlogPost[] };
   return data.posts;
 }
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
-  try {
-    const res = await fetchWithRetry(`${API_BASE}/blog/${slug}`, {
-      next: { revalidate: 60 },
-    });
-    if (res.status === 404) return null;
-    if (!res.ok) {
-      return null;
-    }
-    const data = (await res.json()) as { post: BlogPost };
-    return data.post;
-  } catch {
-    return null;
-  }
+  const res = await fetchWithRetry(`${API_BASE}/blog/${slug}`, {
+    next: { revalidate: 60 },
+  });
+  if (!res || res.status === 404 || !res.ok) return null;
+  const data = (await res.json()) as { post: BlogPost };
+  return data.post;
 }

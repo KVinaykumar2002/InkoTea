@@ -52,8 +52,9 @@ app.use("/api/uploads", uploadRoutes);
 
 async function start() {
   await connectDb();
-  app.listen(config.port, () => {
-    console.log(`INKOTEA API running on http://localhost:${config.port}`);
+  app.listen(config.port, "0.0.0.0", () => {
+    console.log(`INKOTEA API running on port ${config.port}`);
+    console.log(`CORS allowed origins: ${allowedOrigins.join(", ")}`);
   });
 }
 

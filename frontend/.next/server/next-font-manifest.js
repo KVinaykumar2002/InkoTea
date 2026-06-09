@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/kalakondavinaykumar/Desktop/InkoTea/InkoTea/frontend/src/app/layout\":[\"static/media/e807dee2426166ad-s.p.woff2\",\"static/media/bd9b9909c3a641ff-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
