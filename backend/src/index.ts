@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { resolveCorsOrigins } from "../../shared/urls.js";
 import { config } from "./config.js";
 import { connectDb } from "./db/index.js";
 import authRoutes from "./routes/auth.js";
@@ -14,9 +15,22 @@ import uploadRoutes from "./routes/uploads.js";
 
 const app = express();
 
+const allowedOrigins = resolveCorsOrigins(process.env.CORS_ORIGIN);
+
 app.use(
   cors({
-    origin: config.corsOrigin.split(",").map((o) => o.trim()),
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      const normalized = origin.replace(/\/+$/, "");
+      if (allowedOrigins.includes(normalized)) {
+        callback(null, true);
+        return;
+      }
+      callback(null, false);
+    },
     credentials: true,
   }),
 );

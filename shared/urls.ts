@@ -17,6 +17,45 @@ function isValidApiHostname(hostname: string): boolean {
   return /^[a-z0-9.-]+$/i.test(hostname) && hostname.includes(".");
 }
 
+function normalizeOrigin(raw: string): string | null {
+  let value = raw.trim().replace(/^=+/, "").trim();
+  if (!value) return null;
+
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    value = value.slice(1, -1).trim();
+  }
+
+  if (!/^https?:\/\//i.test(value)) {
+    value = `https://${value.replace(/^\/+/, "")}`;
+  }
+
+  try {
+    return stripTrailingSlash(new URL(value).origin);
+  } catch {
+    return null;
+  }
+}
+
+/** Allowed browser origins for CORS — always includes production frontend + localhost. */
+export function resolveCorsOrigins(raw?: string | null): string[] {
+  const origins = new Set<string>([
+    stripTrailingSlash(FRONTEND_URL),
+    "http://localhost:3000",
+  ]);
+
+  if (raw?.trim()) {
+    for (const part of raw.split(",")) {
+      const normalized = normalizeOrigin(part);
+      if (normalized) origins.add(normalized);
+    }
+  }
+
+  return [...origins];
+}
+
 /** Normalize env overrides — handles missing protocol, trailing slashes, and bare hostnames. */
 export function resolveApiBase(raw?: string | null): string {
   const fallback = stripTrailingSlash(API_URL);
