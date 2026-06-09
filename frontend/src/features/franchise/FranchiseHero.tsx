@@ -9,13 +9,12 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion } from "framer-motion";
-import { DEFAULT_FRANCHISE_CONTENT } from "@shared/pageContent";
-import { usePageContent } from "@/hooks/useApiContent";
-import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
+import { FRANCHISE_USPS } from "@/data/franchiseModels";
+import { BRAND_IMAGES } from "@/lib/brandImages";
+
+const HERO_BG = BRAND_IMAGES.franchiseKioskNight;
 
 export function FranchiseHero() {
-  const { content } = usePageContent("franchise", DEFAULT_FRANCHISE_CONTENT);
-
   return (
     <Box
       component="section"
@@ -34,7 +33,7 @@ export function FranchiseHero() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${resolveMediaUrl(content.backgroundImage)})`,
+          backgroundImage: `url(${HERO_BG})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.22,
@@ -62,7 +61,7 @@ export function FranchiseHero() {
           transition={{ duration: 0.7 }}
         >
           <Chip
-            label={content.chip}
+            label="Franchise Opportunity"
             sx={{
               alignSelf: "flex-start",
               bgcolor: "rgba(212,165,116,0.18)",
@@ -75,7 +74,7 @@ export function FranchiseHero() {
             }}
           />
           <Typography variant="h1" sx={{ color: "inherit" }}>
-            {content.title}
+            Start Your Own Tea or Cafe Business
             <Box
               component="span"
               sx={{
@@ -84,7 +83,7 @@ export function FranchiseHero() {
                 ...fontDisplayItalicSx,
               }}
             >
-              {content.titleAccent}
+              with INKOTEA
             </Box>
           </Typography>
           <Typography
@@ -97,7 +96,8 @@ export function FranchiseHero() {
               lineHeight: 1.55,
             }}
           >
-            {content.subtitle}
+            Two scalable formats. One proven brand. Pick the model that fits
+            your investment, your city, and your ambition.
           </Typography>
 
           <Stack
@@ -107,7 +107,7 @@ export function FranchiseHero() {
             useFlexGap
             sx={{ mt: 1 }}
           >
-            {content.usps.map((usp) => (
+            {FRANCHISE_USPS.map((usp) => (
               <Stack
                 key={usp}
                 direction="row"

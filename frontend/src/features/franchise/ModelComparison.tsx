@@ -16,33 +16,38 @@ import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
+import { formatStartingFromInvestment } from "@/data/franchiseModels";
+import { usePageContent } from "@/hooks/useApiContent";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import {
-  FRANCHISE_MODELS,
-  formatStartingFromInvestment,
-} from "@/data/franchiseModels";
-import { BRAND_IMAGES } from "@/lib/brandImages";
+  DEFAULT_FRANCHISE_CONTENT,
+  type FranchiseModelCardContent,
+  type FranchiseModelKey,
+} from "@shared/pageContent";
 
-const MODEL_ICONS = {
+const MODEL_ICONS: Record<FranchiseModelKey, typeof StorefrontIcon> = {
   kiosk: StorefrontIcon,
   cafe: LocalCafeIcon,
-} as const;
+};
 
-const MODEL_HEADER_IMAGES = {
-  kiosk: BRAND_IMAGES.franchiseKioskNight,
-  cafe: BRAND_IMAGES.franchiseCafeStorefront,
-} as const;
-
-/**
- * Per-image focus point so the portrait source photos crop to the most
- * distinctive band inside the wide card headers — see
- * `FranchiseHero.SHOWCASE_IMAGES` for the same reasoning.
- */
-const MODEL_HEADER_FOCUS: Record<keyof typeof MODEL_HEADER_IMAGES, string> = {
+const MODEL_HEADER_FOCUS: Record<FranchiseModelKey, string> = {
   kiosk: "center 38%",
   cafe: "center 28%",
 };
 
-const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }[] = [
+const SPEC_ROWS: {
+  key: keyof Pick<
+    FranchiseModelCardContent,
+    | "investment"
+    | "spaceSqFt"
+    | "setupTime"
+    | "staff"
+    | "format"
+    | "roiSpeed"
+    | "target"
+  >;
+  label: string;
+}[] = [
   { key: "investment", label: "Investment" },
   { key: "spaceSqFt", label: "Minimum Space" },
   { key: "setupTime", label: "Setup time" },
@@ -52,10 +57,7 @@ const SPEC_ROWS: { key: keyof (typeof FRANCHISE_MODELS)[number]; label: string }
   { key: "target", label: "Best for" },
 ];
 
-/** Fixed row heights so spec lines align across both franchise cards. */
-const SPEC_ROW_MIN_HEIGHT: Partial<
-  Record<keyof (typeof FRANCHISE_MODELS)[number], number>
-> = {
+const SPEC_ROW_MIN_HEIGHT: Partial<Record<(typeof SPEC_ROWS)[number]["key"], number>> = {
   investment: 44,
   spaceSqFt: 44,
   setupTime: 44,
@@ -69,6 +71,9 @@ const HIGHLIGHT_ITEM_MIN_HEIGHT = 52;
 const IDEAL_LOCATIONS_MIN_HEIGHT = 96;
 
 export function ModelComparison() {
+  const { content } = usePageContent("franchise", DEFAULT_FRANCHISE_CONTENT);
+  const { chooseYourModel } = content;
+
   return (
     <Section
       bgcolor="background.default"
@@ -77,9 +82,9 @@ export function ModelComparison() {
       pb={{ xs: 2, md: 3 }}
     >
       <SectionHeading
-        eyebrow="Choose Your Model"
-        title="One strong cafe brand. Two simple investment options."
-        description="Both formats are profitable — they simply reward different operator profiles, locations and ambitions."
+        eyebrow={chooseYourModel.eyebrow}
+        title={chooseYourModel.title}
+        description={chooseYourModel.description}
         sx={compactSectionHeadingSx}
       />
 
@@ -91,12 +96,13 @@ export function ModelComparison() {
           alignItems: "stretch",
         }}
       >
-        {FRANCHISE_MODELS.map((model, idx) => {
+        {chooseYourModel.models.map((model, idx) => {
           const Icon = MODEL_ICONS[model.key];
+          const accentColor = model.key === "kiosk" ? "primary" : "success";
           const accentBg =
-            model.accentColor === "primary" ? "primary.main" : "success.main";
+            accentColor === "primary" ? "primary.main" : "success.main";
           const accentBgSoft =
-            model.accentColor === "primary"
+            accentColor === "primary"
               ? "rgba(92,58,33,0.06)"
               : "rgba(63,107,74,0.06)";
 
@@ -130,7 +136,7 @@ export function ModelComparison() {
                     sx={{
                       position: "absolute",
                       inset: 0,
-                      backgroundImage: `url(${MODEL_HEADER_IMAGES[model.key]})`,
+                      backgroundImage: `url(${resolveMediaUrl(model.headerImage)})`,
                       backgroundSize: "cover",
                       backgroundPosition: MODEL_HEADER_FOCUS[model.key],
                       opacity: 0.42,
@@ -218,8 +224,7 @@ export function ModelComparison() {
                             alignItems="flex-start"
                             spacing={2}
                             sx={{
-                              minHeight:
-                                SPEC_ROW_MIN_HEIGHT[row.key] ?? 44,
+                              minHeight: SPEC_ROW_MIN_HEIGHT[row.key] ?? 44,
                               py: 0.75,
                             }}
                           >
@@ -243,10 +248,8 @@ export function ModelComparison() {
                               }}
                             >
                               {row.key === "investment"
-                                ? formatStartingFromInvestment(
-                                    String(model.investment),
-                                  )
-                                : String(model[row.key])}
+                                ? formatStartingFromInvestment(model.investment)
+                                : model[row.key]}
                             </Typography>
                           </Stack>
                         ))}
@@ -303,7 +306,7 @@ export function ModelComparison() {
                             key={loc}
                             label={loc}
                             size="small"
-                            color={model.accentColor}
+                            color={accentColor}
                             variant="outlined"
                           />
                         ))}

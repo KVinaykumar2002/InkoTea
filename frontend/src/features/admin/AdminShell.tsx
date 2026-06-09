@@ -37,8 +37,8 @@ const DRAWER_WIDTH = 260;
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: <DashboardIcon /> },
   { href: "/admin/hero", label: "Home Hero", icon: <HomeIcon /> },
-  { href: "/admin/contact", label: "Contact Page", icon: <ContactMailIcon /> },
-  { href: "/admin/franchise", label: "Franchise Page", icon: <HandshakeIcon /> },
+  { href: "/admin/contact", label: "Quick Chat", icon: <ContactMailIcon /> },
+  { href: "/admin/franchise", label: "Choose Your Model", icon: <HandshakeIcon /> },
   { href: "/admin/leads", label: "Leads", icon: <PeopleIcon /> },
   { href: "/admin/outlets", label: "Outlets", icon: <StoreIcon /> },
   { href: "/admin/menu", label: "Menu", icon: <RestaurantMenuIcon /> },

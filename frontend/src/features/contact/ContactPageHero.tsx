@@ -4,14 +4,10 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { DEFAULT_CONTACT_CONTENT } from "@shared/pageContent";
-import { usePageContent } from "@/hooks/useApiContent";
-import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
+import { BRAND_IMAGES } from "@/lib/brandImages";
 import { fontDescriptionSx } from "@/theme/fonts";
 
 export function ContactPageHero() {
-  const { content } = usePageContent("contact", DEFAULT_CONTACT_CONTENT);
-
   return (
     <Box
       component="section"
@@ -30,7 +26,7 @@ export function ContactPageHero() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${resolveMediaUrl(content.heroImage)})`,
+          backgroundImage: `url(${BRAND_IMAGES.footerKioskScene})`,
           backgroundSize: "cover",
           backgroundPosition: { xs: "65% center", md: "center" },
           backgroundRepeat: "no-repeat",
@@ -65,10 +61,10 @@ export function ContactPageHero() {
             variant="overline"
             sx={{ color: "secondary.light", letterSpacing: "0.2em" }}
           >
-            {content.eyebrow}
+            Get in touch
           </Typography>
           <Typography variant="h1" sx={{ color: "inherit" }}>
-            {content.title}
+            Let&apos;s build your INKOTEA chapter together.
           </Typography>
           <Typography
             variant="h5"
@@ -79,7 +75,8 @@ export function ContactPageHero() {
               lineHeight: 1.55,
             }}
           >
-            {content.subtitle}
+            Whether you want to open a franchise or just say hi — we read every
+            message.
           </Typography>
         </Stack>
       </Container>

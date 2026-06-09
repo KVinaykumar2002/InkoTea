@@ -208,10 +208,11 @@ export function WelcomeEnquiryPopup() {
                   />
                   <FormikTextField
                     name="message"
-                    label="Message (optional)"
+                    label="Message"
                     multiline
                     minRows={2}
                     fullWidth
+                    required
                     sx={fieldStyles}
                   />
 

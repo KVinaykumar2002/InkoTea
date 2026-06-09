@@ -1,20 +1,17 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import { DEFAULT_CONTACT_CONTENT } from "@shared/pageContent";
-import { usePageContent } from "@/hooks/useApiContent";
+import { BRAND } from "@/lib/brand";
 
 /**
  * Embedded Google Maps preview for HQ. Uses an iframe so we avoid needing a
- * Google Maps API key; clicking opens the configured maps URL in a new tab.
+ * Google Maps API key; clicking opens {@link BRAND.mapsUrl} in a new tab.
  */
 export function OfficeMap() {
-  const { content } = usePageContent("contact", DEFAULT_CONTACT_CONTENT);
-
   return (
     <Box
       component="a"
-      href={content.mapsUrl}
+      href={BRAND.mapsUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open INKOTEA HQ in Google Maps"
@@ -32,7 +29,7 @@ export function OfficeMap() {
       <Box
         component="iframe"
         title="INKOTEA HQ — InkoTea Enterprises Pvt Ltd, Hyderabad"
-        src={content.mapsEmbedSrc}
+        src={BRAND.mapsEmbedSrc}
         sx={{ border: 0, width: "100%", height: "100%", pointerEvents: "none" }}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"

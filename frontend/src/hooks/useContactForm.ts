@@ -44,7 +44,7 @@ export function useContactForm() {
         name: values.name.trim(),
         email: values.email.trim(),
         phone: values.phone,
-        city: "",
+        city: "Via contact page",
         message: `[${values.subject}] ${values.message.trim()}`,
         source: "contact",
       };

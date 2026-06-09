@@ -105,7 +105,7 @@ function LeadsContent() {
       >
         <AdminFormField
           label="Search"
-          placeholder="Name, phone, city…"
+          placeholder="Name, phone, city, message…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           sx={{ minWidth: { xs: "100%", sm: 260 }, flex: { sm: 1 } }}
@@ -129,13 +129,14 @@ function LeadsContent() {
           </Select>
         </FormControl>
       </Box>
-      <AdminTableContainer minWidth={880}>
+      <AdminTableContainer minWidth={1040}>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>City</TableCell>
+            <TableCell sx={{ minWidth: 200 }}>Message</TableCell>
             <TableCell>Source</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Date</TableCell>
@@ -157,6 +158,29 @@ function LeadsContent() {
               </TableCell>
               <TableCell>{lead.phone}</TableCell>
               <TableCell>{lead.city}</TableCell>
+              <TableCell sx={{ maxWidth: 280 }}>
+                {lead.message ? (
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    title={lead.message}
+                    sx={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {lead.message}
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" color="text.disabled">
+                    —
+                  </Typography>
+                )}
+              </TableCell>
               <TableCell>
                 <Chip label={lead.source} size="small" variant="outlined" />
               </TableCell>

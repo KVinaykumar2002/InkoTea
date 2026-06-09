@@ -42,9 +42,25 @@ export function AdminFormField({
           "& .MuiFilledInput-root": {
             borderRadius: 2,
             bgcolor: "grey.50",
+            border: "1px solid",
+            borderColor: "divider",
+            transition: "border-color 0.2s ease, box-shadow 0.2s ease",
             "&:before, &:after": { display: "none" },
-            "&:hover": { bgcolor: "grey.100" },
-            "&.Mui-focused": { bgcolor: "grey.100" },
+            "&:hover": {
+              bgcolor: "grey.100",
+              borderColor: "text.disabled",
+            },
+            "&.Mui-focused": {
+              bgcolor: "background.paper",
+              borderColor: "primary.main",
+              boxShadow: (t) => `0 0 0 3px ${t.palette.primary.main}22`,
+            },
+            ...(props.multiline && {
+              alignItems: "flex-start",
+              "& .MuiFilledInput-input": {
+                py: 1.5,
+              },
+            }),
           },
           ...props.sx,
         }}

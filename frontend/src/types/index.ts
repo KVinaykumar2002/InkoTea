@@ -128,7 +128,7 @@ export interface LeadPayload {
   email?: string;
   investmentRange?: string;
   model?: FranchiseModelKey | "both";
-  message?: string;
+  message: string;
   source: "footer" | "franchise" | "contact" | "investor" | "popup";
 }
 

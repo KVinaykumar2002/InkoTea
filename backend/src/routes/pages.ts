@@ -3,6 +3,8 @@ import {
   DEFAULT_CONTACT_CONTENT,
   DEFAULT_FRANCHISE_CONTENT,
   DEFAULT_HERO_CONTENT,
+  normalizeContactContent,
+  normalizeFranchiseContent,
   type ContactPageContent,
   type FranchisePageContent,
   type HeroPageContent,
@@ -51,7 +53,13 @@ router.get("/:slug", async (req, res) => {
   }
 
   const row = await getOrSeedPage(slug);
-  res.json({ slug: row.slug, content: row.content, updatedAt: row.updated_at });
+  const content =
+    slug === "contact"
+      ? normalizeContactContent(row.content)
+      : slug === "franchise"
+        ? normalizeFranchiseContent(row.content)
+        : row.content;
+  res.json({ slug: row.slug, content, updatedAt: row.updated_at });
 });
 
 router.put("/:slug", requireAuth, async (req, res) => {

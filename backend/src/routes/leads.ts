@@ -27,8 +27,21 @@ router.post("/", async (req, res) => {
   const { name, phone, city, email, investmentRange, model, message, source } =
     req.body as Record<string, string | undefined>;
 
-  if (!name?.trim() || !phone?.trim() || !city?.trim() || !source?.trim()) {
-    res.status(400).json({ error: "name, phone, city, and source are required" });
+  if (
+    !name?.trim() ||
+    !phone?.trim() ||
+    !city?.trim() ||
+    !source?.trim() ||
+    !message?.trim()
+  ) {
+    res.status(400).json({
+      error: "name, phone, city, message, and source are required",
+    });
+    return;
+  }
+
+  if (message.trim().length < 10) {
+    res.status(400).json({ error: "message must be at least 10 characters" });
     return;
   }
 
@@ -75,6 +88,7 @@ router.get("/", requireAuth, async (req, res) => {
       { phone: regex },
       { city: regex },
       { email: regex },
+      { message: regex },
     ];
   }
 
