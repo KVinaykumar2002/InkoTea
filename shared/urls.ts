@@ -53,7 +53,7 @@ export function resolveCorsOrigins(raw?: string | null): string[] {
     }
   }
 
-  return [...origins];
+  return Array.from(origins);
 }
 
 /** Normalize env overrides — handles missing protocol, trailing slashes, and bare hostnames. */
