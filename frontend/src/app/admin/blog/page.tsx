@@ -19,7 +19,13 @@ import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
 import { useTablePagination } from "@/features/admin/useTablePagination";
@@ -125,12 +131,51 @@ function BlogContent() {
             startIcon={<AddIcon />}
             variant="contained"
             onClick={openCreate}
-            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Add post
           </Button>
         }
       />
+      <AdminMobileCardList>
+        {paginatedItems.map((post) => (
+          <AdminRecordCard
+            key={post.slug}
+            title={post.title}
+            media={
+              post.cover ? (
+                <Box
+                  component="img"
+                  src={resolveMediaUrl(post.cover)}
+                  alt={post.title}
+                  sx={{
+                    width: "100%",
+                    maxHeight: 140,
+                    borderRadius: 1,
+                    objectFit: "cover",
+                    bgcolor: "grey.100",
+                  }}
+                />
+              ) : undefined
+            }
+            rows={[
+              { label: "Category", value: post.category },
+              { label: "Published", value: post.publishedAt },
+            ]}
+            actions={
+              <>
+                <IconButton size="small" onClick={() => openEdit(post)} aria-label="Edit post">
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => remove(post)} aria-label="Delete post">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer minWidth={720}>
       <Table size="small">
         <TableHead>
@@ -196,6 +241,7 @@ function BlogContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}

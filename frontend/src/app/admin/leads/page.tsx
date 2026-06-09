@@ -3,7 +3,12 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   IconButton,
   InputLabel,
@@ -15,11 +20,18 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { useTablePagination } from "@/features/admin/useTablePagination";
@@ -34,12 +46,15 @@ import { api, type Lead } from "@/lib/api";
 const STATUSES = ["new", "contacted", "qualified", "closed"] as const;
 
 function LeadsContent() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { token } = useAdminAuth();
   const { showSuccess, showError } = useAdminToast();
   const { confirmDelete } = useAdminDeleteConfirm();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [messageLead, setMessageLead] = useState<Lead | null>(null);
 
   const load = useCallback(() => {
     if (!token) return;
@@ -129,6 +144,60 @@ function LeadsContent() {
           </Select>
         </FormControl>
       </Box>
+      <AdminMobileCardList>
+        {paginatedItems.map((lead) => (
+          <AdminRecordCard
+            key={lead.id}
+            title={lead.name}
+            subtitle={lead.email}
+            rows={[
+              { label: "Phone", value: lead.phone },
+              { label: "City", value: lead.city },
+              {
+                label: "Source",
+                value: <Chip label={lead.source} size="small" variant="outlined" />,
+              },
+              {
+                label: "Date",
+                value: new Date(lead.createdAt).toLocaleDateString(),
+              },
+            ]}
+            actions={
+              <>
+                {lead.message ? (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => setMessageLead(lead)}
+                  >
+                    View Message
+                  </Button>
+                ) : null}
+                <IconButton size="small" onClick={() => remove(lead)} aria-label="Delete lead">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          >
+            <FormControl fullWidth size="small">
+              <InputLabel>Status</InputLabel>
+              <Select
+                label="Status"
+                value={lead.status}
+                onChange={(e) => updateStatus(lead.id, e.target.value)}
+              >
+                {STATUSES.map((s) => (
+                  <MenuItem key={s} value={s}>
+                    {s}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </AdminRecordCard>
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer minWidth={1040}>
       <Table size="small">
         <TableHead>
@@ -136,7 +205,7 @@ function LeadsContent() {
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>City</TableCell>
-            <TableCell sx={{ minWidth: 200 }}>Message</TableCell>
+            <TableCell>Message</TableCell>
             <TableCell>Source</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Date</TableCell>
@@ -158,23 +227,15 @@ function LeadsContent() {
               </TableCell>
               <TableCell>{lead.phone}</TableCell>
               <TableCell>{lead.city}</TableCell>
-              <TableCell sx={{ maxWidth: 280 }}>
+              <TableCell>
                 {lead.message ? (
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    title={lead.message}
-                    sx={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-word",
-                    }}
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => setMessageLead(lead)}
                   >
-                    {lead.message}
-                  </Typography>
+                    View Message
+                  </Button>
                 ) : (
                   <Typography variant="body2" color="text.disabled">
                     —
@@ -210,6 +271,7 @@ function LeadsContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}
@@ -219,6 +281,30 @@ function LeadsContent() {
           onPageChange={setPage}
         />
       )}
+
+      <Dialog
+        open={messageLead !== null}
+        onClose={() => setMessageLead(null)}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={isMobile}
+      >
+        <DialogTitle>
+          Message from {messageLead?.name}
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
+          >
+            {messageLead?.message}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setMessageLead(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

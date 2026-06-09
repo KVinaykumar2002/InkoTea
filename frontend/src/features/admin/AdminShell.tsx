@@ -121,7 +121,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         display: "flex",
         minHeight: "100vh",
         bgcolor: "grey.50",
-        overflow: "hidden",
       }}
     >
       <AppBar
@@ -214,9 +213,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           flexGrow: 1,
           minWidth: 0,
           p: { xs: 1.5, sm: 2, md: 3 },
+          pb: { xs: 3, md: 3 },
           width: { xs: "100%", md: `calc(100% - ${DRAWER_WIDTH}px)` },
           mt: { xs: 7, sm: 8 },
-          overflowX: "auto",
+          overflowX: "hidden",
         }}
       >
         {children}

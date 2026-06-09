@@ -22,6 +22,7 @@ export function AdminTableContainer({
         borderRadius: 2,
         overflowX: "auto",
         WebkitOverflowScrolling: "touch",
+        maxWidth: "100%",
         "& table": { minWidth },
       }}
     >

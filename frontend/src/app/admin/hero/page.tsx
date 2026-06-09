@@ -74,7 +74,7 @@ function HeroContent() {
         }
       />
 
-      <Stack spacing={2.5} maxWidth={720}>
+      <Stack spacing={2.5} maxWidth={720} sx={{ width: "100%" }}>
         <AdminFormField
           label="Chip label"
           value={form.chip}

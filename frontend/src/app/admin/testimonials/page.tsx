@@ -20,6 +20,11 @@ import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
@@ -122,12 +127,35 @@ function TestimonialsContent() {
             startIcon={<AddIcon />}
             variant="contained"
             onClick={openCreate}
-            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Add testimonial
           </Button>
         }
       />
+      <AdminMobileCardList>
+        {paginatedItems.map((t) => (
+          <AdminRecordCard
+            key={t.id}
+            title={t.name}
+            rows={[
+              { label: "City", value: t.city },
+              { label: "Rating", value: `${t.rating}★` },
+            ]}
+            actions={
+              <>
+                <IconButton size="small" onClick={() => openEdit(t)} aria-label="Edit testimonial">
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => remove(t)} aria-label="Delete testimonial">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer>
       <Table size="small">
         <TableHead>
@@ -157,6 +185,7 @@ function TestimonialsContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}

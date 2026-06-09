@@ -11,11 +11,27 @@ import {
   useAdminToast,
 } from "@/features/admin/AdminToastProvider";
 import { api } from "@/lib/api";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 interface ImageDropzoneProps {
   label?: string;
   value: string;
   onChange: (url: string) => void;
+}
+
+function getDroppedImageFile(dataTransfer: DataTransfer): File | null {
+  const fromList = dataTransfer.files?.[0];
+  if (fromList?.type.startsWith("image/")) return fromList;
+
+  for (const item of Array.from(dataTransfer.items)) {
+    if (item.kind === "file" && item.type.startsWith("image/")) {
+      return item.getAsFile();
+    }
+  }
+
+  return null;
 }
 
 export function ImageDropzone({
@@ -26,6 +42,7 @@ export function ImageDropzone({
   const { token } = useAdminAuth();
   const { showSuccess, showError } = useAdminToast();
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragDepthRef = useRef(0);
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -34,6 +51,12 @@ export function ImageDropzone({
     async (file: File) => {
       if (!file.type.startsWith("image/")) {
         const message = "Please upload an image file (JPEG, PNG, WebP, GIF).";
+        setError(message);
+        showError(message);
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        const message = "Image must be 5 MB or smaller.";
         setError(message);
         showError(message);
         return;
@@ -64,12 +87,16 @@ export function ImageDropzone({
   const onDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
+      e.stopPropagation();
+      dragDepthRef.current = 0;
       setDragging(false);
-      const file = e.dataTransfer.files[0];
+      const file = getDroppedImageFile(e.dataTransfer);
       if (file) upload(file);
     },
     [upload],
   );
+
+  const previewUrl = value ? resolveMediaUrl(value) : "";
 
   return (
     <Box>
@@ -82,11 +109,26 @@ export function ImageDropzone({
         {label}
       </Typography>
       <Box
-        onDragOver={(e) => {
+        onDragEnter={(e) => {
           e.preventDefault();
+          e.stopPropagation();
+          dragDepthRef.current += 1;
           setDragging(true);
         }}
-        onDragLeave={() => setDragging(false)}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dragDepthRef.current -= 1;
+          if (dragDepthRef.current <= 0) {
+            dragDepthRef.current = 0;
+            setDragging(false);
+          }
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          e.dataTransfer.dropEffect = "copy";
+        }}
         onDrop={onDrop}
         onClick={() => !uploading && inputRef.current?.click()}
         sx={{
@@ -110,7 +152,7 @@ export function ImageDropzone({
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           hidden
           onChange={(e) => {
             const file = e.target.files?.[0];
@@ -123,8 +165,11 @@ export function ImageDropzone({
         ) : value ? (
           <Box
             component="img"
-            src={value}
+            src={previewUrl}
             alt="Preview"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
             sx={{
               maxHeight: 120,
               maxWidth: "100%",

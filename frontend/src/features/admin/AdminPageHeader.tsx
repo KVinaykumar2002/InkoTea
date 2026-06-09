@@ -12,7 +12,7 @@ export function AdminPageHeader({ title, action }: AdminPageHeaderProps) {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: action ? "flex" : { xs: "none", md: "flex" },
         flexDirection: { xs: "column", sm: "row" },
         alignItems: { xs: "stretch", sm: "center" },
         justifyContent: "space-between",
@@ -23,11 +23,23 @@ export function AdminPageHeader({ title, action }: AdminPageHeaderProps) {
       <Typography
         variant="h5"
         fontWeight={700}
-        sx={{ fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
+        sx={{
+          display: { xs: "none", md: "block" },
+          fontSize: { xs: "1.25rem", sm: "1.5rem" },
+        }}
       >
         {title}
       </Typography>
-      {action}
+      {action ? (
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "auto" },
+            "& .MuiButton-root": { width: { xs: "100%", sm: "auto" } },
+          }}
+        >
+          {action}
+        </Box>
+      ) : null}
     </Box>
   );
 }

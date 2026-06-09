@@ -1,10 +1,13 @@
 import cors from "cors";
 import express from "express";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { resolveCorsOrigins } from "../../shared/urls.js";
 import { config } from "./config.js";
 import { connectDb } from "./db/index.js";
+import {
+  LEGACY_UPLOAD_DIR,
+  UPLOAD_DIR,
+  ensureUploadDirs,
+} from "./lib/uploadsDir.js";
 import authRoutes from "./routes/auth.js";
 import blogRoutes from "./routes/blog.js";
 import dashboardRoutes from "./routes/dashboard.js";
@@ -17,8 +20,8 @@ import uploadRoutes from "./routes/uploads.js";
 import pageRoutes from "./routes/pages.js";
 
 const app = express();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.join(__dirname, "../../frontend/public/uploads");
+
+ensureUploadDirs();
 
 const allowedOrigins = resolveCorsOrigins(process.env.CORS_ORIGIN);
 
@@ -40,7 +43,8 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "2mb" }));
-app.use("/uploads", express.static(uploadsDir));
+app.use("/uploads", express.static(UPLOAD_DIR));
+app.use("/uploads", express.static(LEGACY_UPLOAD_DIR));
 
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "inkotea-backend" });

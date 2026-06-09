@@ -20,7 +20,13 @@ import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
 import { useTablePagination } from "@/features/admin/useTablePagination";
@@ -123,12 +129,64 @@ function OutletsContent() {
             startIcon={<AddIcon />}
             variant="contained"
             onClick={openCreate}
-            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Add outlet
           </Button>
         }
       />
+      <AdminMobileCardList>
+        {paginatedItems.map((o) => (
+          <AdminRecordCard
+            key={o.id}
+            title={o.name}
+            media={
+              o.image ? (
+                <Box
+                  component="img"
+                  src={resolveMediaUrl(o.image)}
+                  alt={o.name}
+                  sx={{
+                    width: "100%",
+                    maxHeight: 140,
+                    borderRadius: 1,
+                    objectFit: "cover",
+                    bgcolor: "grey.100",
+                  }}
+                />
+              ) : undefined
+            }
+            rows={[
+              { label: "City", value: o.city },
+              { label: "Type", value: o.type },
+              { label: "Year", value: o.openingYear },
+            ]}
+            actions={
+              <>
+                {o.mapsQuery ? (
+                  <IconButton
+                    component="a"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.mapsQuery)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                    aria-label={`Open ${o.name} in Google Maps`}
+                  >
+                    <MapIcon fontSize="small" />
+                  </IconButton>
+                ) : null}
+                <IconButton size="small" onClick={() => openEdit(o)} aria-label="Edit outlet">
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => remove(o)} aria-label="Delete outlet">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer minWidth={720}>
       <Table size="small">
         <TableHead>
@@ -213,6 +271,7 @@ function OutletsContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}

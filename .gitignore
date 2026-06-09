@@ -9,6 +9,8 @@ backend/data/*.db-*
 backend/dist
 frontend/public/uploads/*
 !frontend/public/uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
 /.pnp
 .pnp.js
 .yarn/install-state.gz

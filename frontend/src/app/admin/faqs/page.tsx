@@ -18,6 +18,11 @@ import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { useTablePagination } from "@/features/admin/useTablePagination";
@@ -110,12 +115,32 @@ function FaqsContent() {
             startIcon={<AddIcon />}
             variant="contained"
             onClick={openCreate}
-            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Add FAQ
           </Button>
         }
       />
+      <AdminMobileCardList>
+        {paginatedItems.map((faq) => (
+          <AdminRecordCard
+            key={faq.id}
+            title={faq.question}
+            rows={[{ label: "Audience", value: faq.audience }]}
+            actions={
+              <>
+                <IconButton size="small" onClick={() => openEdit(faq)} aria-label="Edit FAQ">
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => remove(faq)} aria-label="Delete FAQ">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer>
       <Table size="small">
         <TableHead>
@@ -143,6 +168,7 @@ function FaqsContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}

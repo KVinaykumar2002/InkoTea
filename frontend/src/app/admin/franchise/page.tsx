@@ -140,7 +140,7 @@ function FranchiseContent() {
         Edit the franchise model comparison section on the franchise page.
       </Typography>
 
-      <Stack spacing={3} maxWidth={760}>
+      <Stack spacing={3} maxWidth={760} sx={{ width: "100%" }}>
         <Stack
           spacing={2}
           sx={{ p: 2, border: 1, borderColor: "divider", borderRadius: 2 }}
@@ -301,16 +301,31 @@ function ListEditor({
 }) {
   return (
     <Stack spacing={1.5}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "stretch", sm: "center" }}
+        spacing={1}
+      >
         <Typography variant="body2" fontWeight={600}>
           {title}
         </Typography>
-        <Button size="small" startIcon={<AddIcon />} onClick={onAdd}>
+        <Button
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={onAdd}
+          sx={{ alignSelf: { xs: "stretch", sm: "auto" } }}
+        >
           Add
         </Button>
       </Stack>
       {items.map((item, index) => (
-        <Stack key={index} direction="row" spacing={1} alignItems="flex-start">
+        <Stack
+          key={index}
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1}
+          alignItems={{ xs: "stretch", sm: "flex-start" }}
+        >
           <AdminFormField
             label={`${title} ${index + 1}`}
             value={item}
@@ -320,7 +335,7 @@ function ListEditor({
           <IconButton
             aria-label={`Remove ${title} ${index + 1}`}
             onClick={() => onRemove(index)}
-            sx={{ mt: 3 }}
+            sx={{ mt: { xs: 0, sm: 3 }, alignSelf: { xs: "flex-end", sm: "auto" } }}
           >
             <DeleteIcon fontSize="small" />
           </IconButton>

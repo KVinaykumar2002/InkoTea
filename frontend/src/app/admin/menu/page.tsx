@@ -21,7 +21,13 @@ import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
+import {
+  AdminDesktopTable,
+  AdminMobileCardList,
+  AdminRecordCard,
+} from "@/features/admin/AdminRecordCard";
 import { AdminTableContainer } from "@/features/admin/AdminTableContainer";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import { AdminTablePagination } from "@/features/admin/AdminTablePagination";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
 import { useTablePagination } from "@/features/admin/useTablePagination";
@@ -122,12 +128,52 @@ function MenuContent() {
             startIcon={<AddIcon />}
             variant="contained"
             onClick={openCreate}
-            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             Add item
           </Button>
         }
       />
+      <AdminMobileCardList>
+        {paginatedItems.map((item) => (
+          <AdminRecordCard
+            key={item.id}
+            title={item.name}
+            media={
+              item.image ? (
+                <Box
+                  component="img"
+                  src={resolveMediaUrl(item.image)}
+                  alt={item.name}
+                  sx={{
+                    width: "100%",
+                    maxHeight: 140,
+                    borderRadius: 1,
+                    objectFit: "cover",
+                    bgcolor: "grey.100",
+                  }}
+                />
+              ) : undefined
+            }
+            rows={[
+              { label: "Category", value: item.category },
+              { label: "Price", value: item.priceRange },
+              { label: "Best seller", value: item.isBestSeller ? "Yes" : "—" },
+            ]}
+            actions={
+              <>
+                <IconButton size="small" onClick={() => openEdit(item)} aria-label="Edit item">
+                  <EditIcon fontSize="small" />
+                </IconButton>
+                <IconButton size="small" onClick={() => remove(item)} aria-label="Delete item">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
+        ))}
+      </AdminMobileCardList>
+
+      <AdminDesktopTable>
       <AdminTableContainer minWidth={720}>
       <Table size="small">
         <TableHead>
@@ -195,6 +241,7 @@ function MenuContent() {
         </TableBody>
       </Table>
       </AdminTableContainer>
+      </AdminDesktopTable>
       {showPagination && (
         <AdminTablePagination
           page={page}

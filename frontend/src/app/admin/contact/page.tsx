@@ -76,7 +76,13 @@ function ContactContent() {
       <Stack
         spacing={2.5}
         maxWidth={720}
-        sx={{ p: 2, border: 1, borderColor: "divider", borderRadius: 2 }}
+        sx={{
+          width: "100%",
+          p: 2,
+          border: 1,
+          borderColor: "divider",
+          borderRadius: 2,
+        }}
       >
         <AdminFormField
           label="Card title"
