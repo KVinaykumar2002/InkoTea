@@ -13,6 +13,10 @@ export function stripTrailingSlash(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
+function isValidApiHostname(hostname: string): boolean {
+  return /^[a-z0-9.-]+$/i.test(hostname) && hostname.includes(".");
+}
+
 /** Normalize env overrides — handles missing protocol, trailing slashes, and bare hostnames. */
 export function resolveApiBase(raw?: string | null): string {
   const fallback = stripTrailingSlash(API_URL);
@@ -27,6 +31,9 @@ export function resolveApiBase(raw?: string | null): string {
     value = value.slice(1, -1).trim();
   }
 
+  // Vercel copy-paste mistakes like "==https://inkotea.onrender.com/api"
+  value = value.replace(/^=+/, "").trim();
+
   if (!value) return fallback;
 
   if (!/^https?:\/\//i.test(value)) {
@@ -37,6 +44,9 @@ export function resolveApiBase(raw?: string | null): string {
 
   try {
     const url = new URL(value);
+    if (!isValidApiHostname(url.hostname)) {
+      return fallback;
+    }
     const path = url.pathname.replace(/\/+$/, "") || "";
     if (!path || path === "/") {
       value = stripTrailingSlash(`${url.origin}/api`);
@@ -46,7 +56,10 @@ export function resolveApiBase(raw?: string | null): string {
   }
 
   try {
-    new URL(value);
+    const url = new URL(value);
+    if (!isValidApiHostname(url.hostname)) {
+      return fallback;
+    }
     return value;
   } catch {
     return fallback;

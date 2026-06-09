@@ -39,13 +39,17 @@ export async function fetchBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
-  const res = await fetchWithRetry(`${API_BASE}/blog/${slug}`, {
-    next: { revalidate: 60 },
-  });
-  if (res.status === 404) return null;
-  if (!res.ok) {
-    throw new Error("Failed to fetch blog post");
+  try {
+    const res = await fetchWithRetry(`${API_BASE}/blog/${slug}`, {
+      next: { revalidate: 60 },
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) {
+      return null;
+    }
+    const data = (await res.json()) as { post: BlogPost };
+    return data.post;
+  } catch {
+    return null;
   }
-  const data = (await res.json()) as { post: BlogPost };
-  return data.post;
 }
