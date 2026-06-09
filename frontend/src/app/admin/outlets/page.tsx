@@ -15,6 +15,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MapIcon from "@mui/icons-material/Map";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
@@ -139,6 +140,7 @@ function OutletsContent() {
             <TableCell>City</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Year</TableCell>
+            <TableCell>Maps</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -182,6 +184,22 @@ function OutletsContent() {
               <TableCell>{o.city}</TableCell>
               <TableCell>{o.type}</TableCell>
               <TableCell>{o.openingYear}</TableCell>
+              <TableCell>
+                {o.mapsQuery ? (
+                  <IconButton
+                    component="a"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.mapsQuery)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                    aria-label={`Open ${o.name} in Google Maps`}
+                  >
+                    <MapIcon fontSize="small" />
+                  </IconButton>
+                ) : (
+                  "—"
+                )}
+              </TableCell>
               <TableCell align="right">
                 <IconButton size="small" onClick={() => openEdit(o)}>
                   <EditIcon fontSize="small" />

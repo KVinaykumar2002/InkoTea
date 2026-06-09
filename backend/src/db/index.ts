@@ -87,5 +87,8 @@ async function ensureIndexes(database: Db): Promise<void> {
     database
       .collection("testimonials")
       .createIndex({ id: 1 }, { unique: true }),
+    database
+      .collection("page_content")
+      .createIndex({ slug: 1 }, { unique: true }),
   ]);
 }

@@ -92,7 +92,12 @@ export function OutletsExplorer() {
             gap: 3,
           }}
         >
-          {filtered.map((outlet, idx) => (
+          {filtered.map((outlet, idx) => {
+            const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              outlet.mapsQuery || outlet.address,
+            )}`;
+
+            return (
             <ScrollReveal key={outlet.id} delay={Math.min(idx * 0.04, 0.4)}>
               <Card
                 sx={{
@@ -152,9 +157,20 @@ export function OutletsExplorer() {
                       sx={{ color: "text.secondary", mt: "2px" }}
                     />
                     <Typography
+                      component="a"
+                      href={mapsHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       variant="body2"
                       color="text.secondary"
-                      sx={{ flexGrow: 1 }}
+                      sx={{
+                        flexGrow: 1,
+                        textDecoration: "none",
+                        "&:hover": {
+                          color: "primary.main",
+                          textDecoration: "underline",
+                        },
+                      }}
                     >
                       {outlet.address}
                     </Typography>
@@ -162,9 +178,7 @@ export function OutletsExplorer() {
                   <Box sx={{ pt: 2, mt: "auto" }}>
                     <Button
                       component="a"
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        outlet.mapsQuery,
-                      )}`}
+                      href={mapsHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       variant="outlined"
@@ -173,13 +187,14 @@ export function OutletsExplorer() {
                       startIcon={<DirectionsIcon />}
                       fullWidth
                     >
-                      Get directions
+                      Open in Google Maps
                     </Button>
                   </Box>
                 </Stack>
               </Card>
             </ScrollReveal>
-          ))}
+          );
+          })}
         </Box>
       </ContentState>
     </Section>

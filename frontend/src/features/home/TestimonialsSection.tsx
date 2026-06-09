@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { ContentState } from "@/components/common/ContentState";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { TestimonialsCarousel } from "@/components/common/TestimonialsCarousel";
+import { TestimonialsMarquee } from "@/components/common/TestimonialsMarquee";
 import { compactSectionHeadingSx } from "@/components/common/pillarCardStyles";
 import { useTestimonials } from "@/hooks/useApiContent";
 import { brandColors } from "@/theme/palette";
@@ -39,7 +39,7 @@ export function TestimonialsSection({
         empty={!data?.testimonials?.length}
       >
         {() => (
-          <TestimonialsCarousel
+          <TestimonialsMarquee
             testimonials={data!.testimonials}
             variant="carousel"
           />

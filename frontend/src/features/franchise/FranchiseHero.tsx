@@ -9,14 +9,13 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion } from "framer-motion";
-import { FRANCHISE_USPS } from "@/data/franchiseModels";
-import { BRAND_IMAGES } from "@/lib/brandImages";
-
-// The franchise-page hero background reuses the brand kiosk shot for the
-// high-energy "Indian street culture" feel.
-const HERO_BG = BRAND_IMAGES.franchiseKioskNight;
+import { DEFAULT_FRANCHISE_CONTENT } from "@shared/pageContent";
+import { usePageContent } from "@/hooks/useApiContent";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 
 export function FranchiseHero() {
+  const { content } = usePageContent("franchise", DEFAULT_FRANCHISE_CONTENT);
+
   return (
     <Box
       component="section"
@@ -35,7 +34,7 @@ export function FranchiseHero() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${HERO_BG})`,
+          backgroundImage: `url(${resolveMediaUrl(content.backgroundImage)})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.22,
@@ -63,7 +62,7 @@ export function FranchiseHero() {
           transition={{ duration: 0.7 }}
         >
           <Chip
-            label="Franchise Opportunity"
+            label={content.chip}
             sx={{
               alignSelf: "flex-start",
               bgcolor: "rgba(212,165,116,0.18)",
@@ -76,7 +75,7 @@ export function FranchiseHero() {
             }}
           />
           <Typography variant="h1" sx={{ color: "inherit" }}>
-            Start Your Own Tea or Cafe Business
+            {content.title}
             <Box
               component="span"
               sx={{
@@ -85,7 +84,7 @@ export function FranchiseHero() {
                 ...fontDisplayItalicSx,
               }}
             >
-              with INKOTEA
+              {content.titleAccent}
             </Box>
           </Typography>
           <Typography
@@ -98,8 +97,7 @@ export function FranchiseHero() {
               lineHeight: 1.55,
             }}
           >
-            Two scalable formats. One proven brand. Pick the model that fits
-            your investment, your city, and your ambition.
+            {content.subtitle}
           </Typography>
 
           <Stack
@@ -109,7 +107,7 @@ export function FranchiseHero() {
             useFlexGap
             sx={{ mt: 1 }}
           >
-            {FRANCHISE_USPS.map((usp) => (
+            {content.usps.map((usp) => (
               <Stack
                 key={usp}
                 direction="row"

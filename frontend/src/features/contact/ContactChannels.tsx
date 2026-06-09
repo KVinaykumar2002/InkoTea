@@ -15,30 +15,17 @@ import {
   pillarCardSpacing,
   pillarIconSx,
 } from "@/components/common/pillarCardStyles";
-import { BRAND } from "@/lib/brand";
+import { DEFAULT_CONTACT_CONTENT } from "@shared/pageContent";
+import { usePageContent } from "@/hooks/useApiContent";
 
-const CHANNELS = [
-  {
-    icon: StorefrontIcon,
-    label: "Franchise",
-    title: "Talk to franchise team",
-    text: "Investment, location, rollout — get the full kit and a personal walkthrough.",
-    cta: { label: "Email franchise team", href: `mailto:${BRAND.emails.franchise}` },
-    bg: "primary.main",
-    color: "primary.contrastText",
-  },
-  {
-    icon: WhatsAppIcon,
-    label: "Quick Chat",
-    title: "WhatsApp",
-    text: `Talk to us instantly on ${BRAND.phone} or ${BRAND.phoneSecondary} — Mon–Sat, 10am to 7pm IST.`,
-    cta: { label: "Open WhatsApp", href: BRAND.whatsappLink },
-    bg: "success.main",
-    color: "success.contrastText",
-  },
-];
+const CHANNEL_ICONS = {
+  Franchise: StorefrontIcon,
+  "Quick Chat": WhatsAppIcon,
+} as const;
 
 export function ContactChannels() {
+  const { content } = usePageContent("contact", DEFAULT_CONTACT_CONTENT);
+
   return (
     <Box
       sx={{
@@ -47,15 +34,22 @@ export function ContactChannels() {
         gap: 3,
       }}
     >
-      {CHANNELS.map((c, idx) => (
+      {content.channels.map((c, idx) => {
+        const Icon =
+          CHANNEL_ICONS[c.label as keyof typeof CHANNEL_ICONS] ?? StorefrontIcon;
+        const bg = c.variant === "success" ? "success.main" : "primary.main";
+        const color =
+          c.variant === "success" ? "success.contrastText" : "primary.contrastText";
+
+        return (
         <ScrollReveal key={c.label} delay={idx * 0.1}>
           <Stack
             spacing={pillarCardSpacing}
             sx={{
               p: pillarCardPadding,
               borderRadius: 3,
-              bgcolor: c.bg,
-              color: c.color,
+              bgcolor: bg,
+              color,
               height: "100%",
               transition: "transform 0.25s ease",
               "&:hover": { transform: "translateY(-4px)" },
@@ -68,7 +62,7 @@ export function ContactChannels() {
                 color: "inherit",
               }}
             >
-              <c.icon />
+              <Icon />
             </Box>
             <Typography
               variant="overline"
@@ -101,8 +95,8 @@ export function ContactChannels() {
             </Typography>
             <Button
               component="a"
-              href={c.cta.href}
-              target={c.cta.href.startsWith("http") ? "_blank" : undefined}
+              href={c.ctaHref}
+              target={c.ctaHref.startsWith("http") ? "_blank" : undefined}
               rel="noopener noreferrer"
               variant="outlined"
               endIcon={<ArrowForwardIcon />}
@@ -117,11 +111,12 @@ export function ContactChannels() {
                 },
               }}
             >
-              {c.cta.label}
+              {c.ctaLabel}
             </Button>
           </Stack>
         </ScrollReveal>
-      ))}
+      );
+      })}
     </Box>
   );
 }

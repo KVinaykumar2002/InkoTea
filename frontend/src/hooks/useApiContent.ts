@@ -58,3 +58,11 @@ export function useFaqs() {
 export function useTestimonials() {
   return useApiContent(() => api.getTestimonials());
 }
+
+export function usePageContent<T>(slug: string, fallback: T) {
+  const state = useApiContent(() => api.getPageContent<T>(slug));
+  return {
+    ...state,
+    content: state.data?.content ?? fallback,
+  };
+}

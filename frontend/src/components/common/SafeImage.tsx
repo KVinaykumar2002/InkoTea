@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image, { type ImageProps } from "next/image";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 
 /** Local, same-origin asset that always loads — used when the remote
  *  source fails. Lives in `/public/fallback-image.svg`. */
@@ -26,13 +27,15 @@ export function SafeImage({
   alt,
   ...rest
 }: Props) {
-  const [currentSrc, setCurrentSrc] = useState(src);
+  const resolvedSrc =
+    typeof src === "string" ? resolveMediaUrl(src) : src;
+  const [currentSrc, setCurrentSrc] = useState(resolvedSrc);
 
   // If the parent re-renders with a different src (e.g. blog post changes),
   // reset so we try the new remote URL again before falling back.
   useEffect(() => {
-    setCurrentSrc(src);
-  }, [src]);
+    setCurrentSrc(resolvedSrc);
+  }, [resolvedSrc]);
 
   return (
     <Image

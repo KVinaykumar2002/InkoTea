@@ -96,10 +96,11 @@ export function FooterEnquiryForm() {
 
                   <FormikTextField
                     name="message"
-                    label="Message (optional)"
+                    label="Message"
                     multiline
                     minRows={3}
                     fullWidth
+                    required
                     sx={{
                       ...fieldStyles,
                       "& .MuiOutlinedInput-root": {

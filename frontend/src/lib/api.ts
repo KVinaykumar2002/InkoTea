@@ -200,6 +200,16 @@ export const api = {
   deleteTestimonial: (token: string, id: string) =>
     request<void>(`/testimonials/${id}`, { method: "DELETE" }, token),
 
+  getPageContent: <T>(slug: string) =>
+    request<{ slug: string; content: T; updatedAt: string }>(`/pages/${slug}`),
+
+  updatePageContent: <T>(token: string, slug: string, content: T) =>
+    request<{ slug: string; content: T; updatedAt: string }>(
+      `/pages/${slug}`,
+      { method: "PUT", body: JSON.stringify({ content }) },
+      token,
+    ),
+
   uploadImage: async (token: string, file: File) => {
     const formData = new FormData();
     formData.append("image", file);

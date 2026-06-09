@@ -24,6 +24,9 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ArticleIcon from "@mui/icons-material/Article";
 import HelpIcon from "@mui/icons-material/Help";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import HomeIcon from "@mui/icons-material/Home";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
@@ -33,6 +36,9 @@ const DRAWER_WIDTH = 260;
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: <DashboardIcon /> },
+  { href: "/admin/hero", label: "Home Hero", icon: <HomeIcon /> },
+  { href: "/admin/contact", label: "Contact Page", icon: <ContactMailIcon /> },
+  { href: "/admin/franchise", label: "Franchise Page", icon: <HandshakeIcon /> },
   { href: "/admin/leads", label: "Leads", icon: <PeopleIcon /> },
   { href: "/admin/outlets", label: "Outlets", icon: <StoreIcon /> },
   { href: "/admin/menu", label: "Menu", icon: <RestaurantMenuIcon /> },

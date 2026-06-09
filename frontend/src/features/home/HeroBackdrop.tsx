@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { AnimatePresence, motion, useTransform, type MotionValue } from "framer-motion";
 
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import {
   HERO_CAROUSEL_INTERVAL_MS,
   HERO_SLIDES,
@@ -17,6 +18,7 @@ interface HeroBackdropProps {
   reduced: boolean;
   activeIndex: number;
   onSelectSlide: (index: number) => void;
+  slides?: readonly HeroSlide[];
 }
 
 /**
@@ -29,18 +31,19 @@ export function HeroBackdrop({
   reduced,
   activeIndex,
   onSelectSlide,
+  slides = HERO_SLIDES,
 }: HeroBackdropProps) {
   const photoX = useTransform(parallaxX, [-1, 1], [-6, 6]);
   const photoY = useTransform(parallaxY, [-1, 1], [-4, 4]);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (reduced || paused || HERO_SLIDES.length <= 1) return;
+    if (reduced || paused || slides.length <= 1) return;
     const id = window.setInterval(() => {
-      onSelectSlide((activeIndex + 1) % HERO_SLIDES.length);
+      onSelectSlide((activeIndex + 1) % slides.length);
     }, HERO_CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(id);
-  }, [reduced, paused, activeIndex, onSelectSlide]);
+  }, [reduced, paused, activeIndex, onSelectSlide, slides.length]);
 
   return (
     <>
@@ -61,7 +64,7 @@ export function HeroBackdrop({
         <AnimatePresence mode="sync" initial={false}>
           <HeroSlideLayer
             key={activeIndex}
-            slide={HERO_SLIDES[activeIndex]}
+            slide={slides[activeIndex]}
             reduced={reduced}
           />
         </AnimatePresence>
@@ -131,7 +134,7 @@ export function HeroBackdrop({
         }}
       />
 
-      {HERO_SLIDES.length > 1 ? (
+      {slides.length > 1 ? (
           <Stack
             direction="row"
             spacing={1}
@@ -145,14 +148,14 @@ export function HeroBackdrop({
               zIndex: 4,
             }}
           >
-            {HERO_SLIDES.map((_, idx) => (
+            {slides.map((_, idx) => (
               <Box
                 key={idx}
                 component="button"
                 type="button"
                 role="tab"
                 aria-selected={idx === activeIndex}
-                aria-label={`Show slide ${idx + 1} of ${HERO_SLIDES.length}`}
+                aria-label={`Show slide ${idx + 1} of ${slides.length}`}
                 onClick={() => onSelectSlide(idx)}
                 sx={{
                   width: idx === activeIndex ? { xs: 20, md: 28 } : 8,
@@ -209,7 +212,7 @@ function HeroSlideLayer({
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${slide.image})`,
+          backgroundImage: `url(${resolveMediaUrl(slide.image)})`,
           backgroundSize: "cover",
           backgroundPosition: slide.position,
           willChange: "transform, opacity",

@@ -27,7 +27,12 @@ const validationSchema = yup.object({
     .matches(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number")
     .required("Phone is required"),
   city: yup.string().trim().min(2, "City is too short").required("City is required"),
-  message: yup.string().trim().max(400, "Keep it under 400 characters"),
+  message: yup
+    .string()
+    .trim()
+    .min(10, "Tell us a bit more (10+ characters)")
+    .max(400, "Keep it under 400 characters")
+    .required("Message is required"),
 });
 
 interface SnackbarState {

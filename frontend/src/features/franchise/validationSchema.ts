@@ -34,7 +34,12 @@ export const franchiseFormSchema = yup.object({
     .string()
     .oneOf(["kiosk", "cafe", "both"], "Pick a model")
     .required("Pick a model"),
-  message: yup.string().trim().max(500, "Keep it under 500 characters"),
+  message: yup
+    .string()
+    .trim()
+    .min(10, "Tell us a bit more (10+ characters)")
+    .max(500, "Keep it under 500 characters")
+    .required("Message is required"),
 });
 
 export const INVESTMENT_RANGE_OPTIONS = [

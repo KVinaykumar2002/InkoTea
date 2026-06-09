@@ -280,9 +280,10 @@ export function FranchiseForm() {
 
                       <FormikTextField
                         name="message"
-                        label="Tell us anything else (optional)"
+                        label="Your message"
                         multiline
                         minRows={3}
+                        required
                         sx={{
                           ...fieldStyles,
                           "& .MuiOutlinedInput-root": {

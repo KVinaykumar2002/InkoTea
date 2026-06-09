@@ -16,6 +16,8 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
+import { DEFAULT_HERO_CONTENT, type HeroMetric } from "@shared/pageContent";
+import { usePageContent } from "@/hooks/useApiContent";
 import { fontDescriptionSx } from "@/theme/fonts";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroAtmosphere } from "./HeroAtmosphere";
@@ -50,7 +52,14 @@ import {
  * Every motion respects `prefers-reduced-motion`: parallax tracking, loops,
  * and entry animations all collapse to their final state.
  */
+const METRIC_ICONS = {
+  outlets: EmojiFoodBeverageIcon,
+  investment: PaymentsIcon,
+  sales: TrendingUpIcon,
+} as const;
+
 export function HeroSection() {
+  const { content: hero } = usePageContent("hero", DEFAULT_HERO_CONTENT);
   const reduced = Boolean(useReducedMotion());
   const [slideIndex, setSlideIndex] = useState(0);
   const onSelectSlide = useCallback((index: number) => {
@@ -106,6 +115,7 @@ export function HeroSection() {
         reduced={reduced}
         activeIndex={slideIndex}
         onSelectSlide={onSelectSlide}
+        slides={hero.slides}
       />
       <HeroAtmosphere parallaxX={parallaxX} parallaxY={parallaxY} reduced={reduced} />
 
@@ -125,7 +135,7 @@ export function HeroSection() {
         >
           <FadeUp delay={HERO_TIMING.chip} y={14} reduced={reduced}>
             <Chip
-              label="The Feeling of One More"
+              label={hero.chip}
               sx={{
                 alignSelf: "flex-start",
                 bgcolor: "rgba(212, 165, 116, 0.18)",
@@ -160,7 +170,7 @@ export function HeroSection() {
             }}
           >
             <LineReveal delay={HERO_TIMING.line1} reduced={reduced}>
-              India&rsquo;s Chai Culture.
+              {hero.titleLine1}
             </LineReveal>
             <BlurReveal delay={HERO_TIMING.line2} duration={1.1} blur={10} reduced={reduced}>
               <Box
@@ -172,7 +182,7 @@ export function HeroSection() {
                 }}
               >
                 <ShimmerSpan delay={HERO_TIMING.shimmer} reduced={reduced}>
-                  Reimagined for Today.
+                  {hero.titleLine2}
                 </ShimmerSpan>
               </Box>
             </BlurReveal>
@@ -197,9 +207,7 @@ export function HeroSection() {
                 overflow: "hidden",
               }}
             >
-              From a ₹2.5L kiosk to a full Social Cafe — INKOTEA blends India&rsquo;s
-              traditional chai culture with a modern cafe experience. 40+ outlets
-              and growing across Telangana &amp; AP.
+              {hero.subhead}
             </Typography>
           </FadeUp>
 
@@ -211,7 +219,7 @@ export function HeroSection() {
             >
               <Button
                 component={Link}
-                href="/franchise"
+                href={hero.primaryCtaHref}
                 variant="contained"
                 color="secondary"
                 size="medium"
@@ -244,11 +252,11 @@ export function HeroSection() {
                   },
                 }}
               >
-                Explore Franchise
+                {hero.primaryCtaLabel}
               </Button>
               <Button
                 component={Link}
-                href="/outlets"
+                href={hero.secondaryCtaHref}
                 variant="outlined"
                 size="medium"
                 startIcon={
@@ -278,7 +286,7 @@ export function HeroSection() {
                   },
                 }}
               >
-                Find Nearest Outlet
+                {hero.secondaryCtaLabel}
               </Button>
             </Stack>
           </FadeUp>
@@ -292,7 +300,7 @@ export function HeroSection() {
               justifyContent={{ xs: "space-between", md: "flex-start" }}
               sx={{ width: "100%" }}
             >
-              {METRICS.map((m, i) => (
+              {hero.metrics.map((m, i) => (
                 <MetricCard
                   key={m.label}
                   metric={m}
@@ -310,29 +318,18 @@ export function HeroSection() {
   );
 }
 
-interface Metric {
-  icon: typeof StorefrontIcon;
-  value: string;
-  label: string;
-  /** When set, the value renders as a 0 → counter ticker on mount. */
-  counter?: number;
-}
-
-const METRICS: readonly Metric[] = [
-  { icon: EmojiFoodBeverageIcon, value: "40+", label: "Outlets", counter: 40 },
-  { icon: PaymentsIcon, value: "Low", label: "Investment" },
-  { icon: TrendingUpIcon, value: "High", label: "Daily Sales" },
-];
-
 function MetricCard({
-  metric: { icon: Icon, value, label, counter },
+  metric,
   delay,
   reduced,
 }: {
-  metric: Metric;
+  metric: HeroMetric;
   delay: number;
   reduced: boolean;
 }) {
+  const Icon = METRIC_ICONS[metric.icon];
+  const { value, label, counter } = metric;
+
   return (
     <Box
       component={motion.div}

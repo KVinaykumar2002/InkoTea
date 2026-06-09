@@ -1,5 +1,7 @@
 import cors from "cors";
 import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { resolveCorsOrigins } from "../../shared/urls.js";
 import { config } from "./config.js";
 import { connectDb } from "./db/index.js";
@@ -12,8 +14,11 @@ import menuRoutes from "./routes/menu.js";
 import outletRoutes from "./routes/outlets.js";
 import testimonialRoutes from "./routes/testimonials.js";
 import uploadRoutes from "./routes/uploads.js";
+import pageRoutes from "./routes/pages.js";
 
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const uploadsDir = path.join(__dirname, "../../frontend/public/uploads");
 
 const allowedOrigins = resolveCorsOrigins(process.env.CORS_ORIGIN);
 
@@ -35,6 +40,7 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "2mb" }));
+app.use("/uploads", express.static(uploadsDir));
 
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "inkotea-backend" });
@@ -49,6 +55,7 @@ app.use("/api/faqs", faqRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/pages", pageRoutes);
 
 async function start() {
   await connectDb();

@@ -41,11 +41,12 @@ export function TestimonialCard({ item, variant = "carousel" }: TestimonialCardP
           width: "100%",
           aspectRatio: "4 / 3",
           bgcolor: brandColors.cream,
+          overflow: "hidden",
         }}
       >
         <SafeImage
           src={item.image}
-          alt={item.imageAlt}
+          alt={item.imageAlt || item.name}
           fill
           sizes={
             isCarousel
@@ -53,6 +54,7 @@ export function TestimonialCard({ item, variant = "carousel" }: TestimonialCardP
               : "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
           }
           style={{ objectFit: "cover" }}
+          unoptimized
         />
         {item.isVideo ? (
           <Box

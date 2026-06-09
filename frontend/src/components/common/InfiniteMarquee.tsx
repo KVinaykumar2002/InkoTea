@@ -106,7 +106,7 @@ export function InfiniteMarquee({
                   textTransform: "uppercase",
                   color: isAccent
                     ? brandColors.stripCream
-                    : brandColors.stripMuted,
+                    : brandColors.charcoal,
                   whiteSpace: "nowrap",
                 }}
               >
