@@ -2,6 +2,8 @@
  * Centralized brand constants used across the app.
  * Update here to propagate brand-wide changes.
  */
+import { FRONTEND_URL } from "@shared/urls";
+
 export const BRAND = {
   name: "INKOTEA",
   tagline: "The Feeling of One More",
@@ -39,7 +41,7 @@ export const BRAND = {
     linkedin: "https://linkedin.com/company/inkotea",
   },
   whatsappLink: "https://wa.me/918464020418",
-  siteUrl: "https://inkotea.com",
+  siteUrl: FRONTEND_URL,
   mapsUrl: "https://maps.app.goo.gl/33sznnwAdJXPDfxU8",
   /** iframe embed for {@link mapsUrl} — InkoTea Enterprises Pvt Ltd, Hyderabad */
   mapsEmbedSrc:

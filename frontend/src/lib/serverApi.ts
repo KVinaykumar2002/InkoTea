@@ -1,12 +1,5 @@
 import type { BlogPost } from "@/types";
-
-function getApiBase(): string {
-  const raw =
-    process.env.NEXT_PUBLIC_API_URL || "https://inkotea.onrender.com/api";
-  return raw.replace(/\/+$/, "");
-}
-
-const API_BASE = getApiBase();
+import { API_BASE } from "@/lib/apiBase";
 
 async function fetchWithRetry(
   url: string,

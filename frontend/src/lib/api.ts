@@ -7,9 +7,7 @@ import type {
   Outlet,
   Testimonial,
 } from "@/types";
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "https://inkotea.onrender.com/api";
+import { API_BASE } from "@/lib/apiBase";
 
 export type { BlogPost, FAQ, MenuCategoryMeta, MenuItem, Outlet, Testimonial };
 

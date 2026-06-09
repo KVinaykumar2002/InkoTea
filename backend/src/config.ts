@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { FRONTEND_URL } from "../../shared/urls.js";
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || "inkotea-dev-secret",
   adminEmail: process.env.ADMIN_EMAIL || "admin@inkotea.com",
   adminPassword: process.env.ADMIN_PASSWORD || "admin123",
-  corsOrigin: process.env.CORS_ORIGIN || "https://inko-tea-six.vercel.app",
+  corsOrigin: process.env.CORS_ORIGIN || FRONTEND_URL,
   mongodbUri: requireEnv("MONGODB_URI"),
   mongodbDbName: process.env.MONGODB_DB_NAME || "inkotea",
 };
