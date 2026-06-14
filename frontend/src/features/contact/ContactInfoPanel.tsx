@@ -69,30 +69,37 @@ export function ContactInfoPanel() {
                 <Typography variant="subtitle2" sx={{ mb: 0.35 }}>
                   {row.title}
                 </Typography>
-                {row.lines.map((line) => (
-                  <Typography
-                    key={line.text}
-                    variant="body2"
-                    color="text.secondary"
-                    component={line.href ? "a" : "p"}
-                    href={line.href}
-                    sx={
-                      line.href
-                        ? {
-                            display: "block",
-                            color: "text.secondary",
-                            textDecoration: "none",
-                            "&:hover": {
-                              color: "primary.main",
-                              textDecoration: "underline",
-                            },
-                          }
-                        : undefined
-                    }
-                  >
-                    {line.text}
-                  </Typography>
-                ))}
+                {row.lines.map((line) =>
+                  "href" in line ? (
+                    <Typography
+                      key={line.text}
+                      variant="body2"
+                      color="text.secondary"
+                      component="a"
+                      href={line.href}
+                      sx={{
+                        display: "block",
+                        color: "text.secondary",
+                        textDecoration: "none",
+                        "&:hover": {
+                          color: "primary.main",
+                          textDecoration: "underline",
+                        },
+                      }}
+                    >
+                      {line.text}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      key={line.text}
+                      variant="body2"
+                      color="text.secondary"
+                      component="p"
+                    >
+                      {line.text}
+                    </Typography>
+                  ),
+                )}
               </Box>
             </Stack>
           );
