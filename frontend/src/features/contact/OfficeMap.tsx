@@ -19,10 +19,10 @@ export function OfficeMap() {
         position: "relative",
         display: "block",
         width: "100%",
-        height: { xs: 280, md: 400 },
+        height: "100%",
+        minHeight: { xs: 280, md: 360 },
         borderRadius: 3,
         overflow: "hidden",
-        boxShadow: "0 14px 40px -16px rgba(0,0,0,0.18)",
         textDecoration: "none",
       }}
     >

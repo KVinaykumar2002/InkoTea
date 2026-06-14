@@ -14,7 +14,7 @@ import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 import { DEFAULT_HERO_CONTENT, type HeroMetric } from "@shared/pageContent";
 import { usePageContent } from "@/hooks/useApiContent";
@@ -97,7 +97,12 @@ export function HeroSection() {
       sx={{
         position: "relative",
         /* ~half viewport on phones so content + stats fit without scrolling the hero */
-        minHeight: { xs: "50dvh", sm: "62dvh", md: "92vh" },
+        minHeight: {
+          xs: "50dvh",
+          sm: "62dvh",
+          md: "min(88vh, 820px)",
+          lg: "min(92vh, 900px)",
+        },
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
@@ -117,20 +122,36 @@ export function HeroSection() {
         onSelectSlide={onSelectSlide}
         slides={hero.slides}
       />
-      <HeroAtmosphere parallaxX={parallaxX} parallaxY={parallaxY} reduced={reduced} />
+      <HeroAtmosphere
+        parallaxX={parallaxX}
+        parallaxY={parallaxY}
+        reduced={reduced}
+        activeIndex={slideIndex}
+      />
 
+      <AnimatePresence mode="wait">
+        {slideIndex === 0 ? (
+          <Box
+            key="hero-content"
+            component={motion.div}
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduced ? undefined : { opacity: 0 }}
+            transition={{ duration: reduced ? 0 : 0.45, ease: "easeOut" }}
+            sx={{ width: "100%" }}
+          >
       <Container
         maxWidth="lg"
         sx={{
           position: "relative",
           zIndex: 3,
-          py: { xs: 1.5, sm: 4, md: 8 },
+          py: { xs: 1.5, sm: 4, md: 6, lg: 8 },
           px: { xs: 2, sm: 3 },
           width: "100%",
         }}
       >
         <Stack
-          spacing={{ xs: 1.25, sm: 2, md: 3.5 }}
+          spacing={{ xs: 1.25, sm: 2, md: 3, lg: 3.5 }}
           sx={{ maxWidth: { xs: "100%", md: 600 } }}
         >
           <FadeUp delay={HERO_TIMING.chip} y={14} reduced={reduced}>
@@ -312,8 +333,11 @@ export function HeroSection() {
           </Box>
         </Stack>
       </Container>
+          </Box>
+        ) : null}
+      </AnimatePresence>
 
-      <ScrollIndicator reduced={reduced} />
+      {slideIndex === 0 ? <ScrollIndicator reduced={reduced} /> : null}
     </Box>
   );
 }

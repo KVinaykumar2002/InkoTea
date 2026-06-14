@@ -107,7 +107,9 @@ export function FranchiseHero() {
             useFlexGap
             sx={{ mt: 1 }}
           >
-            {FRANCHISE_USPS.map((usp) => (
+            {FRANCHISE_USPS.map((usp, idx) => {
+              const isInvestmentUsp = idx < 2;
+              return (
               <Stack
                 key={usp}
                 direction="row"
@@ -117,21 +119,32 @@ export function FranchiseHero() {
                   px: 2,
                   py: 1,
                   borderRadius: 999,
-                  bgcolor: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.15)",
+                  bgcolor: isInvestmentUsp
+                    ? "rgba(212,165,116,0.22)"
+                    : "rgba(255,255,255,0.08)",
+                  border: isInvestmentUsp
+                    ? "1px solid rgba(212,165,116,0.55)"
+                    : "1px solid rgba(255,255,255,0.15)",
                 }}
               >
                 <CheckCircleIcon
-                  sx={{ color: "secondary.light", fontSize: 18 }}
+                  sx={{
+                    color: isInvestmentUsp ? "secondary.main" : "secondary.light",
+                    fontSize: 18,
+                  }}
                 />
                 <Typography
                   variant="body2"
-                  sx={{ color: "rgba(255,255,255,0.95)", fontWeight: 500 }}
+                  sx={{
+                    color: "rgba(255,255,255,0.95)",
+                    fontWeight: isInvestmentUsp ? 700 : 500,
+                  }}
                 >
                   {usp}
                 </Typography>
               </Stack>
-            ))}
+              );
+            })}
           </Stack>
         </Stack>
       </Container>

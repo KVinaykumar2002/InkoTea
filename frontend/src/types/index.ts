@@ -119,6 +119,7 @@ export interface Testimonial {
   imageAlt: string;
   rating: number;
   isVideo?: boolean;
+  videoUrl?: string;
 }
 
 export interface LeadPayload {

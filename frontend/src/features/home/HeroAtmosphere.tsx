@@ -7,6 +7,8 @@ interface HeroAtmosphereProps {
   parallaxX: MotionValue<number>;
   parallaxY: MotionValue<number>;
   reduced: boolean;
+  /** Steam and leaves only appear on the first hero slide. */
+  activeIndex: number;
 }
 
 /**
@@ -29,13 +31,18 @@ interface HeroAtmosphereProps {
  * micro-rotation. They live under the headline plane so they never compete
  * with the copy for attention.
  */
-export function HeroAtmosphere({ parallaxX, parallaxY, reduced }: HeroAtmosphereProps) {
+export function HeroAtmosphere({
+  parallaxX,
+  parallaxY,
+  reduced,
+  activeIndex,
+}: HeroAtmosphereProps) {
   const leavesX = useTransform(parallaxX, [-1, 1], [-22, 22]);
   const leavesY = useTransform(parallaxY, [-1, 1], [-14, 14]);
   const steamX = useTransform(parallaxX, [-1, 1], [-10, 10]);
   const steamY = useTransform(parallaxY, [-1, 1], [-6, 6]);
 
-  if (reduced) return null;
+  if (reduced || activeIndex !== 0) return null;
 
   return (
     <>

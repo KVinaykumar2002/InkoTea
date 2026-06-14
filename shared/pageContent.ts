@@ -192,7 +192,6 @@ const DEFAULT_KIOSK_MODEL: FranchiseModelCardContent = {
     "Compact 150 sq ft footprint with strong branding",
     "Premium yet affordable — regional snacks meet modern beverages",
     "Standardized recipes & operational SOPs",
-    "Investment recovery target: 8 – 10 months",
     "No prior F&B experience required",
   ],
   idealLocations: [

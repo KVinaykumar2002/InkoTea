@@ -47,6 +47,7 @@ const empty: Testimonial = {
   imageAlt: "",
   rating: 5,
   isVideo: false,
+  videoUrl: "",
 };
 
 function TestimonialsContent() {
@@ -255,12 +256,25 @@ function TestimonialsContent() {
             <Checkbox
               checked={Boolean(form.isVideo)}
               onChange={(e) =>
-                setForm((f) => ({ ...f, isVideo: e.target.checked }))
+                setForm((f) => ({
+                  ...f,
+                  isVideo: e.target.checked,
+                  videoUrl: e.target.checked ? f.videoUrl : "",
+                }))
               }
             />
           }
           label="Video style card"
         />
+        {form.isVideo ? (
+          <AdminFormField
+            label="Video URL"
+            value={form.videoUrl ?? ""}
+            onChange={(e) => setForm((f) => ({ ...f, videoUrl: e.target.value }))}
+            placeholder="YouTube, Vimeo, or direct MP4 link"
+            hint="Paste a YouTube, Vimeo, or direct video file URL"
+          />
+        ) : null}
       </AdminFormModal>
     </Box>
   );

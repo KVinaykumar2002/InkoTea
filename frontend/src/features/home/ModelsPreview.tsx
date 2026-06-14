@@ -15,7 +15,7 @@ import LocalCafeIcon from "@mui/icons-material/LocalCafe";
 import { Section } from "@/components/common/Section";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
-import { FRANCHISE_MODELS } from "@/data/franchiseModels";
+import { FRANCHISE_MODELS, formatStartingFromInvestment } from "@/data/franchiseModels";
 import { BRAND_IMAGES } from "@/lib/brandImages";
 
 const MODEL_ICONS = {
@@ -142,6 +142,16 @@ export function ModelsPreview({ embedded = false }: ModelsPreviewProps) {
 
                 <CardContent sx={{ px: 2.5, py: 2, "&:last-child": { pb: 2.5 } }}>
                   <Stack spacing={2}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: accentBg,
+                        fontWeight: 700,
+                        fontSize: "1.125rem",
+                      }}
+                    >
+                      {formatStartingFromInvestment(model.investment)}
+                    </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {model.description}
                     </Typography>

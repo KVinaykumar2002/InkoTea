@@ -86,4 +86,5 @@ export interface TestimonialRow {
   image_alt: string;
   rating: number;
   is_video: number;
+  video_url: string;
 }

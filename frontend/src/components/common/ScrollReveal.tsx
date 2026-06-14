@@ -9,6 +9,8 @@ interface Props {
   y?: number;
   /** ms duration */
   duration?: number;
+  /** Stretch wrapper to fill grid/flex row height (e.g. equal-height cards). */
+  fullHeight?: boolean;
 }
 
 /**
@@ -20,10 +22,17 @@ export function ScrollReveal({
   delay = 0,
   y = 24,
   duration = 0.6,
+  fullHeight = false,
 }: Props) {
   const reduced = useReducedMotion();
 
-  if (reduced) return <>{children}</>;
+  if (reduced) {
+    return fullHeight ? (
+      <div style={{ height: "100%" }}>{children}</div>
+    ) : (
+      <>{children}</>
+    );
+  }
 
   return (
     <motion.div
@@ -31,6 +40,7 @@ export function ScrollReveal({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration, delay, ease: "easeOut" }}
+      style={fullHeight ? { height: "100%" } : undefined}
     >
       {children}
     </motion.div>

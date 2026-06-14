@@ -16,6 +16,7 @@ function mapTestimonial(row: TestimonialRow) {
     imageAlt: row.image_alt,
     rating: row.rating,
     isVideo: Boolean(row.is_video),
+    videoUrl: row.video_url || "",
   };
 }
 
@@ -44,6 +45,7 @@ router.post("/", requireAuth, async (req, res) => {
     image_alt: String(body.imageAlt || ""),
     rating: Number(body.rating) || 5,
     is_video: body.isVideo ? 1 : 0,
+    video_url: String(body.videoUrl || ""),
   };
 
   await getCollection<TestimonialRow>("testimonials").insertOne(testimonial);
@@ -64,6 +66,7 @@ router.put("/:id", requireAuth, async (req, res) => {
         image_alt: String(body.imageAlt),
         rating: Number(body.rating) || 5,
         is_video: body.isVideo ? 1 : 0,
+        video_url: String(body.videoUrl || ""),
       },
     },
   );

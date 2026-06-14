@@ -38,7 +38,6 @@ const MODEL_HEADER_FOCUS: Record<FranchiseModelKey, string> = {
 const SPEC_ROWS: {
   key: keyof Pick<
     FranchiseModelCardContent,
-    | "investment"
     | "spaceSqFt"
     | "setupTime"
     | "staff"
@@ -48,7 +47,6 @@ const SPEC_ROWS: {
   >;
   label: string;
 }[] = [
-  { key: "investment", label: "Investment" },
   { key: "spaceSqFt", label: "Minimum Space" },
   { key: "setupTime", label: "Setup time" },
   { key: "staff", label: "Staff" },
@@ -58,7 +56,6 @@ const SPEC_ROWS: {
 ];
 
 const SPEC_ROW_MIN_HEIGHT: Partial<Record<(typeof SPEC_ROWS)[number]["key"], number>> = {
-  investment: 44,
   spaceSqFt: 44,
   setupTime: 44,
   staff: 44,
@@ -66,6 +63,10 @@ const SPEC_ROW_MIN_HEIGHT: Partial<Record<(typeof SPEC_ROWS)[number]["key"], num
   roiSpeed: 44,
   target: 64,
 };
+
+function isInvestmentHighlight(text: string): boolean {
+  return /investment|recovery|roi/i.test(text);
+}
 
 const HIGHLIGHT_ITEM_MIN_HEIGHT = 52;
 const IDEAL_LOCATIONS_MIN_HEIGHT = 96;
@@ -103,8 +104,12 @@ export function ModelComparison() {
             accentColor === "primary" ? "primary.main" : "success.main";
           const accentBgSoft =
             accentColor === "primary"
-              ? "rgba(92,58,33,0.06)"
-              : "rgba(63,107,74,0.06)";
+              ? "#E8DAC8"
+              : "#DEE4D0";
+          const accentBorderSoft =
+            accentColor === "primary"
+              ? "rgba(107, 63, 27, 0.28)"
+              : "rgba(92, 107, 44, 0.24)";
 
           return (
             <ScrollReveal key={model.key} delay={idx * 0.12}>
@@ -212,7 +217,39 @@ export function ModelComparison() {
                       sx={{
                         bgcolor: accentBgSoft,
                         borderRadius: 2,
+                        px: 2.5,
+                        py: 2,
+                        border: `1px solid ${accentBorderSoft}`,
+                      }}
+                    >
+                      <Typography
+                        variant="overline"
+                        sx={{ color: accentBg, letterSpacing: "0.14em", fontWeight: 700 }}
+                      >
+                        Investment
+                      </Typography>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          color: accentBg,
+                          fontWeight: 700,
+                          mt: 0.5,
+                          lineHeight: 1.15,
+                        }}
+                      >
+                        {formatStartingFromInvestment(model.investment)}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75 }}>
+                        {model.roiSpeed}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        bgcolor: accentBgSoft,
+                        borderRadius: 2,
                         p: 2.5,
+                        border: `1px solid ${accentBorderSoft}`,
                       }}
                     >
                       <Stack spacing={0}>
@@ -242,14 +279,12 @@ export function ModelComparison() {
                               variant="body2"
                               sx={{
                                 width: { xs: "60%", md: "62%" },
-                                fontWeight: 600,
+                                fontWeight: row.key === "roiSpeed" ? 700 : 600,
                                 textAlign: "right",
-                                color: "text.secondary",
+                                color: row.key === "roiSpeed" ? accentBg : "text.secondary",
                               }}
                             >
-                              {row.key === "investment"
-                                ? formatStartingFromInvestment(model.investment)
-                                : model[row.key]}
+                              {model[row.key]}
                             </Typography>
                           </Stack>
                         ))}
@@ -262,7 +297,9 @@ export function ModelComparison() {
                       <Typography variant="overline" color="text.secondary">
                         Highlights
                       </Typography>
-                      {model.highlights.map((h) => (
+                      {model.highlights.map((h) => {
+                        const emphasized = isInvestmentHighlight(h);
+                        return (
                         <Stack
                           key={h}
                           direction="row"
@@ -280,12 +317,16 @@ export function ModelComparison() {
                           />
                           <Typography
                             variant="body2"
-                            sx={{ color: "text.secondary" }}
+                            sx={{
+                              color: emphasized ? accentBg : "text.secondary",
+                              fontWeight: emphasized ? 700 : 400,
+                            }}
                           >
                             {h}
                           </Typography>
                         </Stack>
-                      ))}
+                        );
+                      })}
                     </Stack>
 
                     <Divider />

@@ -3,41 +3,38 @@
 import { FormikProvider } from "formik";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from "@mui/icons-material/Send";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ScrollReveal } from "@/components/common/ScrollReveal";
 import { FormikTextField } from "@/components/forms/FormikTextField";
 import { FormikPhoneField } from "@/components/forms/FormikPhoneField";
 import { FormikSelect } from "@/components/forms/FormikSelect";
 import { FormSuccessState } from "@/components/forms/FormSuccessState";
-import {
-  buildDarkSurfaceFieldSx,
-  darkSurfaceSubmitSx,
-} from "@/components/forms/darkSurfaceFieldSx";
+import { buildLightSurfaceFieldSx } from "@/components/forms/darkSurfaceFieldSx";
 import { useContactForm } from "@/hooks/useContactForm";
 import { SUBJECT_OPTIONS } from "@/features/contact/validationSchema";
+import { contactCardSx, lightFormSubmitSx } from "./contactStyles";
 
 export function ContactFormBlock() {
   const { formik, snackbar, closeSnackbar, submittedName, resetSubmitted } =
     useContactForm();
 
-  const CARD_SURFACE = "#4A240F";
-  const fieldStyles = buildDarkSurfaceFieldSx(CARD_SURFACE);
+  const fieldStyles = buildLightSurfaceFieldSx("#FFFFFF");
   const isSubmitting = formik.isSubmitting;
 
   return (
-    <ScrollReveal>
-      <Box
-        sx={{
-          p: { xs: 3, md: 4 },
-          borderRadius: "28px",
-          bgcolor: CARD_SURFACE,
-          border: "1px solid rgba(255,255,255,0.08)",
-        }}
-      >
+    <ScrollReveal fullHeight>
+      <Box id="contact-form" sx={{ ...contactCardSx, scrollMarginTop: 96 }}>
+        <Stack direction="row" spacing={1.25} alignItems="center" sx={{ mb: 3 }}>
+          <SendIcon sx={{ color: "primary.main" }} />
+          <Typography variant="h5">Send us a message</Typography>
+        </Stack>
+
         {submittedName ? (
           <FormSuccessState
             name={submittedName}
@@ -60,10 +57,7 @@ export function ContactFormBlock() {
                 }}
               >
                 <Stack spacing={2}>
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={1.5}
-                  >
+                  <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                     <FormikTextField
                       name="name"
                       label="Your Name"
@@ -73,7 +67,7 @@ export function ContactFormBlock() {
                     />
                     <FormikTextField
                       name="email"
-                      label="Email"
+                      label="Email Address"
                       type="email"
                       required
                       autoComplete="email"
@@ -81,13 +75,10 @@ export function ContactFormBlock() {
                     />
                   </Stack>
 
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    spacing={1.5}
-                  >
+                  <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                     <FormikPhoneField
                       name="phone"
-                      label="Phone"
+                      label="Phone Number"
                       required
                       sx={fieldStyles}
                     />
@@ -124,19 +115,22 @@ export function ContactFormBlock() {
                     aria-busy={isSubmitting}
                     endIcon={
                       isSubmitting ? (
-                        <CircularProgress
-                          size={16}
-                          color="inherit"
-                          aria-label="Sending"
-                        />
+                        <CircularProgress size={16} color="inherit" aria-label="Sending" />
                       ) : (
                         <SendIcon />
                       )
                     }
-                    sx={{ ...darkSurfaceSubmitSx, minWidth: "220px" }}
+                    sx={lightFormSubmitSx}
                   >
-                    {isSubmitting ? "Sending…" : "Send message"}
+                    {isSubmitting ? "Sending…" : "Send Message"}
                   </Button>
+
+                  <Stack direction="row" spacing={1} alignItems="center" sx={{ pt: 0.5 }}>
+                    <LockOutlinedIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                    <Typography variant="caption" color="text.secondary">
+                      Your information is secure and confidential.
+                    </Typography>
+                  </Stack>
                 </Stack>
               </Box>
             </Box>

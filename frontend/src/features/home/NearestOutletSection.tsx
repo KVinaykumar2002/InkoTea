@@ -103,10 +103,11 @@ export function NearestOutletSection({
             md: "repeat(3, 1fr)",
           },
           gap: 3,
+          alignItems: "stretch",
         }}
       >
         {filtered.map((outlet, idx) => (
-          <ScrollReveal key={outlet.id} delay={idx * 0.08}>
+          <ScrollReveal key={outlet.id} delay={idx * 0.08} fullHeight>
             <Box
               sx={{
                 height: "100%",
@@ -150,7 +151,7 @@ export function NearestOutletSection({
                   }}
                 />
               </Box>
-              <Stack spacing={1.25} sx={{ p: 3, flexGrow: 1 }}>
+              <Stack spacing={1.25} sx={{ p: 3, flex: 1, minHeight: 0 }}>
                 <Typography
                   variant="caption"
                   sx={{
@@ -163,20 +164,25 @@ export function NearestOutletSection({
                   {outlet.city}
                 </Typography>
                 <Typography variant="h6">{outlet.name}</Typography>
-                <Stack direction="row" spacing={1} alignItems="flex-start">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="flex-start"
+                  sx={{ flex: 1 }}
+                >
                   <LocationOnIcon
                     fontSize="small"
-                    sx={{ color: "text.secondary", mt: "2px" }}
+                    sx={{ color: "text.secondary", mt: "2px", flexShrink: 0 }}
                   />
                   <Typography
                     variant="body2"
                     color="text.secondary"
-                    sx={{ flexGrow: 1 }}
+                    sx={{ flex: 1 }}
                   >
                     {outlet.address}
                   </Typography>
                 </Stack>
-                <Box sx={{ pt: 2, mt: "auto" }}>
+                <Box sx={{ pt: 2 }}>
                   <Button
                     component="a"
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

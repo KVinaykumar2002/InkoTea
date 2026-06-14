@@ -90,6 +90,7 @@ export function OutletsExplorer() {
               lg: "repeat(3, 1fr)",
             },
             gap: 3,
+            alignItems: "stretch",
           }}
         >
           {filtered.map((outlet, idx) => {
@@ -98,7 +99,7 @@ export function OutletsExplorer() {
             )}`;
 
             return (
-            <ScrollReveal key={outlet.id} delay={Math.min(idx * 0.04, 0.4)}>
+            <ScrollReveal key={outlet.id} delay={Math.min(idx * 0.04, 0.4)} fullHeight>
               <Card
                 sx={{
                   height: "100%",
@@ -138,7 +139,7 @@ export function OutletsExplorer() {
                     }}
                   />
                 </Box>
-                <Stack spacing={1.25} sx={{ p: 3, flexGrow: 1 }}>
+                <Stack spacing={1.25} sx={{ p: 3, flex: 1, minHeight: 0 }}>
                   <Typography
                     variant="caption"
                     sx={{
@@ -151,10 +152,15 @@ export function OutletsExplorer() {
                     {outlet.city}
                   </Typography>
                   <Typography variant="h6">{outlet.name}</Typography>
-                  <Stack direction="row" spacing={1} alignItems="flex-start">
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    alignItems="flex-start"
+                    sx={{ flex: 1 }}
+                  >
                     <LocationOnIcon
                       fontSize="small"
-                      sx={{ color: "text.secondary", mt: "2px" }}
+                      sx={{ color: "text.secondary", mt: "2px", flexShrink: 0 }}
                     />
                     <Typography
                       component="a"
@@ -164,7 +170,7 @@ export function OutletsExplorer() {
                       variant="body2"
                       color="text.secondary"
                       sx={{
-                        flexGrow: 1,
+                        flex: 1,
                         textDecoration: "none",
                         "&:hover": {
                           color: "primary.main",
@@ -175,7 +181,7 @@ export function OutletsExplorer() {
                       {outlet.address}
                     </Typography>
                   </Stack>
-                  <Box sx={{ pt: 2, mt: "auto" }}>
+                  <Box sx={{ pt: 2 }}>
                     <Button
                       component="a"
                       href={mapsHref}
