@@ -36,6 +36,7 @@ import {
 } from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type Testimonial } from "@/lib/api";
+import { parseVideoUrl } from "@/lib/videoEmbed";
 
 const empty: Testimonial = {
   id: "",
@@ -49,6 +50,16 @@ const empty: Testimonial = {
   isVideo: false,
   videoUrl: "",
 };
+
+function normalizeTestimonial(t: Testimonial): Testimonial {
+  const videoUrl = (t.videoUrl ?? "").trim();
+  return {
+    ...empty,
+    ...t,
+    videoUrl,
+    isVideo: Boolean(t.isVideo || videoUrl),
+  };
+}
 
 function TestimonialsContent() {
   const { token } = useAdminAuth();
@@ -74,16 +85,24 @@ function TestimonialsContent() {
   };
 
   const openEdit = (t: Testimonial) => {
-    setForm(t);
+    setForm(normalizeTestimonial(t));
     setEditing(true);
     setOpen(true);
   };
 
   const save = async () => {
     if (!token) return;
+    const payload = normalizeTestimonial(form);
+    const videoUrl = payload.videoUrl ?? "";
+
+    if (videoUrl && !parseVideoUrl(videoUrl)) {
+      showError("Enter a valid YouTube, Vimeo, or direct MP4/WebM video URL");
+      return;
+    }
+
     try {
-      if (editing) await api.updateTestimonial(token, form.id, form);
-      else await api.createTestimonial(token, form);
+      if (editing) await api.updateTestimonial(token, payload.id, payload);
+      else await api.createTestimonial(token, payload);
       setOpen(false);
       load();
       showSuccess(editing ? "Testimonial updated" : "Testimonial created");
@@ -141,6 +160,10 @@ function TestimonialsContent() {
             rows={[
               { label: "City", value: t.city },
               { label: "Rating", value: `${t.rating}★` },
+              {
+                label: "Video",
+                value: t.videoUrl?.trim() ? "Yes" : t.isVideo ? "Style only" : "No",
+              },
             ]}
             actions={
               <>
@@ -164,6 +187,7 @@ function TestimonialsContent() {
             <TableCell>Name</TableCell>
             <TableCell>City</TableCell>
             <TableCell>Rating</TableCell>
+            <TableCell>Video</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -173,6 +197,13 @@ function TestimonialsContent() {
               <TableCell>{t.name}</TableCell>
               <TableCell>{t.city}</TableCell>
               <TableCell>{t.rating}★</TableCell>
+              <TableCell>
+                {t.videoUrl?.trim()
+                  ? "Linked"
+                  : t.isVideo
+                    ? "Play style"
+                    : "—"}
+              </TableCell>
               <TableCell align="right">
                 <IconButton size="small" onClick={() => openEdit(t)}>
                   <EditIcon fontSize="small" />
@@ -264,17 +295,29 @@ function TestimonialsContent() {
               }
             />
           }
-          label="Video style card"
+          label="Show play button on card"
         />
-        {form.isVideo ? (
-          <AdminFormField
-            label="Video URL"
-            value={form.videoUrl ?? ""}
-            onChange={(e) => setForm((f) => ({ ...f, videoUrl: e.target.value }))}
-            placeholder="YouTube, Vimeo, or direct MP4 link"
-            hint="Paste a YouTube, Vimeo, or direct video file URL"
-          />
-        ) : null}
+        <AdminFormField
+          label="Video URL"
+          value={form.videoUrl ?? ""}
+          onChange={(e) => {
+            const videoUrl = e.target.value;
+            setForm((f) => ({
+              ...f,
+              videoUrl,
+              isVideo: Boolean(videoUrl.trim()) || f.isVideo,
+            }));
+          }}
+          placeholder="https://youtube.com/watch?v=… or https://vimeo.com/…"
+          hint={
+            form.videoUrl?.trim()
+              ? parseVideoUrl(form.videoUrl)
+                ? "Valid video link — visitors can play this from the testimonial card."
+                : "Unrecognized URL. Use YouTube, Vimeo, or a direct MP4/WebM link."
+              : "Optional. Paste a YouTube, Vimeo, or direct video file URL to enable playback."
+          }
+          error={Boolean(form.videoUrl?.trim()) && !parseVideoUrl(form.videoUrl ?? "")}
+        />
       </AdminFormModal>
     </Box>
   );
