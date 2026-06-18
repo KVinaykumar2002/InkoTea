@@ -83,7 +83,8 @@ function HeroContent() {
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Each slide has its own background image and overlay copy. Edit the
-          text and image for every slide independently.
+          text and image for every slide independently. After uploading an
+          image, click <strong>Save changes</strong> so it is stored.
         </Typography>
 
         {form.slides.map((slide, index) => (

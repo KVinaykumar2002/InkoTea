@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -46,6 +46,11 @@ export function ImageDropzone({
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [previewBroken, setPreviewBroken] = useState(false);
+
+  useEffect(() => {
+    setPreviewBroken(false);
+  }, [value]);
 
   const upload = useCallback(
     async (file: File) => {
@@ -162,14 +167,12 @@ export function ImageDropzone({
         />
         {uploading ? (
           <CircularProgress size={32} />
-        ) : value ? (
+        ) : value && !previewBroken ? (
           <Box
             component="img"
             src={previewUrl}
             alt="Preview"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = "none";
-            }}
+            onError={() => setPreviewBroken(true)}
             sx={{
               maxHeight: 120,
               maxWidth: "100%",
@@ -177,13 +180,22 @@ export function ImageDropzone({
               objectFit: "cover",
             }}
           />
+        ) : previewBroken && value ? (
+          <Typography variant="body2" color="warning.main" sx={{ px: 1 }}>
+            Saved image is missing on the server. Upload again, then click Save
+            changes.
+          </Typography>
         ) : (
           <CloudUploadIcon sx={{ fontSize: 40, color: "text.secondary" }} />
         )}
         <Typography variant="body2" color="text.secondary">
           {uploading
             ? "Uploading…"
-            : "Drag & drop an image here, or click to browse"}
+            : value
+              ? previewBroken
+                ? value
+                : "Drag & drop to replace, or click to browse"
+              : "Drag & drop an image here, or click to browse"}
         </Typography>
       </Box>
       {error && (

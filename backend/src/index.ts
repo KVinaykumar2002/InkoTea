@@ -3,11 +3,8 @@ import express from "express";
 import { resolveCorsOrigins } from "../../shared/urls.js";
 import { config } from "./config.js";
 import { connectDb } from "./db/index.js";
-import {
-  LEGACY_UPLOAD_DIR,
-  UPLOAD_DIR,
-  ensureUploadDirs,
-} from "./lib/uploadsDir.js";
+import { ensureUploadDirs } from "./lib/uploadsDir.js";
+import { serveUpload } from "./lib/serveUpload.js";
 import authRoutes from "./routes/auth.js";
 import blogRoutes from "./routes/blog.js";
 import dashboardRoutes from "./routes/dashboard.js";
@@ -43,8 +40,9 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "2mb" }));
-app.use("/uploads", express.static(UPLOAD_DIR));
-app.use("/uploads", express.static(LEGACY_UPLOAD_DIR));
+app.get("/uploads/:filename", (req, res) => {
+  void serveUpload(req, res);
+});
 
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "inkotea-backend" });

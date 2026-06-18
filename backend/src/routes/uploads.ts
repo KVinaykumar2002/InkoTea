@@ -1,22 +1,14 @@
 import { Router } from "express";
 import multer, { MulterError } from "multer";
 import path from "node:path";
+import { storeUpload } from "../lib/gridfs.js";
+import { ensureUploadDirs } from "../lib/uploadsDir.js";
 import { requireAuth } from "../middleware/auth.js";
-import { UPLOAD_DIR, ensureUploadDirs } from "../lib/uploadsDir.js";
 
 ensureUploadDirs();
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
-  filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || ".jpg";
-    const safe = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
-    cb(null, safe);
-  },
-});
-
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (_req, file, cb) => {
     if (file.mimetype.startsWith("image/")) cb(null, true);
@@ -27,7 +19,7 @@ const upload = multer({
 const router = Router();
 
 router.post("/", requireAuth, (req, res) => {
-  upload.single("image")(req, res, (err) => {
+  upload.single("image")(req, res, async (err) => {
     if (err) {
       if (err instanceof MulterError && err.code === "LIMIT_FILE_SIZE") {
         res.status(400).json({ error: "Image must be 5 MB or smaller" });
@@ -44,7 +36,16 @@ router.post("/", requireAuth, (req, res) => {
       return;
     }
 
-    res.status(201).json({ url: `/uploads/${req.file.filename}` });
+    const ext = path.extname(req.file.originalname).toLowerCase() || ".jpg";
+    const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+
+    try {
+      await storeUpload(req.file.buffer, filename, req.file.mimetype);
+      res.status(201).json({ url: `/uploads/${filename}` });
+    } catch (storeErr) {
+      console.error("GridFS upload failed:", storeErr);
+      res.status(500).json({ error: "Failed to store image" });
+    }
   });
 });
 
