@@ -27,6 +27,7 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import HomeIcon from "@mui/icons-material/Home";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HandshakeIcon from "@mui/icons-material/Handshake";
+import ShareIcon from "@mui/icons-material/Share";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
@@ -38,6 +39,7 @@ const NAV = [
   { href: "/admin", label: "Dashboard", icon: <DashboardIcon /> },
   { href: "/admin/hero", label: "Home Hero", icon: <HomeIcon /> },
   { href: "/admin/contact", label: "Quick Chat", icon: <ContactMailIcon /> },
+  { href: "/admin/social", label: "Social Media", icon: <ShareIcon /> },
   { href: "/admin/franchise", label: "Choose Your Model", icon: <HandshakeIcon /> },
   { href: "/admin/leads", label: "Leads", icon: <PeopleIcon /> },
   { href: "/admin/outlets", label: "Outlets", icon: <StoreIcon /> },

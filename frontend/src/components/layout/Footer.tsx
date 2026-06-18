@@ -10,16 +10,14 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { FooterEnquiryForm } from "./FooterEnquiryForm";
+import { useSocialLinks } from "@/hooks/useApiContent";
+import { socialLinksFromContent } from "@/lib/socialPlatforms";
 import {
   BRAND,
   FOOTER_QUICK_LINKS,
@@ -49,13 +47,6 @@ const reachUsButtonSx = {
   },
 };
 
-const socialLinks = [
-  { icon: InstagramIcon, href: BRAND.socials.instagram, label: "Instagram" },
-  { icon: FacebookIcon, href: BRAND.socials.facebook, label: "Facebook" },
-  { icon: YouTubeIcon, href: BRAND.socials.youtube, label: "YouTube" },
-  { icon: LinkedInIcon, href: BRAND.socials.linkedin, label: "LinkedIn" },
-];
-
 /** Footer always uses the warm tea-brown surface for cross-theme consistency. */
 const FOOTER_BG = "#3A2210";
 const FOOTER_TEXT = "#F5EFE5";
@@ -63,6 +54,9 @@ const FOOTER_TEXT_MUTED = "rgba(245, 239, 229, 0.78)";
 const FOOTER_DIVIDER = "rgba(245, 239, 229, 0.16)";
 
 export function Footer() {
+  const { links: socialContent } = useSocialLinks();
+  const socialLinks = socialLinksFromContent(socialContent);
+
   return (
     <Box
       component="footer"

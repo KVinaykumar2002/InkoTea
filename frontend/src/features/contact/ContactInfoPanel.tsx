@@ -8,21 +8,12 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 
 import { BRAND } from "@/lib/brand";
+import { useSocialLinks } from "@/hooks/useApiContent";
+import { socialLinksFromContent } from "@/lib/socialPlatforms";
 import { brandColors } from "@/theme/palette";
 import { contactCardSx, contactIconBoxSx } from "./contactStyles";
-
-const SOCIALS = [
-  { label: "LinkedIn", href: BRAND.socials.linkedin, icon: LinkedInIcon },
-  { label: "Instagram", href: BRAND.socials.instagram, icon: InstagramIcon },
-  { label: "Facebook", href: BRAND.socials.facebook, icon: FacebookIcon },
-  { label: "YouTube", href: BRAND.socials.youtube, icon: YouTubeIcon },
-] as const;
 
 const INFO_ROWS = [
   {
@@ -51,6 +42,9 @@ const INFO_ROWS = [
 ] as const;
 
 export function ContactInfoPanel() {
+  const { links: socialContent } = useSocialLinks();
+  const socials = socialLinksFromContent(socialContent);
+
   return (
     <Box sx={{ ...contactCardSx, p: { xs: 3, md: 3.5 } }}>
       <Typography variant="h5" sx={{ mb: 3 }}>
@@ -111,7 +105,7 @@ export function ContactInfoPanel() {
           Follow us
         </Typography>
         <Stack direction="row" spacing={1}>
-          {SOCIALS.map(({ label, href, icon: SocialIcon }) => (
+          {socials.map(({ label, href, icon: SocialIcon }) => (
             <IconButton
               key={label}
               component="a"

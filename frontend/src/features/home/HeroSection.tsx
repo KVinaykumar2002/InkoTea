@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -16,7 +16,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
-import { DEFAULT_HERO_CONTENT, type HeroMetric } from "@shared/pageContent";
+import { DEFAULT_HERO_CONTENT, normalizeHeroContent, type HeroMetric } from "@shared/pageContent";
 import { usePageContent } from "@/hooks/useApiContent";
 import { fontDescriptionSx } from "@/theme/fonts";
 import { HeroBackdrop } from "./HeroBackdrop";
@@ -59,9 +59,11 @@ const METRIC_ICONS = {
 } as const;
 
 export function HeroSection() {
-  const { content: hero } = usePageContent("hero", DEFAULT_HERO_CONTENT);
+  const { content: rawHero } = usePageContent("hero", DEFAULT_HERO_CONTENT);
+  const hero = useMemo(() => normalizeHeroContent(rawHero), [rawHero]);
   const reduced = Boolean(useReducedMotion());
   const [slideIndex, setSlideIndex] = useState(0);
+  const activeSlide = hero.slides[slideIndex] ?? hero.slides[0];
   const onSelectSlide = useCallback((index: number) => {
     setSlideIndex(index);
   }, []);
@@ -130,9 +132,9 @@ export function HeroSection() {
       />
 
       <AnimatePresence mode="wait">
-        {slideIndex === 0 ? (
+        {activeSlide ? (
           <Box
-            key="hero-content"
+            key={slideIndex}
             component={motion.div}
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -156,7 +158,7 @@ export function HeroSection() {
         >
           <FadeUp delay={HERO_TIMING.chip} y={14} reduced={reduced}>
             <Chip
-              label={hero.chip}
+              label={activeSlide.chip}
               sx={{
                 alignSelf: "flex-start",
                 bgcolor: "rgba(212, 165, 116, 0.18)",
@@ -191,7 +193,7 @@ export function HeroSection() {
             }}
           >
             <LineReveal delay={HERO_TIMING.line1} reduced={reduced}>
-              {hero.titleLine1}
+              {activeSlide.titleLine1}
             </LineReveal>
             <BlurReveal delay={HERO_TIMING.line2} duration={1.1} blur={10} reduced={reduced}>
               <Box
@@ -203,7 +205,7 @@ export function HeroSection() {
                 }}
               >
                 <ShimmerSpan delay={HERO_TIMING.shimmer} reduced={reduced}>
-                  {hero.titleLine2}
+                  {activeSlide.titleLine2}
                 </ShimmerSpan>
               </Box>
             </BlurReveal>
@@ -228,7 +230,7 @@ export function HeroSection() {
                 overflow: "hidden",
               }}
             >
-              {hero.subhead}
+              {activeSlide.subhead}
             </Typography>
           </FadeUp>
 
@@ -240,7 +242,7 @@ export function HeroSection() {
             >
               <Button
                 component={Link}
-                href={hero.primaryCtaHref}
+                href={activeSlide.primaryCtaHref}
                 variant="contained"
                 color="secondary"
                 size="medium"
@@ -273,11 +275,11 @@ export function HeroSection() {
                   },
                 }}
               >
-                {hero.primaryCtaLabel}
+                {activeSlide.primaryCtaLabel}
               </Button>
               <Button
                 component={Link}
-                href={hero.secondaryCtaHref}
+                href={activeSlide.secondaryCtaHref}
                 variant="outlined"
                 size="medium"
                 startIcon={
@@ -307,7 +309,7 @@ export function HeroSection() {
                   },
                 }}
               >
-                {hero.secondaryCtaLabel}
+                {activeSlide.secondaryCtaLabel}
               </Button>
             </Stack>
           </FadeUp>
@@ -337,7 +339,7 @@ export function HeroSection() {
         ) : null}
       </AnimatePresence>
 
-      {slideIndex === 0 ? <ScrollIndicator reduced={reduced} /> : null}
+      <ScrollIndicator reduced={reduced} />
     </Box>
   );
 }

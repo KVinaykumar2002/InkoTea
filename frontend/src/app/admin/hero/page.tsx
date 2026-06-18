@@ -15,6 +15,7 @@ import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api } from "@/lib/api";
 import {
   DEFAULT_HERO_CONTENT,
+  normalizeHeroContent,
   type HeroPageContent,
 } from "@shared/pageContent";
 
@@ -25,7 +26,9 @@ function HeroContent() {
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(() => {
-    api.getPageContent<HeroPageContent>("hero").then((r) => setForm(r.content));
+    api
+      .getPageContent<HeroPageContent>("hero")
+      .then((r) => setForm(normalizeHeroContent(r.content)));
   }, []);
 
   useEffect(() => {
@@ -75,63 +78,111 @@ function HeroContent() {
       />
 
       <Stack spacing={2.5} maxWidth={720} sx={{ width: "100%" }}>
-        <AdminFormField
-          label="Chip label"
-          value={form.chip}
-          onChange={(e) => setForm((f) => ({ ...f, chip: e.target.value }))}
-        />
-        <AdminFormField
-          label="Headline line 1"
-          value={form.titleLine1}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, titleLine1: e.target.value }))
-          }
-        />
-        <AdminFormField
-          label="Headline line 2"
-          value={form.titleLine2}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, titleLine2: e.target.value }))
-          }
-        />
-        <AdminFormField
-          label="Subhead"
-          multiline
-          rows={3}
-          value={form.subhead}
-          onChange={(e) => setForm((f) => ({ ...f, subhead: e.target.value }))}
-        />
-        <AdminFormField
-          label="Primary CTA label"
-          value={form.primaryCtaLabel}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, primaryCtaLabel: e.target.value }))
-          }
-        />
-        <AdminFormField
-          label="Primary CTA link"
-          value={form.primaryCtaHref}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, primaryCtaHref: e.target.value }))
-          }
-        />
-        <AdminFormField
-          label="Secondary CTA label"
-          value={form.secondaryCtaLabel}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, secondaryCtaLabel: e.target.value }))
-          }
-        />
-        <AdminFormField
-          label="Secondary CTA link"
-          value={form.secondaryCtaHref}
-          onChange={(e) =>
-            setForm((f) => ({ ...f, secondaryCtaHref: e.target.value }))
-          }
-        />
+        <Typography variant="subtitle1" fontWeight={700}>
+          Hero slides
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Each slide has its own background image and overlay copy. Edit the
+          text and image for every slide independently.
+        </Typography>
+
+        {form.slides.map((slide, index) => (
+          <Stack
+            key={index}
+            spacing={1.5}
+            sx={{
+              p: 2,
+              border: 1,
+              borderColor: "divider",
+              borderRadius: 2,
+            }}
+          >
+            <Typography variant="body1" fontWeight={700}>
+              Slide {index + 1}
+            </Typography>
+
+            <ImageDropzone
+              label="Background image"
+              value={slide.image}
+              onChange={(url) => updateSlide(index, { image: url })}
+            />
+            <AdminFormField
+              label="Background position"
+              value={slide.position}
+              onChange={(e) => updateSlide(index, { position: e.target.value })}
+              hint="e.g. center center"
+            />
+            <AdminFormField
+              label="Alt text"
+              value={slide.alt}
+              onChange={(e) => updateSlide(index, { alt: e.target.value })}
+            />
+
+            <Typography variant="body2" fontWeight={600} sx={{ pt: 1 }}>
+              Overlay copy
+            </Typography>
+            <AdminFormField
+              label="Chip label"
+              value={slide.chip}
+              onChange={(e) => updateSlide(index, { chip: e.target.value })}
+            />
+            <AdminFormField
+              label="Headline line 1"
+              value={slide.titleLine1}
+              onChange={(e) =>
+                updateSlide(index, { titleLine1: e.target.value })
+              }
+            />
+            <AdminFormField
+              label="Headline line 2"
+              value={slide.titleLine2}
+              onChange={(e) =>
+                updateSlide(index, { titleLine2: e.target.value })
+              }
+            />
+            <AdminFormField
+              label="Subhead"
+              multiline
+              rows={3}
+              value={slide.subhead}
+              onChange={(e) => updateSlide(index, { subhead: e.target.value })}
+            />
+            <AdminFormField
+              label="Primary CTA label"
+              value={slide.primaryCtaLabel}
+              onChange={(e) =>
+                updateSlide(index, { primaryCtaLabel: e.target.value })
+              }
+            />
+            <AdminFormField
+              label="Primary CTA link"
+              value={slide.primaryCtaHref}
+              onChange={(e) =>
+                updateSlide(index, { primaryCtaHref: e.target.value })
+              }
+            />
+            <AdminFormField
+              label="Secondary CTA label"
+              value={slide.secondaryCtaLabel}
+              onChange={(e) =>
+                updateSlide(index, { secondaryCtaLabel: e.target.value })
+              }
+            />
+            <AdminFormField
+              label="Secondary CTA link"
+              value={slide.secondaryCtaHref}
+              onChange={(e) =>
+                updateSlide(index, { secondaryCtaHref: e.target.value })
+              }
+            />
+          </Stack>
+        ))}
 
         <Typography variant="subtitle1" fontWeight={700} sx={{ pt: 1 }}>
           Metrics
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Shown below the slide copy on every hero slide.
         </Typography>
         {form.metrics.map((metric, index) => (
           <Stack key={metric.label} spacing={1.5} sx={{ pl: 1 }}>
@@ -158,42 +209,6 @@ function HeroContent() {
                   ),
                 }))
               }
-            />
-          </Stack>
-        ))}
-
-        <Typography variant="subtitle1" fontWeight={700} sx={{ pt: 1 }}>
-          Hero slides
-        </Typography>
-        {form.slides.map((slide, index) => (
-          <Stack
-            key={index}
-            spacing={1.5}
-            sx={{
-              p: 2,
-              border: 1,
-              borderColor: "divider",
-              borderRadius: 2,
-            }}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Slide {index + 1}
-            </Typography>
-            <ImageDropzone
-              label="Background image"
-              value={slide.image}
-              onChange={(url) => updateSlide(index, { image: url })}
-            />
-            <AdminFormField
-              label="Background position"
-              value={slide.position}
-              onChange={(e) => updateSlide(index, { position: e.target.value })}
-              hint="e.g. center center"
-            />
-            <AdminFormField
-              label="Alt text"
-              value={slide.alt}
-              onChange={(e) => updateSlide(index, { alt: e.target.value })}
             />
           </Stack>
         ))}

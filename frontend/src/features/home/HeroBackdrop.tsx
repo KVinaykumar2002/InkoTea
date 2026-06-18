@@ -40,7 +40,6 @@ export function HeroBackdrop({
   const photoX = useTransform(parallaxX, [-1, 1], [-6, 6]);
   const photoY = useTransform(parallaxY, [-1, 1], [-4, 4]);
   const [paused, setPaused] = useState(false);
-  const isFirstSlide = activeIndex === 0;
   const slideCount = slides.length;
   const goToPrevSlide = () => {
     onSelectSlide((activeIndex - 1 + slideCount) % slideCount);
@@ -83,76 +82,67 @@ export function HeroBackdrop({
         </AnimatePresence>
       </Box>
 
-      {isFirstSlide ? (
-        <Box
-          component={motion.div}
-          aria-hidden
-          animate={reduced ? undefined : { opacity: [0.45, 0.7, 0.45] }}
-          transition={
-            reduced ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }
-          }
-          sx={{
-            position: "absolute",
-            right: { xs: "10%", md: "22%" },
-            top: { xs: "40%", md: "50%" },
-            transform: "translate(50%, -50%)",
-            width: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
-            height: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle at 50% 50%, rgba(255,180,90,0.32) 0%, rgba(255,150,70,0.16) 35%, transparent 70%)",
-            filter: "blur(20px)",
-            pointerEvents: "none",
-            zIndex: 1,
-            willChange: "opacity",
-          }}
-        />
-      ) : null}
-
       <Box
+        component={motion.div}
         aria-hidden
+        animate={reduced ? undefined : { opacity: [0.45, 0.7, 0.45] }}
+        transition={
+          reduced ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }
+        }
         sx={{
           position: "absolute",
-          inset: 0,
-          background: isFirstSlide
-            ? {
-                xs: "linear-gradient(180deg, rgba(15,10,6,0.55) 0%, rgba(15,10,6,0.82) 55%, rgba(15,10,6,0.92) 100%), linear-gradient(90deg, rgba(15,10,6,0.9) 0%, rgba(15,10,6,0.45) 100%)",
-                md: "linear-gradient(90deg, rgba(15,10,6,0.88) 0%, rgba(15,10,6,0.65) 35%, rgba(15,10,6,0.25) 60%, rgba(15,10,6,0.05) 100%)",
-              }
-            : "linear-gradient(180deg, rgba(15,10,6,0.08) 0%, rgba(15,10,6,0) 30%, rgba(15,10,6,0) 70%, rgba(15,10,6,0.2) 100%)",
-          zIndex: 1,
+          right: { xs: "10%", md: "22%" },
+          top: { xs: "40%", md: "50%" },
+          transform: "translate(50%, -50%)",
+          width: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
+          height: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(255,180,90,0.32) 0%, rgba(255,150,70,0.16) 35%, transparent 70%)",
+          filter: "blur(20px)",
           pointerEvents: "none",
-          transition: "background 0.6s ease",
+          zIndex: 1,
+          willChange: "opacity",
         }}
       />
 
-      {isFirstSlide ? (
-        <Box
-          aria-hidden
-          sx={{
-            position: "absolute",
-            inset: 0,
-            background: {
-              xs: "linear-gradient(180deg, rgba(15,10,6,0.12) 0%, rgba(15,10,6,0) 40%, rgba(15,10,6,0) 55%, rgba(15,10,6,0.75) 100%)",
-              md: "linear-gradient(180deg, rgba(15,10,6,0.18) 0%, rgba(15,10,6,0) 35%, rgba(15,10,6,0) 75%, rgba(15,10,6,0.55) 100%)",
-            },
-            zIndex: 1,
-            pointerEvents: "none",
-          }}
-        />
-      ) : null}
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background: {
+            xs: "linear-gradient(180deg, rgba(15,10,6,0.55) 0%, rgba(15,10,6,0.82) 55%, rgba(15,10,6,0.92) 100%), linear-gradient(90deg, rgba(15,10,6,0.9) 0%, rgba(15,10,6,0.45) 100%)",
+            md: "linear-gradient(90deg, rgba(15,10,6,0.88) 0%, rgba(15,10,6,0.65) 35%, rgba(15,10,6,0.25) 60%, rgba(15,10,6,0.05) 100%)",
+          },
+          zIndex: 1,
+          pointerEvents: "none",
+        }}
+      />
 
       <Box
         aria-hidden
         sx={{
           position: "absolute",
           inset: 0,
-          background: isFirstSlide
-            ? "radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 100%)"
-            : "radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(0,0,0,0.22) 100%)",
+          background: {
+            xs: "linear-gradient(180deg, rgba(15,10,6,0.12) 0%, rgba(15,10,6,0) 40%, rgba(15,10,6,0) 55%, rgba(15,10,6,0.75) 100%)",
+            md: "linear-gradient(180deg, rgba(15,10,6,0.18) 0%, rgba(15,10,6,0) 35%, rgba(15,10,6,0) 75%, rgba(15,10,6,0.55) 100%)",
+          },
           zIndex: 1,
           pointerEvents: "none",
-          transition: "background 0.6s ease",
+        }}
+      />
+
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 100%)",
+          zIndex: 1,
+          pointerEvents: "none",
         }}
       />
 

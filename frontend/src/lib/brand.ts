@@ -3,6 +3,7 @@
  * Update here to propagate brand-wide changes.
  */
 import { FRONTEND_URL } from "@shared/urls";
+import { DEFAULT_SOCIAL_CONTENT } from "@shared/pageContent";
 
 export const BRAND = {
   name: "INKOTEA",
@@ -34,12 +35,7 @@ export const BRAND = {
     cupsServedDaily: 10000,
     statesServed: 2,
   },
-  socials: {
-    instagram: "https://instagram.com/inkotea",
-    facebook: "https://facebook.com/inkotea",
-    youtube: "https://youtube.com/@inkotea",
-    linkedin: "https://linkedin.com/company/inkotea",
-  },
+  socials: DEFAULT_SOCIAL_CONTENT,
   whatsappLink: "https://wa.me/918464020418",
   siteUrl: FRONTEND_URL,
   mapsUrl: "https://maps.app.goo.gl/33sznnwAdJXPDfxU8",

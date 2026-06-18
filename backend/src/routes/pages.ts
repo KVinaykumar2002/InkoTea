@@ -3,19 +3,23 @@ import {
   DEFAULT_CONTACT_CONTENT,
   DEFAULT_FRANCHISE_CONTENT,
   DEFAULT_HERO_CONTENT,
+  DEFAULT_SOCIAL_CONTENT,
   normalizeContactContent,
   normalizeFranchiseContent,
+  normalizeHeroContent,
+  normalizeSocialContent,
   type ContactPageContent,
   type FranchisePageContent,
   type HeroPageContent,
   type PageSlug,
+  type SocialPageContent,
 } from "../../../shared/pageContent.js";
 import { getCollection } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 
 interface PageContentRow {
   slug: PageSlug;
-  content: HeroPageContent | ContactPageContent | FranchisePageContent;
+  content: HeroPageContent | ContactPageContent | FranchisePageContent | SocialPageContent;
   updated_at: string;
 }
 
@@ -25,10 +29,16 @@ const DEFAULTS: Record<PageSlug, PageContentRow["content"]> = {
   hero: DEFAULT_HERO_CONTENT,
   contact: DEFAULT_CONTACT_CONTENT,
   franchise: DEFAULT_FRANCHISE_CONTENT,
+  social: DEFAULT_SOCIAL_CONTENT,
 };
 
 function isPageSlug(value: string): value is PageSlug {
-  return value === "hero" || value === "contact" || value === "franchise";
+  return (
+    value === "hero" ||
+    value === "contact" ||
+    value === "franchise" ||
+    value === "social"
+  );
 }
 
 async function getOrSeedPage(slug: PageSlug): Promise<PageContentRow> {
@@ -54,11 +64,15 @@ router.get("/:slug", async (req, res) => {
 
   const row = await getOrSeedPage(slug);
   const content =
-    slug === "contact"
-      ? normalizeContactContent(row.content)
-      : slug === "franchise"
-        ? normalizeFranchiseContent(row.content)
-        : row.content;
+    slug === "hero"
+      ? normalizeHeroContent(row.content)
+      : slug === "contact"
+        ? normalizeContactContent(row.content)
+        : slug === "franchise"
+          ? normalizeFranchiseContent(row.content)
+          : slug === "social"
+            ? normalizeSocialContent(row.content)
+            : row.content;
   res.json({ slug: row.slug, content, updatedAt: row.updated_at });
 });
 

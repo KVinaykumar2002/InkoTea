@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import {
+  DEFAULT_SOCIAL_CONTENT,
+  normalizeSocialContent,
+} from "@shared/pageContent";
 
 export function useApiContent<T>(fetcher: () => Promise<T>): {
   data: T | null;
@@ -64,5 +68,17 @@ export function usePageContent<T>(slug: string, fallback: T) {
   return {
     ...state,
     content: state.data?.content ?? fallback,
+  };
+}
+
+export function useSocialLinks() {
+  const { content, loading, error } = usePageContent(
+    "social",
+    DEFAULT_SOCIAL_CONTENT,
+  );
+  return {
+    links: normalizeSocialContent(content),
+    loading,
+    error,
   };
 }
