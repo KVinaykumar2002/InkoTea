@@ -143,9 +143,10 @@ function HeroContent() {
           Hero slides ({form.slides.length})
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Each slide has its own background image and overlay copy. Add or
-          remove slides as needed (up to {MAX_HERO_SLIDES}). After uploading an
-          image, click <strong>Save changes</strong> so it is stored.
+          Slide 1 includes overlay copy (headline, CTAs, metrics). Slides 2 and
+          beyond are image-only in the carousel. Add or remove slides as needed
+          (up to {MAX_HERO_SLIDES}). After uploading an image, click{" "}
+          <strong>Save changes</strong> so it is stored.
         </Typography>
 
         {form.slides.map((slide, index) => (
@@ -196,63 +197,73 @@ function HeroContent() {
               onChange={(e) => updateSlide(index, { alt: e.target.value })}
             />
 
-            <Typography variant="body2" fontWeight={600} sx={{ pt: 1 }}>
-              Overlay copy
-            </Typography>
-            <AdminFormField
-              label="Chip label"
-              value={slide.chip}
-              onChange={(e) => updateSlide(index, { chip: e.target.value })}
-            />
-            <AdminFormField
-              label="Headline line 1"
-              value={slide.titleLine1}
-              onChange={(e) =>
-                updateSlide(index, { titleLine1: e.target.value })
-              }
-            />
-            <AdminFormField
-              label="Headline line 2"
-              value={slide.titleLine2}
-              onChange={(e) =>
-                updateSlide(index, { titleLine2: e.target.value })
-              }
-            />
-            <AdminFormField
-              label="Subhead"
-              multiline
-              rows={3}
-              value={slide.subhead}
-              onChange={(e) => updateSlide(index, { subhead: e.target.value })}
-            />
-            <AdminFormField
-              label="Primary CTA label"
-              value={slide.primaryCtaLabel}
-              onChange={(e) =>
-                updateSlide(index, { primaryCtaLabel: e.target.value })
-              }
-            />
-            <AdminFormField
-              label="Primary CTA link"
-              value={slide.primaryCtaHref}
-              onChange={(e) =>
-                updateSlide(index, { primaryCtaHref: e.target.value })
-              }
-            />
-            <AdminFormField
-              label="Secondary CTA label"
-              value={slide.secondaryCtaLabel}
-              onChange={(e) =>
-                updateSlide(index, { secondaryCtaLabel: e.target.value })
-              }
-            />
-            <AdminFormField
-              label="Secondary CTA link"
-              value={slide.secondaryCtaHref}
-              onChange={(e) =>
-                updateSlide(index, { secondaryCtaHref: e.target.value })
-              }
-            />
+            {index === 0 ? (
+              <>
+                <Typography variant="body2" fontWeight={600} sx={{ pt: 1 }}>
+                  Overlay copy
+                </Typography>
+                <AdminFormField
+                  label="Chip label"
+                  value={slide.chip}
+                  onChange={(e) => updateSlide(index, { chip: e.target.value })}
+                />
+                <AdminFormField
+                  label="Headline line 1"
+                  value={slide.titleLine1}
+                  onChange={(e) =>
+                    updateSlide(index, { titleLine1: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Headline line 2"
+                  value={slide.titleLine2}
+                  onChange={(e) =>
+                    updateSlide(index, { titleLine2: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Subhead"
+                  multiline
+                  rows={3}
+                  value={slide.subhead}
+                  onChange={(e) =>
+                    updateSlide(index, { subhead: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Primary CTA label"
+                  value={slide.primaryCtaLabel}
+                  onChange={(e) =>
+                    updateSlide(index, { primaryCtaLabel: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Primary CTA link"
+                  value={slide.primaryCtaHref}
+                  onChange={(e) =>
+                    updateSlide(index, { primaryCtaHref: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Secondary CTA label"
+                  value={slide.secondaryCtaLabel}
+                  onChange={(e) =>
+                    updateSlide(index, { secondaryCtaLabel: e.target.value })
+                  }
+                />
+                <AdminFormField
+                  label="Secondary CTA link"
+                  value={slide.secondaryCtaHref}
+                  onChange={(e) =>
+                    updateSlide(index, { secondaryCtaHref: e.target.value })
+                  }
+                />
+              </>
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ pt: 0.5 }}>
+                Image-only slide — no overlay text on the home page.
+              </Typography>
+            )}
           </Stack>
         ))}
 
@@ -270,7 +281,7 @@ function HeroContent() {
           Metrics
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Shown below the slide copy on every hero slide.
+          Shown below the overlay copy on slide 1 only.
         </Typography>
         {form.metrics.map((metric, index) => (
           <Stack key={metric.label} spacing={1.5} sx={{ pl: 1 }}>

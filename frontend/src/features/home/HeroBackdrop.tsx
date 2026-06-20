@@ -26,8 +26,8 @@ interface HeroBackdropProps {
 }
 
 /**
- * Hero backdrop — cross-fading photo carousel plus overlays.
- * Pointer parallax applies to the active slide only.
+ * Hero backdrop — cross-fading photo carousel. Images render without
+ * gradient or blur overlays so admin uploads appear as uploaded.
  */
 export function HeroBackdrop({
   parallaxX,
@@ -81,70 +81,6 @@ export function HeroBackdrop({
           />
         </AnimatePresence>
       </Box>
-
-      <Box
-        component={motion.div}
-        aria-hidden
-        animate={reduced ? undefined : { opacity: [0.45, 0.7, 0.45] }}
-        transition={
-          reduced ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }
-        }
-        sx={{
-          position: "absolute",
-          right: { xs: "10%", md: "22%" },
-          top: { xs: "40%", md: "50%" },
-          transform: "translate(50%, -50%)",
-          width: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
-          height: { xs: "min(280px, 72vw)", sm: 380, md: 540 },
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(255,180,90,0.32) 0%, rgba(255,150,70,0.16) 35%, transparent 70%)",
-          filter: "blur(20px)",
-          pointerEvents: "none",
-          zIndex: 1,
-          willChange: "opacity",
-        }}
-      />
-
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background: {
-            xs: "linear-gradient(180deg, rgba(15,10,6,0.55) 0%, rgba(15,10,6,0.82) 55%, rgba(15,10,6,0.92) 100%), linear-gradient(90deg, rgba(15,10,6,0.9) 0%, rgba(15,10,6,0.45) 100%)",
-            md: "linear-gradient(90deg, rgba(15,10,6,0.88) 0%, rgba(15,10,6,0.65) 35%, rgba(15,10,6,0.25) 60%, rgba(15,10,6,0.05) 100%)",
-          },
-          zIndex: 1,
-          pointerEvents: "none",
-        }}
-      />
-
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background: {
-            xs: "linear-gradient(180deg, rgba(15,10,6,0.12) 0%, rgba(15,10,6,0) 40%, rgba(15,10,6,0) 55%, rgba(15,10,6,0.75) 100%)",
-            md: "linear-gradient(180deg, rgba(15,10,6,0.18) 0%, rgba(15,10,6,0) 35%, rgba(15,10,6,0) 75%, rgba(15,10,6,0.55) 100%)",
-          },
-          zIndex: 1,
-          pointerEvents: "none",
-        }}
-      />
-
-      <Box
-        aria-hidden
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 100%)",
-          zIndex: 1,
-          pointerEvents: "none",
-        }}
-      />
 
       {slideCount > 1 ? (
         <>
@@ -272,20 +208,10 @@ function HeroSlideLayer({
     >
       <Box
         component={motion.div}
-        animate={reduced ? undefined : { scale: [1, 1.04, 1], y: [0, -3, 0] }}
-        transition={
-          reduced
-            ? undefined
-            : {
-                scale: { duration: 28, repeat: Infinity, ease: "easeInOut" },
-                y: { duration: 9, repeat: Infinity, ease: "easeInOut" },
-              }
-        }
         sx={{
           position: "absolute",
           inset: 0,
           overflow: "hidden",
-          willChange: "transform, opacity",
         }}
       >
         <Box
