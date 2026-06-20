@@ -91,26 +91,30 @@ export function normalizeHeroContent(raw: unknown): HeroPageContent {
   const sourceSlides =
     data.slides?.length ? data.slides : DEFAULT_HERO_CONTENT.slides;
 
+  const normalizedSlides = sourceSlides.map((slide, index) => {
+    const defaults = DEFAULT_HERO_CONTENT.slides[index] ?? DEFAULT_HERO_CONTENT.slides[0];
+    const hasPerSlideCopy =
+      slide?.chip !== undefined ||
+      slide?.titleLine1 !== undefined ||
+      slide?.titleLine2 !== undefined ||
+      slide?.subhead !== undefined;
+
+    return {
+      image: slide?.image ?? defaults.image,
+      position: slide?.position ?? defaults.position,
+      alt: slide?.alt ?? defaults.alt,
+      ...heroSlideCopyFrom(
+        hasPerSlideCopy ? slide : { ...legacyCopy, ...slide },
+        defaults,
+      ),
+    };
+  });
+
   return {
     metrics: data.metrics ?? DEFAULT_HERO_CONTENT.metrics,
-    slides: sourceSlides.map((slide, index) => {
-      const defaults = DEFAULT_HERO_CONTENT.slides[index] ?? DEFAULT_HERO_CONTENT.slides[0];
-      const hasPerSlideCopy =
-        slide?.chip !== undefined ||
-        slide?.titleLine1 !== undefined ||
-        slide?.titleLine2 !== undefined ||
-        slide?.subhead !== undefined;
-
-      return {
-        image: slide?.image ?? defaults.image,
-        position: slide?.position ?? defaults.position,
-        alt: slide?.alt ?? defaults.alt,
-        ...heroSlideCopyFrom(
-          hasPerSlideCopy ? slide : { ...legacyCopy, ...slide },
-          defaults,
-        ),
-      };
-    }),
+    slides: normalizedSlides.length
+      ? normalizedSlides
+      : [createDefaultHeroSlide()],
   };
 }
 
@@ -276,6 +280,22 @@ export const DEFAULT_HERO_CONTENT: HeroPageContent = {
     },
   ],
 };
+
+export const MIN_HERO_SLIDES = 1;
+export const MAX_HERO_SLIDES = 8;
+
+/** Blank slide template for the admin “Add slide” action. */
+export function createDefaultHeroSlide(
+  template?: Partial<HeroSlide>,
+): HeroSlide {
+  return {
+    image: "",
+    position: "center center",
+    alt: "",
+    ...DEFAULT_HERO_SLIDE_COPY,
+    ...template,
+  };
+}
 
 export const DEFAULT_CONTACT_CONTENT: ContactPageContent = {
   quickChat: DEFAULT_QUICK_CHAT,

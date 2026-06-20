@@ -1,9 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SaveIcon from "@mui/icons-material/Save";
 import { AdminGuard } from "@/features/admin/AdminGuard";
+import { useAdminDeleteConfirm } from "@/features/admin/AdminDeleteConfirmProvider";
 import { AdminFormField } from "@/features/admin/AdminFormField";
 import { AdminPageHeader } from "@/features/admin/AdminPageHeader";
 import { ImageDropzone } from "@/features/admin/ImageDropzone";
@@ -14,7 +23,10 @@ import {
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api } from "@/lib/api";
 import {
+  createDefaultHeroSlide,
   DEFAULT_HERO_CONTENT,
+  MAX_HERO_SLIDES,
+  MIN_HERO_SLIDES,
   normalizeHeroContent,
   type HeroPageContent,
 } from "@shared/pageContent";
@@ -22,6 +34,7 @@ import {
 function HeroContent() {
   const { token } = useAdminAuth();
   const { showSuccess, showError } = useAdminToast();
+  const { confirmDelete } = useAdminDeleteConfirm();
   const [form, setForm] = useState<HeroPageContent>(DEFAULT_HERO_CONTENT);
   const [saving, setSaving] = useState(false);
 
@@ -37,6 +50,10 @@ function HeroContent() {
 
   const save = async () => {
     if (!token) return;
+    if (form.slides.length < MIN_HERO_SLIDES) {
+      showError(`Keep at least ${MIN_HERO_SLIDES} hero slide.`);
+      return;
+    }
     setSaving(true);
     try {
       await api.updatePageContent(token, "hero", form);
@@ -61,29 +78,73 @@ function HeroContent() {
     }));
   };
 
+  const addSlide = () => {
+    if (form.slides.length >= MAX_HERO_SLIDES) {
+      showError(`You can add up to ${MAX_HERO_SLIDES} hero slides.`);
+      return;
+    }
+    setForm((prev) => ({
+      ...prev,
+      slides: [...prev.slides, createDefaultHeroSlide()],
+    }));
+  };
+
+  const removeSlide = async (index: number) => {
+    if (form.slides.length <= MIN_HERO_SLIDES) {
+      showError(`At least ${MIN_HERO_SLIDES} hero slide is required.`);
+      return;
+    }
+
+    const confirmed = await confirmDelete({
+      title: "Delete slide",
+      message: "Remove this slide from the home hero carousel?",
+      itemName: `Slide ${index + 1}`,
+      confirmLabel: "Delete slide",
+    });
+    if (!confirmed) return;
+
+    setForm((prev) => ({
+      ...prev,
+      slides: prev.slides.filter((_, i) => i !== index),
+    }));
+  };
+
+  const canAddSlide = form.slides.length < MAX_HERO_SLIDES;
+  const canDeleteSlide = form.slides.length > MIN_HERO_SLIDES;
+
   return (
     <Box>
       <AdminPageHeader
         title="Home Hero"
         action={
-          <Button
-            startIcon={<SaveIcon />}
-            variant="contained"
-            onClick={save}
-            disabled={saving}
-          >
-            Save changes
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              startIcon={<AddIcon />}
+              variant="outlined"
+              onClick={addSlide}
+              disabled={!canAddSlide}
+            >
+              Add slide
+            </Button>
+            <Button
+              startIcon={<SaveIcon />}
+              variant="contained"
+              onClick={save}
+              disabled={saving}
+            >
+              Save changes
+            </Button>
+          </Stack>
         }
       />
 
       <Stack spacing={2.5} maxWidth={720} sx={{ width: "100%" }}>
         <Typography variant="subtitle1" fontWeight={700}>
-          Hero slides
+          Hero slides ({form.slides.length})
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Each slide has its own background image and overlay copy. Edit the
-          text and image for every slide independently. After uploading an
+          Each slide has its own background image and overlay copy. Add or
+          remove slides as needed (up to {MAX_HERO_SLIDES}). After uploading an
           image, click <strong>Save changes</strong> so it is stored.
         </Typography>
 
@@ -98,9 +159,25 @@ function HeroContent() {
               borderRadius: 2,
             }}
           >
-            <Typography variant="body1" fontWeight={700}>
-              Slide {index + 1}
-            </Typography>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              spacing={1}
+            >
+              <Typography variant="body1" fontWeight={700}>
+                Slide {index + 1}
+              </Typography>
+              <IconButton
+                size="small"
+                color="error"
+                aria-label={`Delete slide ${index + 1}`}
+                onClick={() => void removeSlide(index)}
+                disabled={!canDeleteSlide}
+              >
+                <DeleteOutlineIcon fontSize="small" />
+              </IconButton>
+            </Stack>
 
             <ImageDropzone
               label="Background image"
@@ -178,6 +255,16 @@ function HeroContent() {
             />
           </Stack>
         ))}
+
+        <Button
+          startIcon={<AddIcon />}
+          variant="outlined"
+          onClick={addSlide}
+          disabled={!canAddSlide}
+          sx={{ alignSelf: "flex-start" }}
+        >
+          Add slide
+        </Button>
 
         <Typography variant="subtitle1" fontWeight={700} sx={{ pt: 1 }}>
           Metrics

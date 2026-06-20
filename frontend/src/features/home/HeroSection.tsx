@@ -68,6 +68,12 @@ export function HeroSection() {
     setSlideIndex(index);
   }, []);
 
+  useEffect(() => {
+    if (slideIndex >= hero.slides.length) {
+      setSlideIndex(Math.max(0, hero.slides.length - 1));
+    }
+  }, [hero.slides.length, slideIndex]);
+
   // Pointer position normalised to [-1, 1] across the viewport. The springs
   // damp the raw signal so layer movement feels analog, not jittery — this
   // is the "Apple feel" the brief asked for.
