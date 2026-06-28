@@ -133,22 +133,22 @@ export function Footer() {
             >
               &ldquo;{BRAND.tagline}&rdquo;
             </Typography>
-            <Stack direction="row" spacing={0.5}>
+            <Stack direction="row" spacing={1}>
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <IconButton
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  size="small"
                   aria-label={label}
                   sx={{
                     color: "inherit",
                     opacity: 0.85,
+                    p: 1.25,
                     "&:hover": { opacity: 1, color: "secondary.light" },
                   }}
                 >
-                  <Icon fontSize="small" />
+                  <Icon sx={{ fontSize: 30 }} />
                 </IconButton>
               ))}
             </Stack>

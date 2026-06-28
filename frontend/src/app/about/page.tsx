@@ -4,6 +4,7 @@ import { BrandPromisePillars } from "@/features/about/BrandPromisePillars";
 import { JourneyTimeline } from "@/features/about/JourneyTimeline";
 import { DifferenceCards } from "@/features/about/DifferenceCards";
 import { VisionMissionPhilosophy } from "@/features/about/VisionMissionPhilosophy";
+import { AboutBrandVideo } from "@/features/about/AboutBrandVideo";
 import { FounderSection } from "@/features/about/FounderSection";
 import { CoFounderSection } from "@/features/about/CoFounderSection";
 
@@ -22,6 +23,7 @@ export default function AboutPage() {
       <JourneyTimeline />
       <DifferenceCards />
       <VisionMissionPhilosophy />
+      <AboutBrandVideo />
       <FounderSection />
       <CoFounderSection />
     </>
