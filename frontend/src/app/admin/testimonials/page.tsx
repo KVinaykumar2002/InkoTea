@@ -36,7 +36,7 @@ import {
 } from "@/features/admin/AdminToastProvider";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import { api, type Testimonial } from "@/lib/api";
-import { parseVideoUrl } from "@/lib/videoEmbed";
+import { parseVideoUrl, SUPPORTED_VIDEO_HINT } from "@/lib/videoEmbed";
 
 const empty: Testimonial = {
   id: "",
@@ -96,7 +96,7 @@ function TestimonialsContent() {
     const videoUrl = payload.videoUrl ?? "";
 
     if (videoUrl && !parseVideoUrl(videoUrl)) {
-      showError("Enter a valid YouTube, Vimeo, or direct MP4/WebM video URL");
+      showError(`Enter a valid video URL (${SUPPORTED_VIDEO_HINT})`);
       return;
     }
 
@@ -308,13 +308,13 @@ function TestimonialsContent() {
               isVideo: Boolean(videoUrl.trim()) || f.isVideo,
             }));
           }}
-          placeholder="https://youtube.com/watch?v=… or https://vimeo.com/…"
+          placeholder="https://youtube.com/…, instagram.com/reel/…, facebook.com/…"
           hint={
             form.videoUrl?.trim()
               ? parseVideoUrl(form.videoUrl)
                 ? "Valid video link — visitors can play this from the testimonial card."
-                : "Unrecognized URL. Use YouTube, Vimeo, or a direct MP4/WebM link."
-              : "Optional. Paste a YouTube, Vimeo, or direct video file URL to enable playback."
+                : `Unrecognized URL. Use ${SUPPORTED_VIDEO_HINT}.`
+              : `Optional. Paste a ${SUPPORTED_VIDEO_HINT} to enable playback.`
           }
           error={Boolean(form.videoUrl?.trim()) && !parseVideoUrl(form.videoUrl ?? "")}
         />

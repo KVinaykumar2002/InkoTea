@@ -36,7 +36,7 @@ export function TestimonialVideoDialog({
         },
       }}
     >
-      <Box sx={{ position: "relative", pt: "56.25%" }}>
+      <Box sx={{ position: "relative", pt: parsed?.aspectPadding ?? "56.25%" }}>
         <IconButton
           onClick={onClose}
           aria-label="Close video"
