@@ -1,6 +1,5 @@
 import cors from "cors";
 import express from "express";
-import { resolveCorsOrigins } from "../../shared/urls.js";
 import { config } from "./config.js";
 import { connectDb } from "./db/index.js";
 import { ensureUploadDirs } from "./lib/uploadsDir.js";
@@ -20,23 +19,9 @@ const app = express();
 
 ensureUploadDirs();
 
-const allowedOrigins = resolveCorsOrigins(process.env.CORS_ORIGIN);
-
 app.use(
   cors({
-    origin(origin, callback) {
-      if (!origin) {
-        callback(null, true);
-        return;
-      }
-      const normalized = origin.replace(/\/+$/, "");
-      if (allowedOrigins.includes(normalized)) {
-        callback(null, true);
-        return;
-      }
-      callback(null, false);
-    },
-    credentials: true,
+    origin: "*",
   }),
 );
 app.use(express.json({ limit: "2mb" }));
@@ -63,7 +48,7 @@ async function start() {
   await connectDb();
   app.listen(config.port, "0.0.0.0", () => {
     console.log(`INKOTEA API running on port ${config.port}`);
-    console.log(`CORS allowed origins: ${allowedOrigins.join(", ")}`);
+    console.log("CORS allowed origins: * (all domains)");
   });
 }
 
