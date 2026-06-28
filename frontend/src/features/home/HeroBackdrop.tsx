@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
@@ -8,13 +8,16 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { AnimatePresence, motion, useTransform, type MotionValue } from "framer-motion";
 
-import { DEFAULT_HERO_CONTENT } from "@shared/pageContent";
 import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 import {
   HERO_CAROUSEL_INTERVAL_MS,
   HERO_SLIDES,
   type HeroSlide,
 } from "./heroSlides";
+
+/** Retries cover transient backend cold-starts before showing a placeholder. */
+const MAX_IMAGE_RETRIES = 3;
+const NEUTRAL_FALLBACK = "/fallback-image.svg";
 
 interface HeroBackdropProps {
   parallaxX: MotionValue<number>;
@@ -152,6 +155,8 @@ function heroNavButtonSx(side: "left" | "right") {
     [side]: { xs: 8, sm: 16, md: 24 },
     transform: "translateY(-50%)",
     zIndex: 4,
+    /* Hidden on phones — they sit over the overlay copy. Dots remain for nav. */
+    display: { xs: "none", sm: "flex" },
     color: "#fff",
     bgcolor: "rgba(15,10,6,0.45)",
     border: "1px solid rgba(255,255,255,0.22)",
@@ -175,23 +180,35 @@ function HeroSlideLayer({
   slideIndex: number;
   reduced: boolean;
 }) {
-  const fallbackImage =
-    DEFAULT_HERO_CONTENT.slides[slideIndex]?.image ??
-    DEFAULT_HERO_CONTENT.slides[0]?.image ??
-    "/fallback-image.svg";
   const primarySrc = useMemo(
     () => resolveMediaUrl(slide.image),
     [slide.image],
   );
-  const fallbackSrc = useMemo(
-    () => resolveMediaUrl(fallbackImage),
-    [fallbackImage],
-  );
   const [imageSrc, setImageSrc] = useState(primarySrc);
+  const retriesRef = useRef(0);
 
   useEffect(() => {
+    retriesRef.current = 0;
     setImageSrc(primarySrc);
   }, [primarySrc]);
+
+  // The admin-configured image is the source of truth. A failed load is almost
+  // always a transient backend cold-start (Render free tier), so retry the real
+  // URL a few times before giving up. We never substitute a different brand
+  // photo — that would make the home page show images the admin never set.
+  const handleError = () => {
+    if (primarySrc === NEUTRAL_FALLBACK) return;
+    if (retriesRef.current < MAX_IMAGE_RETRIES) {
+      retriesRef.current += 1;
+      const attempt = retriesRef.current;
+      const separator = primarySrc.includes("?") ? "&" : "?";
+      window.setTimeout(() => {
+        setImageSrc(`${primarySrc}${separator}retry=${attempt}`);
+      }, 600 * attempt);
+      return;
+    }
+    setImageSrc(NEUTRAL_FALLBACK);
+  };
 
   return (
     <Box
@@ -218,17 +235,13 @@ function HeroSlideLayer({
           component="img"
           src={imageSrc}
           alt=""
-          onError={() => {
-            setImageSrc((current) =>
-              current === fallbackSrc ? current : fallbackSrc,
-            );
-          }}
+          onError={handleError}
           sx={{
             position: "absolute",
             inset: 0,
             width: "100%",
             height: "100%",
-            objectFit: "cover",
+            objectFit: "contain",
             objectPosition: slide.position,
             display: "block",
           }}

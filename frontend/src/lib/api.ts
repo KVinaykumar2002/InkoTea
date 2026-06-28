@@ -201,7 +201,9 @@ export const api = {
     request<void>(`/testimonials/${id}`, { method: "DELETE" }, token),
 
   getPageContent: <T>(slug: string) =>
-    request<{ slug: string; content: T; updatedAt: string }>(`/pages/${slug}`),
+    request<{ slug: string; content: T; updatedAt: string }>(`/pages/${slug}`, {
+      cache: "no-store",
+    }),
 
   updatePageContent: <T>(token: string, slug: string, content: T) =>
     request<{ slug: string; content: T; updatedAt: string }>(

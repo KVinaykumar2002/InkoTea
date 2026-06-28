@@ -104,9 +104,9 @@ export function HeroSection() {
       transition={{ duration: reduced ? 0 : HERO_TIMING.heroEntry, ease: "easeOut" }}
       sx={{
         position: "relative",
-        /* ~half viewport on phones so content + stats fit without scrolling the hero */
+        /* Compact on phones so the hero stays slim; taller on larger screens */
         minHeight: {
-          xs: "50dvh",
+          xs: "35dvh",
           sm: "62dvh",
           md: "min(88vh, 820px)",
           lg: "min(92vh, 900px)",
@@ -115,10 +115,14 @@ export function HeroSection() {
         alignItems: "center",
         overflow: "hidden",
         color: "#fff",
-        mt: { xs: -8, md: -10 },
-        pt: { xs: 7, md: 10 },
+        /* On phones sit fully below the fixed navbar (no overlap); keep the
+           full-bleed tuck on desktop. */
+        mt: { xs: 0, md: -10 },
+        pt: { xs: 2, md: 10 },
         pb: { xs: 1.5, md: 0 },
-        bgcolor: "transparent",
+        /* Brand-dark backdrop frames the uncut (object-fit: contain) image and
+           keeps the white overlay copy readable where the photo letterboxes. */
+        bgcolor: "#1A0E08",
         willChange: "transform, opacity",
       }}
     >
