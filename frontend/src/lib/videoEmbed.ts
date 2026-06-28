@@ -12,6 +12,8 @@ export interface ParsedVideoUrl {
   embedUrl: string;
   /** CSS padding-top % for the responsive wrapper (default 16:9). */
   aspectPadding?: string;
+  /** Fixed-height players (e.g. Instagram) skip aspect padding. */
+  fixedHeight?: number;
 }
 
 const DIRECT_VIDEO_EXT = /\.(mp4|webm|ogg|mov)(\?|$)/i;
@@ -50,7 +52,7 @@ function extractInstagramEmbed(url: URL): string | null {
   if (!match) return null;
 
   const segment = match[1].toLowerCase() === "reels" ? "reel" : match[1].toLowerCase();
-  return `https://www.instagram.com/${segment}/${match[2]}/embed`;
+  return `https://www.instagram.com/${segment}/${match[2]}/embed/captioned/?autoplay=1&cr=1&v=14`;
 }
 
 function isFacebookHost(hostname: string): boolean {
@@ -62,7 +64,7 @@ function buildFacebookEmbed(url: URL): string | null {
   if (!isFacebookHost(url.hostname)) return null;
 
   const href = encodeURIComponent(url.toString());
-  return `https://www.facebook.com/plugins/video.php?href=${href}&show_text=false&width=560`;
+  return `https://www.facebook.com/plugins/video.php?href=${href}&show_text=false&autoplay=true&mute=0&width=560&height=315`;
 }
 
 /** Parse a testimonial video URL into an embeddable source. */
@@ -81,7 +83,7 @@ export function parseVideoUrl(raw: string): ParsedVideoUrl | null {
     if (youtubeId) {
       return {
         kind: "youtube",
-        embedUrl: `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`,
+        embedUrl: `https://www.youtube.com/embed/${youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`,
       };
     }
 
@@ -90,7 +92,7 @@ export function parseVideoUrl(raw: string): ParsedVideoUrl | null {
       return {
         kind: "instagram",
         embedUrl: instagramEmbed,
-        aspectPadding: "125%",
+        fixedHeight: 560,
       };
     }
 
@@ -106,7 +108,7 @@ export function parseVideoUrl(raw: string): ParsedVideoUrl | null {
     if (vimeoId) {
       return {
         kind: "vimeo",
-        embedUrl: `https://player.vimeo.com/video/${vimeoId}?autoplay=1`,
+        embedUrl: `https://player.vimeo.com/video/${vimeoId}?autoplay=1&playsinline=1`,
       };
     }
   } catch {

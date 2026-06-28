@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { parseVideoUrl } from "@/lib/videoEmbed";
+import { resolveMediaUrl } from "@/lib/resolveMediaUrl";
 
 interface TestimonialVideoDialogProps {
   open: boolean;
@@ -19,7 +20,7 @@ export function TestimonialVideoDialog({
   title,
   onClose,
 }: TestimonialVideoDialogProps) {
-  const parsed = parseVideoUrl(videoUrl);
+  const parsed = open ? parseVideoUrl(videoUrl) : null;
 
   return (
     <Dialog
@@ -36,7 +37,14 @@ export function TestimonialVideoDialog({
         },
       }}
     >
-      <Box sx={{ position: "relative", pt: parsed?.aspectPadding ?? "56.25%" }}>
+      <Box
+        sx={{
+          position: "relative",
+          ...(parsed?.fixedHeight
+            ? { height: parsed.fixedHeight, minHeight: parsed.fixedHeight }
+            : { pt: parsed?.aspectPadding ?? "56.25%" }),
+        }}
+      >
         <IconButton
           onClick={onClose}
           aria-label="Close video"
@@ -56,10 +64,11 @@ export function TestimonialVideoDialog({
         {parsed?.kind === "direct" ? (
           <Box
             component="video"
+            key={parsed.embedUrl}
             controls
             autoPlay
             playsInline
-            src={parsed.embedUrl}
+            src={resolveMediaUrl(parsed.embedUrl)}
             sx={{
               position: "absolute",
               inset: 0,
@@ -72,20 +81,24 @@ export function TestimonialVideoDialog({
         ) : parsed ? (
           <Box
             component="iframe"
+            key={parsed.embedUrl}
             title={title}
             id="testimonial-video-title"
             src={parsed.embedUrl}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
             sx={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
               border: 0,
+              bgcolor: "#000",
             }}
           />
-        ) : (
+        ) : open ? (
           <Box
             sx={{
               position: "absolute",
@@ -100,7 +113,7 @@ export function TestimonialVideoDialog({
           >
             Unable to play this video URL. Please check the link in admin.
           </Box>
-        )}
+        ) : null}
       </Box>
     </Dialog>
   );

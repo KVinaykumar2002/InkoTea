@@ -16,6 +16,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { AdminGuard } from "@/features/admin/AdminGuard";
 import { AdminFormModal } from "@/features/admin/AdminFormModal";
 import { AdminFormField } from "@/features/admin/AdminFormField";
@@ -69,6 +70,25 @@ function TestimonialsContent() {
   const [form, setForm] = useState<Testimonial>(empty);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+
+  const handleVideoUpload = async (file: File) => {
+    if (!token) return;
+    if (!file.type.startsWith("video/")) {
+      showError("Please choose a video file (MP4, WebM, MOV).");
+      return;
+    }
+    setUploadingVideo(true);
+    try {
+      const { url } = await api.uploadMedia(token, file);
+      setForm((f) => ({ ...f, videoUrl: url, isVideo: true }));
+      showSuccess("Video uploaded — it will play in the popup.");
+    } catch (err) {
+      showError(getAdminErrorMessage(err, "Failed to upload video"));
+    } finally {
+      setUploadingVideo(false);
+    }
+  };
 
   const load = useCallback(() => {
     api.getTestimonials().then((r) => setItems(r.testimonials));
@@ -318,6 +338,34 @@ function TestimonialsContent() {
           }
           error={Boolean(form.videoUrl?.trim()) && !parseVideoUrl(form.videoUrl ?? "")}
         />
+        <Box>
+          <Button
+            component="label"
+            variant="outlined"
+            startIcon={<UploadFileIcon />}
+            disabled={uploadingVideo}
+          >
+            {uploadingVideo ? "Uploading video…" : "Upload video file"}
+            <input
+              type="file"
+              accept="video/*"
+              hidden
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void handleVideoUpload(file);
+                e.target.value = "";
+              }}
+            />
+          </Button>
+          <Box
+            component="p"
+            sx={{ mt: 1, mb: 0, fontSize: "0.8rem", color: "text.secondary" }}
+          >
+            Instagram & Facebook reels can&apos;t auto-play inside other sites
+            (the platforms redirect to their app). To play a reel in the popup,
+            download it and upload the video file here (MP4, up to 64&nbsp;MB).
+          </Box>
+        </Box>
       </AdminFormModal>
     </Box>
   );

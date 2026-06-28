@@ -229,6 +229,25 @@ export const api = {
     }
     return res.json() as Promise<{ url: string }>;
   },
+
+  /** Upload any media file (image or video). Returns a hosted URL. */
+  uploadMedia: async (token: string, file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    const res = await fetch(`${API_BASE}/uploads`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new ApiError(
+        (body as { error?: string }).error || res.statusText,
+        res.status,
+      );
+    }
+    return res.json() as Promise<{ url: string }>;
+  },
 };
 
 export interface Lead {

@@ -10,6 +10,7 @@ import { alpha } from "@mui/material/styles";
 
 import { SafeImage } from "@/components/common/SafeImage";
 import { TestimonialVideoDialog } from "@/components/common/TestimonialVideoDialog";
+import { parseVideoUrl } from "@/lib/videoEmbed";
 import type { Testimonial } from "@/types";
 import { brandColors } from "@/theme/palette";
 import { fontDescriptionSx, fontDisplayItalicSx } from "@/theme/fonts";
@@ -23,7 +24,9 @@ interface TestimonialCardProps {
 export function TestimonialCard({ item, variant = "carousel" }: TestimonialCardProps) {
   const isCarousel = variant === "carousel";
   const [videoOpen, setVideoOpen] = useState(false);
-  const hasVideo = Boolean(item.isVideo && item.videoUrl?.trim());
+  const videoUrl = item.videoUrl?.trim() ?? "";
+  const parsedVideo = videoUrl ? parseVideoUrl(videoUrl) : null;
+  const hasVideo = Boolean(parsedVideo && (item.isVideo || videoUrl));
 
   return (
     <>
@@ -65,7 +68,15 @@ export function TestimonialCard({ item, variant = "carousel" }: TestimonialCardP
             <Box
               component={hasVideo ? "button" : "div"}
               type={hasVideo ? "button" : undefined}
-              onClick={hasVideo ? () => setVideoOpen(true) : undefined}
+              onClick={
+                hasVideo
+                  ? (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setVideoOpen(true);
+                    }
+                  : undefined
+              }
               aria-label={hasVideo ? `Play video testimonial from ${item.name}` : undefined}
               sx={{
                 position: "absolute",
@@ -218,10 +229,10 @@ export function TestimonialCard({ item, variant = "carousel" }: TestimonialCardP
         </Box>
       </Box>
 
-      {hasVideo && item.videoUrl ? (
+      {hasVideo && videoUrl ? (
         <TestimonialVideoDialog
           open={videoOpen}
-          videoUrl={item.videoUrl}
+          videoUrl={videoUrl}
           title={`Video testimonial from ${item.name}`}
           onClose={() => setVideoOpen(false)}
         />

@@ -7,12 +7,20 @@ import { requireAuth } from "../middleware/auth.js";
 
 ensureUploadDirs();
 
+const MAX_UPLOAD_BYTES = 64 * 1024 * 1024;
+
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: MAX_UPLOAD_BYTES },
   fileFilter: (_req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) cb(null, true);
-    else cb(new Error("Only image files are allowed"));
+    if (
+      file.mimetype.startsWith("image/") ||
+      file.mimetype.startsWith("video/")
+    ) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image or video files are allowed"));
+    }
   },
 });
 
@@ -22,7 +30,7 @@ router.post("/", requireAuth, (req, res) => {
   upload.single("image")(req, res, async (err) => {
     if (err) {
       if (err instanceof MulterError && err.code === "LIMIT_FILE_SIZE") {
-        res.status(400).json({ error: "Image must be 5 MB or smaller" });
+        res.status(400).json({ error: "File must be 64 MB or smaller" });
         return;
       }
       res.status(400).json({
@@ -32,7 +40,7 @@ router.post("/", requireAuth, (req, res) => {
     }
 
     if (!req.file) {
-      res.status(400).json({ error: "No image file provided" });
+      res.status(400).json({ error: "No file provided" });
       return;
     }
 
