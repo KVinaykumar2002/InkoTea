@@ -106,7 +106,7 @@ export function HeroSection() {
         position: "relative",
         /* Compact on phones so the hero stays slim; taller on larger screens */
         minHeight: {
-          xs: "35dvh",
+          xs: "30dvh",
           sm: "62dvh",
           md: "min(88vh, 820px)",
           lg: "min(92vh, 900px)",
