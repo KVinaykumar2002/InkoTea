@@ -14,7 +14,7 @@ import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 import { DEFAULT_HERO_CONTENT, normalizeHeroContent, type HeroMetric } from "@shared/pageContent";
 import { usePageContent } from "@/hooks/useApiContent";
@@ -115,10 +115,10 @@ export function HeroSection() {
         alignItems: "center",
         overflow: "hidden",
         color: "#fff",
-        /* On phones sit fully below the fixed navbar (no overlap); keep the
-           full-bleed tuck on desktop. */
-        mt: { xs: 0, md: -10 },
-        pt: { xs: 2, md: 10 },
+        /* Sit fully below the fixed navbar on all sizes so the image never
+           tucks under / overlaps it. */
+        mt: 0,
+        pt: { xs: 2, md: 4 },
         pb: { xs: 1.5, md: 0 },
         /* Brand-dark backdrop frames the uncut (object-fit: contain) image and
            keeps the white overlay copy readable where the photo letterboxes. */
@@ -135,16 +135,21 @@ export function HeroSection() {
         slides={hero.slides}
       />
 
-      <AnimatePresence mode="wait">
-        {isFirstSlide && overlaySlide ? (
+      {/* The overlay copy stays mounted on every slide (just hidden on slides
+          2+). This reserves the same vertical space so all hero images render
+          at the identical height/style as the first slide. */}
+      {overlaySlide ? (
           <Box
-            key="hero-content"
             component={motion.div}
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduced ? undefined : { opacity: 0 }}
+            initial={false}
+            animate={{ opacity: isFirstSlide ? 1 : 0 }}
             transition={{ duration: reduced ? 0 : 0.45, ease: "easeOut" }}
-            sx={{ width: "100%" }}
+            aria-hidden={!isFirstSlide}
+            sx={{
+              width: "100%",
+              visibility: isFirstSlide ? "visible" : "hidden",
+              pointerEvents: isFirstSlide ? "auto" : "none",
+            }}
           >
       <Container
         maxWidth="lg"
@@ -340,8 +345,7 @@ export function HeroSection() {
         </Stack>
       </Container>
           </Box>
-        ) : null}
-      </AnimatePresence>
+      ) : null}
 
       {isFirstSlide ? <ScrollIndicator reduced={reduced} /> : null}
     </Box>
